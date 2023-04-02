@@ -110,9 +110,10 @@ script = ExtResource("1_p2iem")
 layout_mode = 2
 
 [node name="play" type="Button" parent="HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
-text = "播放"
 icon = SubResource("ImageTexture_67sht")
+icon_alignment = 1
 
 [node name="line2" type="MarginContainer" parent="HBoxContainer"]
 layout_mode = 2
@@ -126,11 +127,14 @@ custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_l4l04")
 
-[node name="loop_btn" type="CheckButton" parent="HBoxContainer"]
+[node name="loop_btn" type="Button" parent="HBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
-text = "循环"
+toggle_mode = true
+text = " "
 icon = SubResource("ImageTexture_bph3g")
+icon_alignment = 1
 
 [node name="Label" type="Label" parent="HBoxContainer"]
 layout_mode = 2
@@ -165,8 +169,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_l4l04")
 
 [node name="remove" type="Button" parent="HBoxContainer"]
 layout_mode = 2
-text = "删除"
 icon = SubResource("ImageTexture_n858u")
+icon_alignment = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="."]
 layout_mode = 2

@@ -24,6 +24,7 @@ const ITEM_SCRIPT = preload("item.gd")
 @onready var group_dialog = %group_dialog
 @onready var group_name_edit = %group_name_edit
 @onready var panel_popup_menu = %panel_popup_menu
+@onready var prompt_label = %prompt_label
 
 
 var _data_list : Array[Dictionary] = []
@@ -92,6 +93,7 @@ func add_data(data: Dictionary):
 	var texture_rect := ITEM_SCENE.instantiate() as ITEM_SCRIPT
 	texture_rect.custom_minimum_size = Vector2(64, 64)
 	item_container.add_child(texture_rect)
+	prompt_label.visible = false
 	data['node'] = texture_rect
 	data['selected'] = false
 	
@@ -152,6 +154,9 @@ func _on_popup_menu_index_pressed(index):
 			var data_list = get_selected_data_list()
 			for node in data_list.map(func(data): return data['node']):
 				node.queue_free()
+			
+			prompt_label.visible = item_container.get_child_count() == 0
+
 
 func _on_panel_popup_menu_index_pressed(index):
 	var menu_name = panel_popup_menu.get_item_text(index)

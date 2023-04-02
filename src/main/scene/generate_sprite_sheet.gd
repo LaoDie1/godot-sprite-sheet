@@ -137,6 +137,10 @@ func _on_pending_item_double_clicked(data):
 
 
 func _on_resize_pressed():
+	if not preview_container.has_texture():
+		printerr("[ GenerateSpriteSheet ] 没有预览图片")
+		return 
+	
 	# 重设大小
 	var texture_size = Vector2i(texture_width.value, texture_height.value)
 	var texture = preview_container.get_texture()
@@ -147,6 +151,10 @@ func _on_resize_pressed():
 
 
 func _on_scale_pressed():
+	if not preview_container.has_texture():
+		printerr("[ GenerateSpriteSheet ] 没有预览图片")
+		return 
+	
 	# 缩放
 	var texture_scale = Vector2(texture_scale_x.value, texture_scale_y.value)
 	var texture = preview_container.get_texture()
@@ -157,6 +165,10 @@ func _on_scale_pressed():
 
 
 func _on_split_column_row_pressed():
+	if not preview_container.has_texture():
+		printerr("[ GenerateSpriteSheet ] 没有预览图片")
+		return 
+	
 	var column_row = Vector2i( split_column.value, split_row.value )
 	var texture_size = Vector2i(preview_container.get_texture().get_size())
 	var cell_size = texture_size / column_row
@@ -164,6 +176,10 @@ func _on_split_column_row_pressed():
 
 
 func _on_split_size_pressed():
+	if not preview_container.has_texture():
+		printerr("[ GenerateSpriteSheet ] 没有预览图片")
+		return 
+	
 	preview_container.split(Vector2i( split_width.value, split_height.value ))
 
 
@@ -259,8 +275,9 @@ func _on__resize_selected(new_size: Vector2i):
 	# 重置待处理区图片大小
 	for data in pending.get_selected_data_list():
 		var texture = data['texture'] as Texture2D
-		var node = data['node'] as Control
-		data['texture'] = GenerateSpriteSheetUtil.resize_texture(texture, new_size)
-		node.set_data(data)
+		if Vector2i(texture.get_size()) != new_size:
+			var node = data['node'] as Control
+			data['texture'] = GenerateSpriteSheetUtil.resize_texture(texture, new_size)
+			node.set_data(data)
 	
 
