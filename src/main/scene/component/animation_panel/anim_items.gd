@@ -75,3 +75,7 @@ func add_items(anim_name: String, texture_list: Array, show_size: Vector2) -> vo
 #============================================================
 func _on_play_pressed():
 	self.played.emit(get_animation())
+
+
+func _on_remove_pressed():
+	queue_free()
