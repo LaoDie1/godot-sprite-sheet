@@ -1,3 +1,3 @@
-Godot 4.0 stable
+version: Godot 4.0 stable
 
 

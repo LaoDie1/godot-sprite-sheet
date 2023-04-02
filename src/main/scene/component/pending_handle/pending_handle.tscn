@@ -1,0 +1,239 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/main/scene/component/pending_handle/pending_handle.gd" id="1_p306e"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nyxa8"]
+bg_color = Color(1, 1, 1, 0.392157)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[node name="pending_handle" type="MarginContainer"]
+script = ExtResource("1_p306e")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 2
+columns = 2
+
+[node name="merge" type="Button" parent="GridContainer"]
+layout_mode = 2
+text = "合并选中图像"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GridContainer"]
+layout_mode = 2
+
+[node name="line" type="MarginContainer" parent="GridContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="GridContainer/HBoxContainer/line"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
+
+[node name="GridContainer" type="GridContainer" parent="GridContainer/HBoxContainer"]
+layout_mode = 2
+columns = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "最大列数："
+horizontal_alignment = 2
+
+[node name="max_column" type="SpinBox" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 4.0
+allow_greater = true
+select_all_on_focus = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Label5" type="Label" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "宽："
+horizontal_alignment = 2
+
+[node name="width" type="SpinBox" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 32.0
+allow_greater = true
+select_all_on_focus = true
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "高："
+horizontal_alignment = 2
+
+[node name="height" type="SpinBox" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer3"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 32.0
+allow_greater = true
+select_all_on_focus = true
+
+[node name="space" type="Control" parent="GridContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer4"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "左间隔："
+horizontal_alignment = 2
+
+[node name="left_separation" type="SpinBox" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer4"]
+unique_name_in_owner = true
+layout_mode = 2
+allow_greater = true
+select_all_on_focus = true
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer6"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "右间隔："
+horizontal_alignment = 2
+
+[node name="right_separation" type="SpinBox" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer6"]
+unique_name_in_owner = true
+layout_mode = 2
+allow_greater = true
+select_all_on_focus = true
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer5"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "上间隔："
+horizontal_alignment = 2
+
+[node name="top_separation" type="SpinBox" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer5"]
+unique_name_in_owner = true
+layout_mode = 2
+allow_greater = true
+select_all_on_focus = true
+
+[node name="HBoxContainer11" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer11"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "下间隔："
+horizontal_alignment = 2
+
+[node name="down_separation" type="SpinBox" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer11"]
+unique_name_in_owner = true
+layout_mode = 2
+allow_greater = true
+select_all_on_focus = true
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer7"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "左间距："
+horizontal_alignment = 2
+
+[node name="left_margin" type="SpinBox" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer7"]
+unique_name_in_owner = true
+layout_mode = 2
+allow_greater = true
+select_all_on_focus = true
+
+[node name="HBoxContainer9" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer9"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "右间距："
+horizontal_alignment = 2
+
+[node name="right_margin" type="SpinBox" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer9"]
+unique_name_in_owner = true
+layout_mode = 2
+allow_greater = true
+select_all_on_focus = true
+
+[node name="HBoxContainer8" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer8"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "顶部间距："
+horizontal_alignment = 2
+
+[node name="top_margin" type="SpinBox" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer8"]
+unique_name_in_owner = true
+layout_mode = 2
+allow_greater = true
+select_all_on_focus = true
+
+[node name="HBoxContainer10" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer10"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+text = "底部间距："
+horizontal_alignment = 2
+
+[node name="down_margin" type="SpinBox" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer10"]
+unique_name_in_owner = true
+layout_mode = 2
+allow_greater = true
+select_all_on_focus = true
+
+[node name="scale_image" type="CheckBox" parent="GridContainer/HBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+text = "图像缩放到设置的大小"
+
+[node name="Control" type="Control" parent="GridContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Control2" type="Control" parent="GridContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Control3" type="Control" parent="GridContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[connection signal="pressed" from="GridContainer/merge" to="." method="_on_merge_pressed"]

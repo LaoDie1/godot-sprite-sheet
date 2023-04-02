@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://src/main/scene/component/file_tree/file_tree.gd" id="1_nu5dy"]
+[ext_resource type="Script" path="res://src/main/scene/component/file_tree/tree.gd" id="2_yk1qq"]
+
+[node name="file_tree" type="VBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nu5dy")
+
+[node name="tree" type="Tree" parent="."]
+layout_mode = 2
+size_flags_vertical = 3
+select_mode = 2
+script = ExtResource("2_yk1qq")
+
+[connection signal="cell_selected" from="tree" to="." method="_on_tree_cell_selected"]
+[connection signal="dragged" from="tree" to="." method="_on_tree_dragged"]
+[connection signal="item_activated" from="tree" to="." method="_on_tree_item_activated"]
+[connection signal="item_collapsed" from="tree" to="." method="_on_tree_item_collapsed"]

@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://d3uytsmei67ci"]
+
+[ext_resource type="Script" path="res://addons/apprentice/node/behavior_tree/config/test/scene_test.gd" id="1_nhml0"]
+[ext_resource type="Texture2D" uid="uid://ddxh83m6y0mcf" path="res://icon.svg" id="2_eebfx"]
+[ext_resource type="Script" path="res://addons/apprentice/node/move_controller/move_controller.gd" id="3_x61t3"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xqnj7"]
+radius = 757.408
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ttbi1"]
+size = Vector2(32, 32)
+
+[node name="scene_test" type="Node2D"]
+script = ExtResource("1_nhml0")
+
+[node name="player" type="Sprite2D" parent="."]
+position = Vector2(321, 328)
+scale = Vector2(0.375, 0.375)
+texture = ExtResource("2_eebfx")
+metadata/_edit_group_ = true
+
+[node name="Area2D" type="Area2D" parent="player"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player/Area2D"]
+shape = SubResource("CircleShape2D_xqnj7")
+
+[node name="MoveController" type="Node2D" parent="player"]
+script = ExtResource("3_x61t3")
+move_speed = 50.0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." groups=["enemy_test"]]
+position = Vector2(691, 249)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("RectangleShape2D_ttbi1")
+
+[node name="Icon2" type="Sprite2D" parent="StaticBody2D"]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_eebfx")

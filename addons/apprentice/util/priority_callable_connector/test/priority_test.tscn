@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0qp221k4oylk"]
+
+[ext_resource type="Script" path="res://addons/apprentice/util/priority_callable_connector/test/priority_test.gd" id="1_fjmif"]
+
+[node name="priority_test" type="Node2D"]
+script = ExtResource("1_fjmif")
