@@ -240,7 +240,7 @@ func _on__merged(data: GenerateSpriteSheet_PendingHandle.Merge):
 
 
 func _on_export_preview_pressed():
-	if preview_container.get_texture() != null:
+	if preview_container.get_texture() == null:
 		printerr("[ GenerateSpriteSheet ] 没有预览图像")
 		return
 	export_preview_dialog.popup_centered()
@@ -252,4 +252,15 @@ func _on_export_preview_dialog_file_selected(path):
 		var texture = preview_container.get_texture()
 		ResourceSaver.save(texture, path)
 		print("[ GenerateSpriteSheet ] 已保存预览图像")
+
+
+
+func _on__resize_selected(new_size: Vector2i):
+	# 重置待处理区图片大小
+	for data in pending.get_selected_data_list():
+		var texture = data['texture'] as Texture2D
+		var node = data['node'] as Control
+		data['texture'] = GenerateSpriteSheetUtil.resize_texture(texture, new_size)
+		node.set_data(data)
+	
 

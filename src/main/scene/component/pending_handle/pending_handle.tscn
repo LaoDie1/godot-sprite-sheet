@@ -1,8 +1,15 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://u5iahvvn0bw4"]
 
 [ext_resource type="Script" path="res://src/main/scene/component/pending_handle/pending_handle.gd" id="1_p306e"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nyxa8"]
+bg_color = Color(1, 1, 1, 0.392157)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rw382"]
 bg_color = Color(1, 1, 1, 0.392157)
 corner_radius_top_left = 1
 corner_radius_top_right = 1
@@ -236,4 +243,53 @@ layout_mode = 2
 [node name="Control3" type="Control" parent="GridContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
 
+[node name="resize_select" type="Button" parent="GridContainer"]
+layout_mode = 2
+text = "修改选中图像大小"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="GridContainer"]
+layout_mode = 2
+
+[node name="line" type="MarginContainer" parent="GridContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="GridContainer/HBoxContainer2/line"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_rw382")
+
+[node name="Label" type="Label" parent="GridContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "宽："
+horizontal_alignment = 2
+
+[node name="select_texture_width" type="SpinBox" parent="GridContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+max_value = 199.0
+value = 32.0
+allow_greater = true
+select_all_on_focus = true
+
+[node name="Label2" type="Label" parent="GridContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "高："
+horizontal_alignment = 2
+
+[node name="select_texture_height" type="SpinBox" parent="GridContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+value = 32.0
+allow_greater = true
+select_all_on_focus = true
+
 [connection signal="pressed" from="GridContainer/merge" to="." method="_on_merge_pressed"]
+[connection signal="pressed" from="GridContainer/resize_select" to="." method="_on_resize_select_pressed"]

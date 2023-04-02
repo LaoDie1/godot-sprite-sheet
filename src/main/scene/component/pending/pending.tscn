@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=2 format=3 uid="uid://bk2gll5whs4jm"]
 
 [ext_resource type="Script" path="res://src/main/scene/component/pending/pending.gd" id="1_y48d3"]
 

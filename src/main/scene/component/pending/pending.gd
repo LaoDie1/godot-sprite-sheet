@@ -18,7 +18,6 @@ signal item_double_clicked(data: Dictionary)
 const ITEM_SCENE = preload("item.tscn")
 const ITEM_SCRIPT = preload("item.gd")
 
-const EMPTY_KEY = "empty"
 
 @onready var item_container = %item_container
 @onready var item_popup_menu = %item_popup_menu
@@ -35,7 +34,7 @@ var _data_list : Array[Dictionary] = []
 #============================================================
 ## 获取所有待处理数据
 func get_data_list() -> Array[Dictionary]:
-	return _data_list.filter(func(data): return not data.has(EMPTY_KEY))
+	return _data_list
 
 
 ## 获取所有的图片
@@ -98,7 +97,6 @@ func add_data(data: Dictionary):
 	
 	var texture = data.get('texture') as Texture2D
 	if texture == null or texture.get_image().is_empty():
-		data[EMPTY_KEY] = true
 		data['texture'] = ImageTexture.create_from_image(Image.create(1, 1, false, Image.FORMAT_BPTC_RGBA))
 	
 	texture_rect.set_data(data)

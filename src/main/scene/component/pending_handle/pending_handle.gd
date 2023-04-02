@@ -11,6 +11,7 @@ extends MarginContainer
 
 
 signal merged(data: Merge)
+signal resize_selected(new_size: Vector2i)
 
 
 @onready var max_column = %max_column
@@ -25,6 +26,8 @@ signal merged(data: Merge)
 @onready var top_margin = %top_margin
 @onready var down_margin = %down_margin
 @onready var scale_image = %scale_image
+@onready var select_texture_width = %select_texture_width
+@onready var select_texture_height = %select_texture_height
 
 
 class Merge:
@@ -52,7 +55,7 @@ class Merge:
 #  连接信号
 #============================================================
 func _on_merge_pressed():
-	merged.emit(Merge.new({
+	self.merged.emit(Merge.new({
 		"max_column": max_column.value,
 		"width": width.value,
 		"height": height.value,
@@ -66,3 +69,7 @@ func _on_merge_pressed():
 		"down_margin": down_margin.value,
 		"scale": scale_image.button_pressed,
 	}))
+
+
+func _on_resize_select_pressed():
+	self.resize_selected.emit(Vector2i( select_texture_width.value, select_texture_height.value ))

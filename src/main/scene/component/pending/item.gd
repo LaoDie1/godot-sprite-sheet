@@ -46,7 +46,7 @@ func set_data(data: Dictionary):
 	texture_rect.texture = texture
 	_data = data
 	_update_tooltip()
-
+ 
 
 func is_selected() -> bool:
 	return _selected
