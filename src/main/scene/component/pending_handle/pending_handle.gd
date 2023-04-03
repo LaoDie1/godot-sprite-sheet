@@ -25,10 +25,16 @@ signal resize_selected(new_size: Vector2i)
 @onready var right_margin = %right_margin
 @onready var top_margin = %top_margin
 @onready var down_margin = %down_margin
-@onready var scale_image = %scale_image
+@onready var merge_mode = %merge_mode
 @onready var select_texture_width = %select_texture_width
 @onready var select_texture_height = %select_texture_height
 
+
+enum MergeMode {
+	SCALE,		# 缩放图像到指定大小后合并
+	CUT,		# 按照定宽度合并图片，剪切掉超出的部分
+	MAX_SIZE,	# 按照最大宽高设置图片
+}
 
 class Merge:
 	var max_column : int
@@ -42,12 +48,26 @@ class Merge:
 	var right_margin : int
 	var top_margin : int 
 	var down_margin : int 
-	var scale : bool
+	var merge_type : int
 	
 	func _init(data: Dictionary):
 		for prop in data:
 			set(prop, data[prop])
 	
+
+
+#============================================================
+#  内置
+#============================================================
+func _ready():
+	var mode_type : Dictionary = {
+		MergeMode.SCALE: "缩放到指定大小",
+		MergeMode.CUT: "剪切掉多余部分",
+		MergeMode.MAX_SIZE: "按最大大小设置每个图块",
+	}
+	for i in mode_type.values():
+		merge_mode.add_item(i)
+	merge_mode.select(0)
 
 
 #============================================================
@@ -66,7 +86,7 @@ func _on_merge_pressed():
 		"right_margin": right_margin.value,
 		"top_margin": top_margin.value,
 		"down_margin": down_margin.value,
-		"scale": scale_image.button_pressed,
+		"merge_type": merge_mode.get_selected_id(),
 	}))
 
 

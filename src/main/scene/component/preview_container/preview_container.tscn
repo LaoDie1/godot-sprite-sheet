@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://b7lnldwlfitlo"]
 
 [ext_resource type="Script" path="res://src/main/scene/component/preview_container/preview_container.gd" id="1_d4p8v"]
 [ext_resource type="Script" path="res://src/main/scene/component/preview_container/sprite_grid.gd" id="1_d5t7e"]
@@ -70,11 +70,21 @@ offset_bottom = 69.0
 mouse_filter = 1
 script = ExtResource("1_d5t7e")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="ScrollerContainer/preview_canvas/preview_rect"]
+[node name="preview_anim_player" type="AnimationPlayer" parent="ScrollerContainer/preview_canvas/preview_rect"]
 unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_58eta")
 }
+
+[node name="manual_rect" type="ReferenceRect" parent="ScrollerContainer/preview_canvas/preview_rect"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+border_color = Color(0.254902, 0.411765, 0.882353, 1)
+editor_only = false
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2

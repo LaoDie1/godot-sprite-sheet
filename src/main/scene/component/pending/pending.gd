@@ -6,7 +6,7 @@
 # - version: 4.0
 #============================================================
 # 待处理图片管理
-class_name GenerateSpriteShee_Panding
+class_name GenerateSpriteSheet_Pending
 extends PanelContainer
 
 
@@ -110,7 +110,7 @@ func add_data(data: Dictionary):
 		if state:
 			self.item_selected.emit(data)
 			
-			# 没有按 control 和 shift 时会取消其他选中的节点的状态
+			# shift 键连选
 			if Input.is_key_pressed(KEY_SHIFT):
 				var indxs = get_selected_data_list().map(func(data): return (data['node'] as Node).get_index() )
 				var start_idx = indxs.min()
@@ -120,12 +120,14 @@ func add_data(data: Dictionary):
 					var item = _data_list[i]["node"] as ITEM_SCRIPT
 					item.set_selected(true)
 			
+			# ctrl 键多选，如果没有则会自动取消显示其他选中的项
 			if not Input.is_key_pressed(KEY_CTRL) and not Input.is_key_pressed(KEY_SHIFT):
 				var selected_data_list = _data_list.filter(func(d): return d['selected'] and d != data)
 				if selected_data_list.size() >= 1:
 					for d in selected_data_list:
 						var item =  d['node'] as ITEM_SCRIPT
 						item.set_selected(false)
+			
 	)
 	# 右键点击
 	texture_rect.right_clicked.connect(func():
@@ -155,6 +157,8 @@ func _on_popup_menu_index_pressed(index):
 			for node in data_list.map(func(data): return data['node']):
 				node.queue_free()
 			
+			await Engine.get_main_loop().process_frame
+			await Engine.get_main_loop().process_frame
 			prompt_label.visible = item_container.get_child_count() == 0
 
 

@@ -28,9 +28,11 @@ const DEFAULT_LEFT_TOP_POS = Vector2(8, 32)
 # 边界边框
 @onready var border_rect = %border_rect
 @onready var border_rect_margin = %border_rect_margin
-
+# 手动选中区域框
+@onready var manual_rect = %manual_rect
 # 用于播放动画
-@onready var animation_player = %AnimationPlayer as AnimationPlayer
+@onready var preview_anim_player = %preview_anim_player as AnimationPlayer
+
 @onready var texture_size_label = %texture_size_label
 
 
@@ -38,6 +40,9 @@ const DEFAULT_LEFT_TOP_POS = Vector2(8, 32)
 var _enabled_preview_scale : bool = true
 # 当前图片缩放
 var _preview_scale : float = 0
+# 正在按下左键
+var _left_mouse_pressed : bool = false
+var _left_mouse_pressed_pos : Vector2i = Vector2i(0, 0)
 # 鼠标中键拖拽画布
 var _middle_drag_canvas_mouse_pos : Vector2 = Vector2(0,0)
 var _middle_drag_canvas_rect_pos : Vector2 = Vector2(0,0)
@@ -94,7 +99,6 @@ func _ready():
 	clear_texture()
 
 
-
 #============================================================
 #  自定义
 #============================================================
@@ -122,7 +126,7 @@ func _update_preview_scale(add_v: float = 0.0):
 
 ## 清除显示的图像
 func clear_texture():
-	animation_player.stop()
+	preview_anim_player.stop()
 	preview_rect.texture = null
 	preview_split_grid.visible = false
 	preview_rect.position = DEFAULT_LEFT_TOP_POS
@@ -136,13 +140,12 @@ func clear_select():
 	preview_split_grid.clear()
 
 
-##  预览图片
-##[br]
-##[br][code]texture[/code]  
-func preview(texture: Texture2D):
+##  预览图片  
+func preview(texture: Texture2D, reset_pos: bool = true):
 	# 显示图片
 	preview_rect.texture = texture
-	preview_rect.position = DEFAULT_LEFT_TOP_POS
+	if reset_pos:
+		preview_rect.position = DEFAULT_LEFT_TOP_POS
 	preview_split_grid.visible = false
 	texture_size_label.visible = true
 	texture_size_label.text = "Size: (%s, %s)" % [texture.get_width(), texture.get_height()]
@@ -150,8 +153,8 @@ func preview(texture: Texture2D):
 	border_rect_margin.size = texture.get_size()
 	border_rect_margin.position = Vector2(0, 0)
 	_update_preview_scale()
-	if animation_player.is_playing():
-		animation_player.stop()
+	if preview_anim_player.is_playing():
+		preview_anim_player.stop()
 
 
 ##  切分图像，显示表格
@@ -183,29 +186,26 @@ func select(coordinate: Vector2i, cell_size: Vector2i = Vector2i()):
 func play(animation: Animation):
 	clear_select()
 	
-	if animation_player.is_playing():
-		animation_player.stop()
-	
 	# 预览第一张图片，更新预览相关的数据
 	var texture = animation.track_get_key_value(0, 0) as Texture2D
-	preview(texture)
+	preview(texture, false)
+#	border_rect.visible = false
+	preview_split_grid.visible = false
 	
 	# 播放动画
+	if preview_anim_player.is_playing():
+		preview_anim_player.stop()
 	var ANIM_NAME = "anima"
-	var lib = animation_player.get_animation_library("")
+	var lib = preview_anim_player.get_animation_library("")
 	if lib.has_animation(ANIM_NAME):
 		lib.remove_animation(ANIM_NAME)
 	lib.add_animation(ANIM_NAME, animation)
-	# 播放动画
-	animation_player.play(ANIM_NAME)
-	
-	border_rect.visible = false
-	preview_split_grid.visible = false
+	preview_anim_player.play(ANIM_NAME)
 
 
 ## 停止播放动画
 func stop():
-	animation_player.stop()
+	preview_anim_player.stop()
 
 
 #============================================================
@@ -225,11 +225,23 @@ func _on_preview_canvas_gui_input(event):
 			_middle_drag_canvas_rect_pos = preview_rect.position
 			_middle_drag = event.pressed
 		
+		elif event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				_left_mouse_pressed = not preview_split_grid.visible
+				_left_mouse_pressed_pos = Vector2i( get_global_mouse_position() )
+			else:
+				_left_mouse_pressed = false
+			
+		
 	elif event is InputEventMouseMotion:
 		# 中键拖拽画布，移动图片
 		if _middle_drag:
 			var diff = get_global_mouse_position() - _middle_drag_canvas_mouse_pos
 			preview_rect.position = clamp(_middle_drag_canvas_rect_pos + diff, -preview_rect.size, self.size)
+		
+		elif _left_mouse_pressed_pos:
+			_left_mouse_pressed_pos
+			
 
 
 func _on_preview_grid_double_clicked(pos: Vector2i, coordinate: Vector2i):

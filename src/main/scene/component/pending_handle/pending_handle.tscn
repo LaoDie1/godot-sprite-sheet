@@ -76,7 +76,7 @@ horizontal_alignment = 2
 [node name="width" type="SpinBox" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
-value = 32.0
+value = 16.0
 allow_greater = true
 select_all_on_focus = true
 
@@ -93,7 +93,7 @@ horizontal_alignment = 2
 [node name="height" type="SpinBox" parent="GridContainer/HBoxContainer/GridContainer/HBoxContainer3"]
 unique_name_in_owner = true
 layout_mode = 2
-value = 32.0
+value = 16.0
 allow_greater = true
 select_all_on_focus = true
 
@@ -228,11 +228,10 @@ layout_mode = 2
 allow_greater = true
 select_all_on_focus = true
 
-[node name="scale_image" type="CheckBox" parent="GridContainer/HBoxContainer/GridContainer"]
+[node name="merge_mode" type="OptionButton" parent="GridContainer/HBoxContainer/GridContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 button_pressed = true
-text = "图像缩放到设置的大小"
 
 [node name="Control" type="Control" parent="GridContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
