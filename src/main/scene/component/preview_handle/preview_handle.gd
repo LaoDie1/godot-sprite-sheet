@@ -11,6 +11,8 @@ extends MarginContainer
 signal resize(new_size: Vector2i)
 signal rescale(new_scale: Vector2)
 signal recolor(from: Color, to: Color, threshold: float)
+## 描边
+signal outline(color: Color)
 
 
 @onready var texture_width = %texture_width
@@ -20,6 +22,7 @@ signal recolor(from: Color, to: Color, threshold: float)
 @onready var from_color = %from_color
 @onready var to_color = %to_color
 @onready var color_threshold = %color_threshold
+@onready var outline_color = %outline_color
 
 
 func _on_resize_pressed():
@@ -38,3 +41,7 @@ func _on_color_swap_pressed():
 	var tmp = from_color.color
 	from_color.color = to_color.color
 	to_color.color = tmp
+
+
+func _on_outline_pressed():
+	self.outline.emit(outline_color.color)

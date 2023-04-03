@@ -363,3 +363,10 @@ func _on_pending_previewed(texture: Texture2D):
 	if_true(is_instance_valid(texture), func():
 		preview_container.preview(texture)
 	).else_show_message("错误的预览图像")
+
+
+func _on__outline(color: Color):
+	var texture = preview_container.get_texture()
+	var new_texture = GenerateSpriteSheetUtil.outline(texture, color)
+	preview_container.preview(new_texture, false)
+

@@ -186,7 +186,38 @@ max_value = 1.0
 step = 0.01
 value = 0.01
 
+[node name="outline" type="Button" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "描边"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="line" type="MarginContainer" parent="VBoxContainer/GridContainer/HBoxContainer4"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="VBoxContainer/GridContainer/HBoxContainer4/line"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer4"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "颜色："
+horizontal_alignment = 2
+
+[node name="outline_color" type="ColorPickerButton" parent="VBoxContainer/GridContainer/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
 [connection signal="pressed" from="VBoxContainer/GridContainer/resize" to="." method="_on_resize_pressed"]
 [connection signal="pressed" from="VBoxContainer/GridContainer/rescale" to="." method="_on_rescale_pressed"]
 [connection signal="pressed" from="VBoxContainer/GridContainer/recolor" to="." method="_on_recolor_pressed"]
 [connection signal="pressed" from="VBoxContainer/GridContainer/HBoxContainer3/color_swap" to="." method="_on_color_swap_pressed"]
+[connection signal="pressed" from="VBoxContainer/GridContainer/outline" to="." method="_on_outline_pressed"]

@@ -9,6 +9,68 @@
 class_name GenerateSpriteSheetUtil
 
 
+
+
+## 扫描目录/文件方法
+class Scan:
+	enum {
+		DIRECTORY,
+		FILE,
+	}
+	
+	static func method(path: String, list: Array, recursive:bool, type):
+		var directory := DirAccess.open(path)
+		if directory == null:
+			printerr("err: ", path)
+			return
+		directory.list_dir_begin()
+		# 遍历文件
+		var dir_list := []
+		var file_list := []
+		var file := ""
+		file = directory.get_next()
+		while file != "":
+			# 目录
+			if directory.current_is_dir() and not file.begins_with("."):
+				dir_list.append( path.path_join(file) )
+			# 文件
+			elif not directory.current_is_dir() and not file.begins_with("."):
+				file_list.append( path.path_join(file) )
+			
+			file = directory.get_next()
+		# 添加
+		if type == DIRECTORY:
+			list.append_array(dir_list)
+		else:
+			list.append_array(file_list)
+		# 递归扫描
+		if recursive:
+			for dir in dir_list:
+				method(dir, list, recursive, type)
+
+
+##  扫描目录
+##[br]
+##[br][code]dir[/code]  扫描的目录
+##[br][code]recursive[/code]  是否进行递归扫描
+static func scan_directory(dir: String, recursive:= false) -> Array[String]:
+	assert(DirAccess.dir_exists_absolute(dir), "没有这个路径")
+	var list : Array[String] = []
+	Scan.method(dir, list, recursive, Scan.DIRECTORY)
+	return list
+
+
+##  扫描文件
+##[br]
+##[br][code]dir[/code]  扫描的目录
+##[br][code]recursive[/code]  是否进行递归扫描
+static func scan_file(dir: String, recursive:= false) -> Array[String]:
+	assert(DirAccess.dir_exists_absolute(dir), "没有这个路径")
+	var list : Array[String] = []
+	Scan.method(dir, list, recursive, Scan.FILE)
+	return list
+
+
 ##  从一块区域内获取图片数据创建新的图片
 ##[br]
 ##[br][code]image[/code]  图片
@@ -96,61 +158,39 @@ static func replace_color(texture: Texture2D, from: Color, to: Color, threshold:
 	return ImageTexture.create_from_image(image)
 
 
-## 扫描目录/文件方法
-class Scan:
-	enum {
-		DIRECTORY,
-		FILE,
-	}
+## 描边
+##[br]
+##[br][code]texture[/code]  描边的图像
+##[br][code]outline_color[/code]  描边颜色
+##[br][code]threshold[/code]  透明度阈值范围，如果这个颜色周围的颜色在这个范围内，则进行描边
+##[br][code]return[/code]  
+static func outline(texture: Texture2D, outline_color: Color, threshold: float = 0.0 ) -> Texture2D:
+	var image = texture.get_image()
+	var color : Color
 	
-	static func method(path: String, list: Array, recursive:bool, type):
-		var directory := DirAccess.open(path)
-		if directory == null:
-			printerr("err: ", path)
-			return
-		directory.list_dir_begin()
-		# 遍历文件
-		var dir_list := []
-		var file_list := []
-		var file := ""
-		file = directory.get_next()
-		while file != "":
-			# 目录
-			if directory.current_is_dir() and not file.begins_with("."):
-				dir_list.append( path.path_join(file) )
-			# 文件
-			elif not directory.current_is_dir() and not file.begins_with("."):
-				file_list.append( path.path_join(file) )
-			
-			file = directory.get_next()
-		# 添加
-		if type == DIRECTORY:
-			list.append_array(dir_list)
-		else:
-			list.append_array(file_list)
-		# 递归扫描
-		if recursive:
-			for dir in dir_list:
-				method(dir, list, recursive, type)
+	# 遍历阈值内的像素
+	var empty_pixel_set : Dictionary = {}
+	for x in range(1, image.get_size().x - 1):
+		for y in range(1, image.get_size().y - 1):
+			color = image.get_pixel(x, y)
+			if color.a <= threshold:
+				empty_pixel_set[Vector2i(x, y)] = null
+	
+	# 开始描边
+	var new_image = copy_image(texture.get_image())
+	var coordinate : Vector2i
+	for x in range(1, image.get_size().x - 1):
+		for y in range(1, image.get_size().y - 1):
+			coordinate = Vector2i(x, y)
+			if not empty_pixel_set.has(coordinate):
+				color = image.get_pixel(x, y)
+				# 判断周围上下左右是否有阈值内的透明度像素
+				for dir in [Vector2i(x - 1, y), Vector2i(x + 1, y), Vector2i(x, y - 1), Vector2i(x, y + 1)]:
+					if empty_pixel_set.has(dir):
+						# 设置新图像的描边
+						new_image.set_pixelv(dir, outline_color)
+	
+	return ImageTexture.create_from_image(new_image)
 
 
-##  扫描目录
-##[br]
-##[br][code]dir[/code]  扫描的目录
-##[br][code]recursive[/code]  是否进行递归扫描
-static func scan_directory(dir: String, recursive:= false) -> Array[String]:
-	assert(DirAccess.dir_exists_absolute(dir), "没有这个路径")
-	var list : Array[String] = []
-	Scan.method(dir, list, recursive, Scan.DIRECTORY)
-	return list
 
-
-##  扫描文件
-##[br]
-##[br][code]dir[/code]  扫描的目录
-##[br][code]recursive[/code]  是否进行递归扫描
-static func scan_file(dir: String, recursive:= false) -> Array[String]:
-	assert(DirAccess.dir_exists_absolute(dir), "没有这个路径")
-	var list : Array[String] = []
-	Scan.method(dir, list, recursive, Scan.FILE)
-	return list
