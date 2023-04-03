@@ -357,3 +357,9 @@ func _on_add_preview_texture_pressed():
 			"texture": texture
 		})
 	).else_show_message("没有预览图像")
+
+
+func _on_pending_previewed(texture: Texture2D):
+	if_true(is_instance_valid(texture), func():
+		preview_container.preview(texture)
+	).else_show_message("错误的预览图像")

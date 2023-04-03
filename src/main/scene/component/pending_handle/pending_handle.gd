@@ -63,7 +63,7 @@ func _ready():
 	var mode_type : Dictionary = {
 		MergeMode.SCALE: "缩放到指定大小",
 		MergeMode.CUT: "剪切掉多余部分",
-		MergeMode.MAX_SIZE: "按最大大小设置每个图块",
+		MergeMode.MAX_SIZE: "按最大图像大小设置每个图块",
 	}
 	for i in mode_type.values():
 		merge_mode.add_item(i)
@@ -92,3 +92,8 @@ func _on_merge_pressed():
 
 func _on_resize_select_pressed():
 	self.resize_selected.emit(Vector2i( select_texture_width.value, select_texture_height.value ))
+
+
+func _on_merge_mode_item_selected(index):
+	width.editable = (index != MergeMode.MAX_SIZE)
+	height.editable = (index != MergeMode.MAX_SIZE)

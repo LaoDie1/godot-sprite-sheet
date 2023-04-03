@@ -299,4 +299,5 @@ allow_greater = true
 select_all_on_focus = true
 
 [connection signal="pressed" from="GridContainer/merge" to="." method="_on_merge_pressed"]
+[connection signal="item_selected" from="GridContainer/HBoxContainer/GridContainer/merge_mode" to="." method="_on_merge_mode_item_selected"]
 [connection signal="pressed" from="GridContainer/resize_select" to="." method="_on_resize_select_pressed"]

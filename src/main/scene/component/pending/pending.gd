@@ -131,7 +131,7 @@ func add_data(data: Dictionary):
 			if not Input.is_key_pressed(KEY_CTRL) and not Input.is_key_pressed(KEY_SHIFT):
 				var selected_node_list = get_selected_node_list()
 				selected_node_list.erase(texture_rect)
-				if selected_node_list.size() > 1:
+				if not selected_node_list.is_empty():
 					for selected_node in selected_node_list:
 						selected_node.set_selected(false)
 			
@@ -163,8 +163,7 @@ func _on_popup_menu_index_pressed(index):
 	match menu_name:
 		"预览":
 			var texture = _last_right_clicked_item_data['texture']
-			
-			
+			self.previewed.emit(texture)
 		
 		"移除":
 			var data_list = get_selected_data_list()
