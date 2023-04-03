@@ -35,6 +35,7 @@ var TEXTURE_FILTER = func(file: String):
 @onready var split_row = %split_row
 @onready var split_column = %split_column
 @onready var prompt_info_label = %prompt_info_label
+@onready var prompt_info_anim_player = %prompt_info_anim_player 
 
 
 #============================================================
@@ -70,23 +71,12 @@ static func show_message(message: String):
 	if Engine.has_meta("GenerateSpriteSheetMain_node"):
 		var node = Engine.get_meta("GenerateSpriteSheetMain_node") as GenerateSpriteSheetMain
 		var label := node.prompt_info_label as Label
-		label.text = message
+		label.text = " " + message
+		# 闪烁动画
+		var anim_player = node.prompt_info_anim_player as AnimationPlayer
+		anim_player.stop()
+		anim_player.play("twinkle")
 		
-		# 播放动画效果
-		var tween : Tween 
-		var key = "tween"
-		if label.has_meta(key):
-			tween = label.get_meta(key) as Tween
-			if is_instance_valid(tween):
-				tween.stop()
-		tween = label.create_tween()
-		label.set_meta(key, tween)
-		
-		tween.tween_property(label, "modulate:a", 1, 0.2) \
-			.set_ease(Tween.EASE_IN_OUT)
-		tween.tween_property(label, "modulate:a", 0, 0.5) \
-			.set_ease(Tween.EASE_IN_OUT) \
-			.set_delay(3)
 
 
 class IfTrue:
@@ -178,7 +168,9 @@ func _on_menu_list_menu_pressed(idx, menu_path):
 			scan_dir_dialog.popup_centered()
 		
 		"/导出/导出所有待处理图像":
-			export_panding_dialog.popup_centered()
+			if_true(pending.get_data_list().size() > 0, func():
+				export_panding_dialog.popup_centered()
+			).else_show_message("没有待处理的图像")
 
 
 func _on_file_dialog_dir_selected(dir):
@@ -263,8 +255,6 @@ func _on__merged(data: GenerateSpriteSheet_PendingHandle.Merge):
 			# 设置的宽高参数
 			sub_image_size = Vector2i(data.width, data.height)
 		
-		print(sub_image_size)
-		
 		# 每个图块包含边距的大小
 		var cell_size =  Vector2i(
 			(sub_image_size.x + data.left_separation + data.right_separation), 
@@ -344,7 +334,6 @@ func _on__resize(texture_size):
 		# 重设大小
 		var texture = preview_container.get_texture()
 		var new_texture = GenerateSpriteSheetUtil.resize_texture(texture, texture_size)
-	#	pending.add_data({"texture": new_texture })
 		preview_container.preview(new_texture)
 	).else_show_message("没有预览图片")
 
@@ -355,3 +344,16 @@ func _on__recolor(from: Color, to: Color, threshold: float):
 		var new_texture = GenerateSpriteSheetUtil.replace_color(texture, from, to, threshold)
 		preview_container.preview(new_texture, false)
 	).else_show_message("没有预览图片")
+
+
+func _on_git_new_version_meta_clicked(meta):
+	OS.shell_open(meta)
+
+
+func _on_add_preview_texture_pressed():
+	var texture = preview_container.get_texture()
+	if_true(texture, func():
+		pending.add_data({
+			"texture": texture
+		})
+	).else_show_message("没有预览图像")

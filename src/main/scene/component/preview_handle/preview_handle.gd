@@ -33,3 +33,8 @@ func _on_rescale_pressed():
 func _on_recolor_pressed():
 	self.recolor.emit(from_color.color, to_color.color, color_threshold.value)
 
+
+func _on_color_swap_pressed():
+	var tmp = from_color.color
+	from_color.color = to_color.color
+	to_color.color = tmp

@@ -14,7 +14,6 @@ script = ExtResource("1_2u6a4")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
-metadata/_edit_group_ = true
 
 [node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -163,6 +162,15 @@ layout_mode = 2
 custom_minimum_size = Vector2(30, 0)
 layout_mode = 2
 
+[node name="color_swap" type="Button" parent="VBoxContainer/GridContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "切换"
+
+[node name="Control3" type="Control" parent="VBoxContainer/GridContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
 [node name="Label3" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer3"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
@@ -181,3 +189,4 @@ value = 0.01
 [connection signal="pressed" from="VBoxContainer/GridContainer/resize" to="." method="_on_resize_pressed"]
 [connection signal="pressed" from="VBoxContainer/GridContainer/rescale" to="." method="_on_rescale_pressed"]
 [connection signal="pressed" from="VBoxContainer/GridContainer/recolor" to="." method="_on_recolor_pressed"]
+[connection signal="pressed" from="VBoxContainer/GridContainer/HBoxContainer3/color_swap" to="." method="_on_color_swap_pressed"]

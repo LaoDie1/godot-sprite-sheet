@@ -13,7 +13,7 @@ extends PanelContainer
 signal item_selected(data: Dictionary)
 signal item_right_clicked(data: Dictionary)
 signal item_double_clicked(data: Dictionary)
-
+signal previewed(texture: Texture2D)
 
 const ITEM_SCENE = preload("item.tscn")
 const ITEM_SCRIPT = preload("item.gd")
@@ -28,6 +28,7 @@ const ITEM_SCRIPT = preload("item.gd")
 
 
 var _data_list : Array[Dictionary] = []
+var _last_right_clicked_item_data : Dictionary
 
 
 #============================================================
@@ -50,17 +51,23 @@ func get_selected_data_list() -> Array[Dictionary]:
 	selected_list.sort_custom(func(a, b): a["node"].get_index() > b["node"].get_index() )
 	return selected_list
 
-
 ## 获取选中的图片
 func get_selected_texture_list() -> Array[Texture2D]:
 	return Array(get_selected_data_list().map(func(data): return data['texture']), TYPE_OBJECT, "Texture2D", null)
 
+## 获取选中的节点列表
+func get_selected_node_list() -> Array[ITEM_SCRIPT]:
+	var list : Array[ITEM_SCRIPT] = []
+	list.append_array(get_selected_data_list().map(func(data): return data['node']))
+	return list
 
 
 #============================================================
 #  内置
 #============================================================
 func _ready():
+	item_popup_menu.add_item("预览")
+	item_popup_menu.add_separator()
 	item_popup_menu.add_item("移除")
 	item_popup_menu.add_separator()
 	
@@ -122,16 +129,18 @@ func add_data(data: Dictionary):
 			
 			# ctrl 键多选，如果没有则会自动取消显示其他选中的项
 			if not Input.is_key_pressed(KEY_CTRL) and not Input.is_key_pressed(KEY_SHIFT):
-				var selected_data_list = _data_list.filter(func(d): return d['selected'] and d != data)
-				if selected_data_list.size() >= 1:
-					for d in selected_data_list:
-						var item =  d['node'] as ITEM_SCRIPT
-						item.set_selected(false)
+				var selected_node_list = get_selected_node_list()
+				selected_node_list.erase(texture_rect)
+				if selected_node_list.size() > 1:
+					for selected_node in selected_node_list:
+						selected_node.set_selected(false)
 			
 	)
 	# 右键点击
 	texture_rect.right_clicked.connect(func():
 		item_popup_menu.popup(Rect2i( get_global_mouse_position(), Vector2i() ))
+		texture_rect.set_selected(true)
+		_last_right_clicked_item_data = data
 		self.item_right_clicked.emit(data)
 	)
 	# 双击
@@ -152,6 +161,11 @@ func add_data(data: Dictionary):
 func _on_popup_menu_index_pressed(index):
 	var menu_name = item_popup_menu.get_item_text(index)
 	match menu_name:
+		"预览":
+			var texture = _last_right_clicked_item_data['texture']
+			
+			
+		
 		"移除":
 			var data_list = get_selected_data_list()
 			for node in data_list.map(func(data): return data['node']):

@@ -111,7 +111,7 @@ func _on_stop_anim_pressed():
 
 func _on_export_as_animation_pressed():
 	if not has_animation():
-		printerr("没有添加动画")
+		GenerateSpriteSheetMain.show_message("没有添加动画")
 		return 
 	
 	_last_export_type = "AnimationLibrary"
@@ -120,7 +120,7 @@ func _on_export_as_animation_pressed():
 
 func _on_export_as_sprite_frames_pressed():
 	if not has_animation():
-		printerr("没有添加动画")
+		GenerateSpriteSheetMain.show_message("没有添加动画")
 		return 
 	# 导出精灵动画帧，用于 [AnimatedSprite2D] 中
 	_last_export_type = "SpriteFrames"
@@ -139,4 +139,5 @@ func _on_export_res_dialog_file_selected(path):
 		self.exported_sprite_frames.emit(res)
 	
 	else:
-		assert(false, "错误的导出类型，程序出现BUG")
+		GenerateSpriteSheetMain.show_message("错误的导出类型，程序出现BUG")
+

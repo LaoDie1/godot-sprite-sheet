@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bo5p2khfqsbvf"]
+[gd_scene load_steps=13 format=3 uid="uid://bo5p2khfqsbvf"]
 
 [ext_resource type="Script" path="res://src/main/scene/generate_sprite_sheet.gd" id="1_xquvv"]
 [ext_resource type="Script" path="res://src/main/scene/component/menu_list.gd" id="2_nf7es"]
@@ -15,6 +15,44 @@ corner_radius_top_left = 1
 corner_radius_top_right = 1
 corner_radius_bottom_right = 1
 corner_radius_bottom_left = 1
+
+[sub_resource type="Animation" id="Animation_lwym1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_tyg0a"]
+resource_name = "twinkle"
+length = 3.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 3.4, 3.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.298039), Color(1, 1, 1, 1), Color(1, 1, 1, 0.298039), Color(1, 1, 1, 1), Color(1, 1, 1, 0.298039), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fnkjw"]
+_data = {
+"RESET": SubResource("Animation_lwym1"),
+"twinkle": SubResource("Animation_tyg0a")
+}
 
 [node name="generate_sprite_sheet" type="MarginContainer"]
 texture_filter = 1
@@ -112,13 +150,21 @@ layout_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer"]
 layout_mode = 2
 
+[node name="clear_select" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "清除选择"
+
 [node name="select_all" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 text = "全选"
 
-[node name="clear_select" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
+[node name="Control2" type="Control" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(12, 0)
 layout_mode = 2
-text = "清除选择"
+
+[node name="add_selected_rect" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "添加选中区域"
 
 [node name="line" type="MarginContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -133,9 +179,13 @@ custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
 
-[node name="add_selected_rect" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
+[node name="Control" type="Control" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(4, 0)
 layout_mode = 2
-text = "添加选中区域"
+
+[node name="add_preview_texture" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "添加预览图像"
 
 [node name="space" type="Control" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -305,10 +355,44 @@ size_flags_horizontal = 3
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2"]
 layout_mode = 2
 
-[node name="prompt_info_label" type="Label" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer"]
+layout_mode = 2
+
+[node name="prompt_info_label" type="Label" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
 text = "(message)"
+
+[node name="prompt_info_anim_player" type="AnimationPlayer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer/prompt_info_label"]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_fnkjw")
+}
+
+[node name="Control" type="Control" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="line" type="MarginContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer/line"]
+modulate = Color(0, 0, 0, 0.470588)
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 2
+
+[node name="git_new_version" type="RichTextLabel" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer"]
+modulate = Color(0.603922, 0.756863, 0.890196, 1)
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+bbcode_enabled = true
+text = "[url=https://github.com/LaoDie1/generate_sprite_sheet] *查看最新版本 [/url]"
+scroll_active = false
+shortcut_keys_enabled = false
 
 [connection signal="menu_pressed" from="VBoxContainer/MarginContainer/menu_list" to="." method="_on_menu_list_menu_pressed"]
 [connection signal="dir_selected" from="VBoxContainer/MarginContainer/menu_list/export_panding_dialog" to="." method="_on_export_panding_dialog_dir_selected"]
@@ -316,9 +400,10 @@ text = "(message)"
 [connection signal="selected" from="VBoxContainer/HSplitContainer/file_tree" to="." method="_on_file_tree_selected"]
 [connection signal="dir_selected" from="VBoxContainer/HSplitContainer/file_tree/scan_dir_dialog" to="." method="_on_file_dialog_dir_selected"]
 [connection signal="created_texture" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/TabContainer/预览/preview_container" to="." method="_on_preview_container_created_texture"]
-[connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/select_all" to="." method="_on_select_all_pressed"]
 [connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/clear_select" to="." method="_on_clear_select_pressed"]
+[connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/select_all" to="." method="_on_select_all_pressed"]
 [connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/add_selected_rect" to="." method="_on_add_selected_rect_pressed"]
+[connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/add_preview_texture" to="." method="_on_add_preview_texture_pressed"]
 [connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/export_preview" to="." method="_on_export_preview_pressed"]
 [connection signal="file_selected" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/export_preview/export_preview_dialog" to="." method="_on_export_preview_dialog_file_selected"]
 [connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer/split_size" to="." method="_on_split_size_pressed"]
@@ -331,3 +416,4 @@ text = "(message)"
 [connection signal="merged" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/待处理图像" to="." method="_on__merged"]
 [connection signal="resize_selected" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/待处理图像" to="." method="_on__resize_selected"]
 [connection signal="item_double_clicked" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/pending" to="." method="_on_pending_item_double_clicked"]
+[connection signal="meta_clicked" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer/git_new_version" to="." method="_on_git_new_version_meta_clicked"]
