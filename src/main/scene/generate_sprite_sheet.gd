@@ -10,6 +10,8 @@ class_name GenerateSpriteSheetMain
 extends MarginContainer
 
 
+const MAIN_NODE_META_KEY = &"GenerateSpriteSheetMain_main_node"
+
 var TEXTURE_FILTER = func(file: String):
 	return file.get_extension() in ["png", "jpg", "svg"]
 
@@ -17,7 +19,7 @@ var TEXTURE_FILTER = func(file: String):
 # 菜单列表
 @onready var menu_list := %menu_list as MenuList
 # 文件树
-@onready var file_tree := %file_tree as GenerateSpriteShee_FileTree
+@onready var file_tree := %file_tree as GenerateSpriteSheet_FileTree
 # 等待处理文件列表，拖拽进去，选中这个文件，可以从操作台中进行开始处理这个图片
 # 处理后的文件在这里面保存，然后生成会从这个列表里生成处理
 @onready var pending := %pending as GenerateSpriteSheet_Pending
@@ -30,10 +32,6 @@ var TEXTURE_FILTER = func(file: String):
 @onready var scan_dir_dialog := %scan_dir_dialog as FileDialog
 @onready var export_preview_dialog = %export_preview_dialog
 
-@onready var split_width = %split_width
-@onready var split_height = %split_height
-@onready var split_row = %split_row
-@onready var split_column = %split_column
 @onready var prompt_info_label = %prompt_info_label
 @onready var prompt_info_anim_player = %prompt_info_anim_player 
 
@@ -59,7 +57,7 @@ func _ready():
 				child.set("theme_override_constants/margin_" + dir, 8)
 	
 	# 提示信息
-	Engine.set_meta("GenerateSpriteSheetMain_node", self)
+	Engine.set_meta(MAIN_NODE_META_KEY, self)
 	prompt_info_label.modulate.a = 0
 
 
@@ -68,8 +66,8 @@ func _ready():
 #============================================================
 ## 显示消息内容
 static func show_message(message: String):
-	if Engine.has_meta("GenerateSpriteSheetMain_node"):
-		var node = Engine.get_meta("GenerateSpriteSheetMain_node") as GenerateSpriteSheetMain
+	if Engine.has_meta(MAIN_NODE_META_KEY):
+		var node = Engine.get_meta(MAIN_NODE_META_KEY) as GenerateSpriteSheetMain
 		var label := node.prompt_info_label as Label
 		label.text = " " + message
 		# 闪烁动画
@@ -85,7 +83,7 @@ class IfTrue:
 	func _init(value):
 		_value = value
 	
-	func else_show_message(message: String):
+	func else_show_message(message: String) -> void:
 		if _value:
 			pass
 		else:
@@ -112,12 +110,18 @@ static func if_true(value, callback: Callable) -> IfTrue:
 	return IfTrue.new(null)
 
 
+## 如果存在预览图像则执行回调
+func if_has_texture_else_show_message(callback: Callable, message: String = "没有预览图像"):
+	if_true(preview_container.has_texture(), callback).else_show_message(message)
+
+
+
 #============================================================
 #  连接信号
 #============================================================
 func _on_file_tree_selected(path_type, path):
 	preview_container.clear_texture()
-	if path_type == GenerateSpriteShee_FileTree.PathType.FILE:
+	if path_type == GenerateSpriteSheet_FileTree.PathType.FILE:
 		var res = load(path)
 		if res is Texture2D:
 			preview_container.preview(res)
@@ -126,7 +130,7 @@ func _on_file_tree_selected(path_type, path):
 func _on_file_tree_added_item(item: TreeItem):
 	# 文件树添加新的 item 时
 	var data = item.get_metadata(0) as Dictionary
-	if data.path_type == GenerateSpriteShee_FileTree.PathType.FILE:
+	if data.path_type == GenerateSpriteSheet_FileTree.PathType.FILE:
 		var path = data.path
 		var texture = load(path)
 		item.set_icon(0, texture)
@@ -141,18 +145,22 @@ func _on_preview_container_created_texture(texture: Texture2D):
 
 
 func _on_add_selected_rect_pressed():
-	# 添加选中的表格区域的图片到待处理区
-	for image_texture in preview_container.get_selected_texture_list():
-		pending.add_data({ texture = image_texture })
-	preview_container.clear_select()
+	if_has_texture_else_show_message(func():
+		# 添加选中的表格区域的图片到待处理区
+		for image_texture in preview_container.get_selected_texture_list():
+			pending.add_data({ texture = image_texture })
+		preview_container.clear_select()
+	)
 
 
 func _on_clear_select_pressed():
-	preview_container.clear_select()
+	if_has_texture_else_show_message(func():
+		preview_container.clear_select()
+	)
 
 
 func _on_select_all_pressed():
-	if preview_container.has_texture():
+	if_has_texture_else_show_message(func():
 		if_true(preview_container.get_preview_grid_visible(), func():
 			var grid = preview_container.get_cell_grid()
 			for x in grid.x:
@@ -160,6 +168,7 @@ func _on_select_all_pressed():
 					var coordinate = Vector2i(x, y)
 					preview_container.select(coordinate)
 		).else_show_message("还未进行切分！")
+	)
 
 
 func _on_menu_list_menu_pressed(idx, menu_path):
@@ -181,21 +190,6 @@ func _on_pending_item_double_clicked(data):
 	# 预览双击的图片
 	var texture = data["texture"]
 	preview_container.preview(texture)
-
-
-func _on_split_column_row_pressed():
-	if_true(preview_container.has_texture(), func():
-		var column_row = Vector2i( split_column.value, split_row.value )
-		var texture_size = Vector2i(preview_container.get_texture().get_size())
-		var cell_size = texture_size / column_row
-		preview_container.split(cell_size)
-	).else_show_message("没有预览图片")
-
-
-func _on_split_size_pressed():
-	if_true(preview_container.has_texture(), func():
-		preview_container.split(Vector2i( split_width.value, split_height.value ))
-	).else_show_message("没有预览图片")
 
 
 func _on_export_panding_dialog_dir_selected(dir: String):
@@ -227,75 +221,19 @@ func _on_animation_panel_stopped():
 
 func _on__merged(data: GenerateSpriteSheet_PendingHandle.Merge):
 	var texture_list : Array[Texture2D] = pending.get_selected_texture_list()
-	if_true(texture_list, func():
-		var max_column : int = data.max_column
-		var max_row : int = ceil(texture_list.size() / float(data.max_column))
-		
-		# 每个图块大小
-		var sub_image_size : Vector2i = Vector2i(0, 0)
-		if data.merge_type == GenerateSpriteSheet_PendingHandle.MergeMode.MAX_SIZE:
-			# 找到最大宽和高
-			var idx : int = 0
-			var texture : Texture2D
-			for y in max_row:
-				for x in max_column:
-					if idx < texture_list.size():
-						texture = texture_list[idx]
-						idx += 1
-						if sub_image_size.x < texture.get_size().x:
-							sub_image_size.x = texture.get_size().x
-						if sub_image_size.y < texture.get_size().y:
-							sub_image_size.y = texture.get_size().y
-						
-					else:
-						break
-				if idx < texture_list.size():
-					break
-		else:
-			# 设置的宽高参数
-			sub_image_size = Vector2i(data.width, data.height)
-		
-		# 每个图块包含边距的大小
-		var cell_size =  Vector2i(
-			(sub_image_size.x + data.left_separation + data.right_separation), 
-			(sub_image_size.y + data.top_separation + data.down_separation)
-		)
-		
-		# 整张图片大小
-		var image_width : int = ( data.left_margin + data.right_margin + cell_size.x * data.max_column )
-		var image_height : int  = ( data.top_margin + data.down_margin + cell_size.y * max_row )
-		var image_format = texture_list[0].get_image().get_format()
-		var merge_image : Image = Image.create(image_width, image_height, false, image_format)
-		
-		# 开始合并
-		var coordinate : Vector2i
-		var x : int
-		var y : int 
-		var idx = 0
-		var image : Image
-		
-		for texture in texture_list:
-			x = idx % max_column
-			y = idx / max_column
-			coordinate = Vector2i(x, y) * cell_size
-			image = texture.get_image()
-			if data.merge_type == GenerateSpriteSheet_PendingHandle.MergeMode.SCALE:
-				# 缩放到指定大小
-				image = GenerateSpriteSheetUtil.resize_image(image, sub_image_size)
-			merge_image.blit_rect(image, Rect2i(Vector2i(), cell_size), coordinate)
-			idx += 1
-		
+	if_true(texture_list.size() > 0, func():
 		# 预览
-		var merge_texture = ImageTexture.create_from_image(merge_image)
-		preview_container.preview(merge_texture)
+		var merge_texture = data.execute(texture_list)
+		if merge_texture:
+			preview_container.preview(merge_texture)
 		
 	).else_show_message("没有选中任何图像")
 
 
 func _on_export_preview_pressed():
-	if_true(preview_container.get_texture(), func():
+	if_has_texture_else_show_message(func():
 		export_preview_dialog.popup_centered()
-	).else_show_message("没有预览图像")
+	)
 
 
 func _on_export_preview_dialog_file_selected(path):
@@ -320,30 +258,30 @@ func _on__resize_selected(new_size: Vector2i):
 
 
 func _on__rescale(texture_scale: Vector2i):
-	if_true(preview_container.has_texture(), func():
+	if_has_texture_else_show_message(func():
 		# 缩放
 		var texture = preview_container.get_texture()
 		var new_texture = GenerateSpriteSheetUtil.scale_texture(texture, texture_scale)
 	#	pending.add_data({ "texture": new_texture })
 		preview_container.preview(new_texture)
-	).else_show_message("没有预览图片")
+	)
 
 
 func _on__resize(texture_size):
-	if_true(preview_container.has_texture(), func():
+	if_has_texture_else_show_message(func():
 		# 重设大小
 		var texture = preview_container.get_texture()
 		var new_texture = GenerateSpriteSheetUtil.resize_texture(texture, texture_size)
 		preview_container.preview(new_texture)
-	).else_show_message("没有预览图片")
+	)
 
 
 func _on__recolor(from: Color, to: Color, threshold: float):
-	if_true(preview_container.has_texture(), func():
+	if_has_texture_else_show_message(func():
 		var texture = preview_container.get_texture()
 		var new_texture = GenerateSpriteSheetUtil.replace_color(texture, from, to, threshold)
 		preview_container.preview(new_texture, false)
-	).else_show_message("没有预览图片")
+	)
 
 
 func _on_git_new_version_meta_clicked(meta):
@@ -351,12 +289,9 @@ func _on_git_new_version_meta_clicked(meta):
 
 
 func _on_add_preview_texture_pressed():
-	var texture = preview_container.get_texture()
-	if_true(texture, func():
-		pending.add_data({
-			"texture": texture
-		})
-	).else_show_message("没有预览图像")
+	if_has_texture_else_show_message(func():
+		pending.add_data({ texture = preview_container.get_texture() })
+	)
 
 
 func _on_pending_previewed(texture: Texture2D):
@@ -366,7 +301,33 @@ func _on_pending_previewed(texture: Texture2D):
 
 
 func _on__outline(color: Color):
-	var texture = preview_container.get_texture()
-	var new_texture = GenerateSpriteSheetUtil.outline(texture, color)
-	preview_container.preview(new_texture, false)
+	if_has_texture_else_show_message(func():
+		var texture = preview_container.get_texture()
+		var new_texture = GenerateSpriteSheetUtil.outline(texture, color)
+		preview_container.preview(new_texture, false)
+	)
 
+
+func _on__split_column_row(column_row: Vector2i):
+	if_has_texture_else_show_message(func():
+		var texture_size = Vector2i(preview_container.get_texture().get_size())
+		var cell_size : Vector2i = texture_size / column_row
+		preview_container.split(cell_size)
+	)
+
+
+func _on__split_size(cell_size: Vector2i):
+	if_has_texture_else_show_message(func():
+		preview_container.split(cell_size)
+	)
+
+
+func _on__clear_transparency():
+	if_has_texture_else_show_message(func():
+		var texture = preview_container.get_texture()
+		var image = texture.get_image() as Image
+		var rect = image.get_used_rect()
+		var new_image = image.get_region(rect)
+		preview_container.preview( ImageTexture.create_from_image(new_image) )
+		
+	)

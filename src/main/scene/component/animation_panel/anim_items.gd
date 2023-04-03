@@ -18,6 +18,7 @@ signal played(animation: Animation)
 
 
 var _texture_list: Array[Texture2D] = []
+var _animation : Animation
 
 
 #============================================================
@@ -25,19 +26,21 @@ var _texture_list: Array[Texture2D] = []
 #============================================================
 ## 获取动画
 func get_animation() -> Animation:
-	var animation = Animation.new()
-	var textures = item_container.get_children().map(func(node): return node.texture )
 	var interval = 1.0 / frame_speed.value
-	animation.length = textures.size() * interval
-	animation.loop_mode = Animation.LOOP_LINEAR if loop_btn.button_pressed else Animation.LOOP_NONE
+	if _animation == null:
+		_animation = Animation.new()
+		# 添加动画
+		var textures = item_container.get_children().map(func(node): return node.texture )
+		var track_key = _animation.add_track(Animation.TYPE_VALUE)
+		_animation.track_set_path(track_key, ".:texture")
+		var texture : Texture2D
+		for i in textures.size():
+			_animation.track_insert_key(track_key, interval * i, textures[i])
 	
-	# 添加动画
-	var track_key = animation.add_track(Animation.TYPE_VALUE)
-	animation.track_set_path(track_key, ".:texture")
-	var texture : Texture2D
-	for i in textures.size():
-		animation.track_insert_key(track_key, interval * i, textures[i])
-	return animation
+	_animation.length = item_container.get_child_count() * interval
+	_animation.loop_mode = Animation.LOOP_LINEAR if loop_btn.button_pressed else Animation.LOOP_NONE
+	
+	return _animation
 
 
 ## 获取精灵图片帧

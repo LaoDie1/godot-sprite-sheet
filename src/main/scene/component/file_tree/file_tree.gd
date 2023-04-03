@@ -5,7 +5,7 @@
 # - datetime: 2023-03-31 00:42:15
 # - version: 4.0
 #============================================================
-class_name GenerateSpriteShee_FileTree
+class_name GenerateSpriteSheet_FileTree
 extends VBoxContainer
 
 

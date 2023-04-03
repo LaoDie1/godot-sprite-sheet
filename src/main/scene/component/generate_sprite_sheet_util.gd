@@ -9,6 +9,8 @@
 class_name GenerateSpriteSheetUtil
 
 
+## 默认格式
+const DEFAULT_FORMAT = Image.FORMAT_RGBA8
 
 
 ## 扫描目录/文件方法

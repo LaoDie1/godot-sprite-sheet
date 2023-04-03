@@ -1,9 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://bo5p2khfqsbvf"]
+[gd_scene load_steps=14 format=3 uid="uid://bo5p2khfqsbvf"]
 
 [ext_resource type="Script" path="res://src/main/scene/generate_sprite_sheet.gd" id="1_xquvv"]
 [ext_resource type="Script" path="res://src/main/scene/component/menu_list.gd" id="2_nf7es"]
 [ext_resource type="PackedScene" uid="uid://c6ytyqd23f7t2" path="res://src/main/scene/component/file_tree/file_tree.tscn" id="3_1vyu0"]
 [ext_resource type="PackedScene" uid="uid://b7lnldwlfitlo" path="res://src/main/scene/component/preview_container/preview_container.tscn" id="4_x7gtn"]
+[ext_resource type="PackedScene" uid="uid://diul680cmw3hp" path="res://src/main/scene/component/split_handle/split_handle.tscn" id="5_4xu8y"]
 [ext_resource type="PackedScene" uid="uid://c2sffk0iavffy" path="res://src/main/scene/component/animation_panel/animation_panel.tscn" id="5_lhecx"]
 [ext_resource type="PackedScene" uid="uid://bk2gll5whs4jm" path="res://src/main/scene/component/pending/pending.tscn" id="5_milus"]
 [ext_resource type="PackedScene" uid="uid://u5iahvvn0bw4" path="res://src/main/scene/component/pending_handle/pending_handle.tscn" id="6_7squn"]
@@ -215,106 +216,8 @@ layout_mode = 2
 size_flags_vertical = 3
 drag_to_rearrange_enabled = true
 
-[node name="切分" type="MarginContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container"]
+[node name="切分" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container" instance=ExtResource("5_4xu8y")]
 layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分"]
-layout_mode = 2
-metadata/_edit_group_ = true
-
-[node name="GridContainer" type="GridContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer"]
-layout_mode = 2
-columns = 2
-
-[node name="split_size" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer"]
-layout_mode = 2
-text = "大小切分"
-
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer"]
-layout_mode = 2
-
-[node name="line" type="MarginContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer/HBoxContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
-
-[node name="Panel" type="Panel" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer/HBoxContainer/line"]
-custom_minimum_size = Vector2(1, 0)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
-
-[node name="Label" type="Label" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer/HBoxContainer"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-text = "宽："
-horizontal_alignment = 1
-
-[node name="split_width" type="SpinBox" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-value = 16.0
-allow_greater = true
-select_all_on_focus = true
-
-[node name="Label2" type="Label" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer/HBoxContainer"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-text = "高："
-horizontal_alignment = 2
-
-[node name="split_height" type="SpinBox" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-value = 16.0
-allow_greater = true
-select_all_on_focus = true
-
-[node name="split_column_row" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer"]
-layout_mode = 2
-text = "列行切分"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer"]
-layout_mode = 2
-
-[node name="line" type="MarginContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer/HBoxContainer2"]
-layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
-
-[node name="Panel" type="Panel" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer/HBoxContainer2/line"]
-custom_minimum_size = Vector2(1, 0)
-layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
-
-[node name="Label" type="Label" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-text = "列："
-horizontal_alignment = 1
-
-[node name="split_column" type="SpinBox" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer/HBoxContainer2"]
-unique_name_in_owner = true
-layout_mode = 2
-value = 4.0
-allow_greater = true
-select_all_on_focus = true
-
-[node name="Label2" type="Label" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-text = "行："
-horizontal_alignment = 2
-
-[node name="split_row" type="SpinBox" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer/HBoxContainer2"]
-unique_name_in_owner = true
-layout_mode = 2
-value = 4.0
-allow_greater = true
-select_all_on_focus = true
 
 [node name="预览图像处理" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container" instance=ExtResource("6_wo0gv")]
 visible = false
@@ -402,8 +305,9 @@ shortcut_keys_enabled = false
 [connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/add_preview_texture" to="." method="_on_add_preview_texture_pressed"]
 [connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/export_preview" to="." method="_on_export_preview_pressed"]
 [connection signal="file_selected" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/export_preview/export_preview_dialog" to="." method="_on_export_preview_dialog_file_selected"]
-[connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer/split_size" to="." method="_on_split_size_pressed"]
-[connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分/HBoxContainer/GridContainer/split_column_row" to="." method="_on_split_column_row_pressed"]
+[connection signal="split_column_row" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分" to="." method="_on__split_column_row"]
+[connection signal="split_size" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分" to="." method="_on__split_size"]
+[connection signal="clear_transparency" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/预览图像处理" to="." method="_on__clear_transparency"]
 [connection signal="outline" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/预览图像处理" to="." method="_on__outline"]
 [connection signal="recolor" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/预览图像处理" to="." method="_on__recolor"]
 [connection signal="rescale" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/预览图像处理" to="." method="_on__rescale"]

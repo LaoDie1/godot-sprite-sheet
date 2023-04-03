@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://src/main/scene/component/pending/pending.gd" id="1_y48d3"]
 
 [node name="pending" type="PanelContainer"]
-offset_right = 200.0
+offset_right = 325.0
 offset_bottom = 100.0
 size_flags_vertical = 3
 script = ExtResource("1_y48d3")

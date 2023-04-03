@@ -216,8 +216,16 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="clear_transparency" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "清空透明域"
+
 [connection signal="pressed" from="VBoxContainer/GridContainer/resize" to="." method="_on_resize_pressed"]
 [connection signal="pressed" from="VBoxContainer/GridContainer/rescale" to="." method="_on_rescale_pressed"]
 [connection signal="pressed" from="VBoxContainer/GridContainer/recolor" to="." method="_on_recolor_pressed"]
 [connection signal="pressed" from="VBoxContainer/GridContainer/HBoxContainer3/color_swap" to="." method="_on_color_swap_pressed"]
 [connection signal="pressed" from="VBoxContainer/GridContainer/outline" to="." method="_on_outline_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/clear_transparency" to="." method="_on_clear_transparency_pressed"]

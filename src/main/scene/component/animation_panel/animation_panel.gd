@@ -13,9 +13,9 @@ extends MarginContainer
 signal played(animation: Animation)
 ## 停止播放动画
 signal stopped
-## 导出动画资源容器，用于 [AnimationPlayer] 中
+## 已经导出动画资源容器，用于 [AnimationPlayer] 中
 signal exported_animation_library(animation_library: AnimationLibrary)
-## 导出精灵动画帧，用于 [AnimatedSprite2D] 中
+## 已经导出精灵动画帧，用于 [AnimatedSprite2D] 中
 signal exported_sprite_frames(sprite_frames: SpriteFrames)
 
 
@@ -122,6 +122,7 @@ func _on_export_as_sprite_frames_pressed():
 	if not has_animation():
 		GenerateSpriteSheetMain.show_message("没有添加动画")
 		return 
+	
 	# 导出精灵动画帧，用于 [AnimatedSprite2D] 中
 	_last_export_type = "SpriteFrames"
 	export_res_dialog.popup_centered()

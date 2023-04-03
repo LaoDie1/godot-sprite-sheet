@@ -97,6 +97,7 @@ func _ready():
 		preview_canvas.custom_minimum_size = preview_rect.size * preview_rect.scale
 	)
 	clear_texture()
+	move_preview_texture(DEFAULT_LEFT_TOP_POS)
 
 
 #============================================================
@@ -129,7 +130,7 @@ func clear_texture():
 	preview_anim_player.stop()
 	preview_rect.texture = null
 	preview_split_grid.visible = false
-	preview_rect.position = DEFAULT_LEFT_TOP_POS
+#	preview_rect.position = DEFAULT_LEFT_TOP_POS
 	preview_rect.size = Vector2()
 	texture_size_label.visible = false
 	clear_select()
@@ -141,11 +142,11 @@ func clear_select():
 
 
 ##  预览图片  
-func preview(texture: Texture2D, reset_pos: bool = true):
+func preview(texture: Texture2D, reset_pos: bool = false):
 	# 显示图片
 	preview_rect.texture = texture
 	if reset_pos:
-		preview_rect.position = DEFAULT_LEFT_TOP_POS
+		move_preview_texture(DEFAULT_LEFT_TOP_POS)
 	preview_split_grid.visible = false
 	texture_size_label.visible = true
 	texture_size_label.text = "Size: (%s, %s)" % [texture.get_width(), texture.get_height()]
@@ -182,6 +183,13 @@ func select(coordinate: Vector2i, cell_size: Vector2i = Vector2i()):
 	border_rect.visible = true
 
 
+## 移动显示图片的位置
+func move_preview_texture(pos: Vector2):
+	preview_rect.position = pos
+
+
+var _last_anim : Animation
+
 ## 播放动画
 func play(animation: Animation):
 	clear_select()
@@ -189,6 +197,13 @@ func play(animation: Animation):
 	# 预览第一张图片，更新预览相关的数据
 	var texture = animation.track_get_key_value(0, 0) as Texture2D
 	preview(texture, false)
+	
+	if (preview_rect.position.x < 0 or preview_rect.position.y < 0
+		or preview_rect.position.x >= self.size.x or preview_rect.position.y >= self.size.y
+	):
+#		move_preview_texture(Vector2i(self.size / 2))
+		move_preview_texture(DEFAULT_LEFT_TOP_POS)
+	
 #	border_rect.visible = false
 	preview_split_grid.visible = false
 	

@@ -13,6 +13,8 @@ signal rescale(new_scale: Vector2)
 signal recolor(from: Color, to: Color, threshold: float)
 ## 描边
 signal outline(color: Color)
+## 清空透明边界
+signal clear_transparency
 
 
 @onready var texture_width = %texture_width
@@ -45,3 +47,8 @@ func _on_color_swap_pressed():
 
 func _on_outline_pressed():
 	self.outline.emit(outline_color.color)
+
+
+func _on_clear_transparency_pressed():
+	self.clear_transparency.emit()
+	

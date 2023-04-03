@@ -84,7 +84,7 @@ func _can_drop_data(at_position, data):
 func _drop_data(at_position, data):
 	var data_list = data['data']
 	for d in data_list:
-		if d['path_type'] == GenerateSpriteShee_FileTree.PathType.FILE:
+		if d['path_type'] == GenerateSpriteSheet_FileTree.PathType.FILE:
 			add_data({
 				"texture": load(d.path),
 				"path": d.path,
