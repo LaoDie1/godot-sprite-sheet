@@ -6,7 +6,7 @@
 # - version: 4.0
 #============================================================
 ## 合并图片为一个精灵表
-## 
+class_name GenerateSpriteSheetMain
 extends MarginContainer
 
 
@@ -38,6 +38,7 @@ var TEXTURE_FILTER = func(file: String):
 @onready var texture_scale_y = %texture_scale_y
 @onready var split_row = %split_row
 @onready var split_column = %split_column
+@onready var prompt_info_label = %prompt_info_label
 
 
 #============================================================
@@ -60,7 +61,26 @@ func _ready():
 			for dir in ["left", "right", "top", "bottom"]:
 				child.set("theme_override_constants/margin_" + dir, 8)
 	
+	Engine.set_meta("GenerateSpriteSheetMain_node", self)
+	prompt_info_label.modulate.a = 0
 
+
+#============================================================
+#  自定义
+#============================================================
+static func show_message(message: String):
+	if Engine.has_meta("GenerateSpriteSheetMain_node"):
+		var node = Engine.get_meta("GenerateSpriteSheetMain_node") as GenerateSpriteSheetMain
+		var label := node.prompt_info_label as Label
+		label.text = message
+		
+		var tween = label.create_tween()
+		tween.tween_property(label, "modulate:a", 1, 0.2) \
+			.set_ease(Tween.EASE_IN_OUT)
+		tween.tween_property(label, "modulate:a", 0, 0.5) \
+			.set_ease(Tween.EASE_IN_OUT) \
+			.set_delay(3)
+		
 
 
 #============================================================
@@ -107,7 +127,7 @@ func _on_clear_select_pressed():
 func _on_select_all_pressed():
 	if preview_container.has_texture():
 		if not preview_container.get_preview_grid_visible():
-			printerr("[ GenerateSpriteSheet ] 还未进行切分！")
+			printerr("还未进行切分！")
 			
 		
 		var grid = preview_container.get_cell_grid()
@@ -138,35 +158,33 @@ func _on_pending_item_double_clicked(data):
 
 func _on_resize_pressed():
 	if not preview_container.has_texture():
-		printerr("[ GenerateSpriteSheet ] 没有预览图片")
+		show_message("没有预览图片")
 		return 
 	
 	# 重设大小
 	var texture_size = Vector2i(texture_width.value, texture_height.value)
 	var texture = preview_container.get_texture()
 	var new_texture = GenerateSpriteSheetUtil.resize_texture(texture, texture_size)
-	pending.add_data({
-		"texture": new_texture
-	})
+#	pending.add_data({"texture": new_texture })
+	preview_container.preview(new_texture)
 
 
 func _on_scale_pressed():
 	if not preview_container.has_texture():
-		printerr("[ GenerateSpriteSheet ] 没有预览图片")
+		show_message("没有预览图片")
 		return 
 	
 	# 缩放
 	var texture_scale = Vector2(texture_scale_x.value, texture_scale_y.value)
 	var texture = preview_container.get_texture()
 	var new_texture = GenerateSpriteSheetUtil.scale_texture(texture, texture_scale)
-	pending.add_data({
-		"texture": new_texture
-	})
+#	pending.add_data({ "texture": new_texture })
+	preview_container.preview(new_texture)
 
 
 func _on_split_column_row_pressed():
 	if not preview_container.has_texture():
-		printerr("[ GenerateSpriteSheet ] 没有预览图片")
+		show_message("没有预览图片")
 		return 
 	
 	var column_row = Vector2i( split_column.value, split_row.value )
@@ -177,7 +195,7 @@ func _on_split_column_row_pressed():
 
 func _on_split_size_pressed():
 	if not preview_container.has_texture():
-		printerr("[ GenerateSpriteSheet ] 没有预览图片")
+		show_message("没有预览图片")
 		return 
 	
 	preview_container.split(Vector2i( split_width.value, split_height.value ))
@@ -197,11 +215,11 @@ func _on_export_panding_dialog_dir_selected(dir: String):
 					break
 			exported_file_list.append(dir.path_join(filename))
 			ResourceSaver.save(texture, exported_file_list.back() )
-		print("[ GenerateSpriteSheet ] 已导出文件：")
+		print("已导出文件：")
 		print(exported_file_list)
 	
 	else:
-		printerr("[ GenerateSpriteSheet ] 没有这个目录")
+		show_message("没有这个目录")
 	
 
 
@@ -217,7 +235,7 @@ func _on__merged(data: GenerateSpriteSheet_PendingHandle.Merge):
 	var texture_list : Array[Texture2D] = pending.get_selected_texture_list()
 	
 	if texture_list.is_empty():
-		printerr("[ GenerateSpriteSheet ] 没有选中任何图像")
+		show_message("没有选中任何图像")
 		return
 	
 	# 每个图块区域宽高
@@ -251,13 +269,12 @@ func _on__merged(data: GenerateSpriteSheet_PendingHandle.Merge):
 	
 	# 预览
 	var merge_texture = ImageTexture.create_from_image(merge_image)
-	Log.info([sub_image_size, cell_size, Vector2i(image_width, image_height), merge_texture])
 	preview_container.preview(merge_texture)
 
 
 func _on_export_preview_pressed():
 	if preview_container.get_texture() == null:
-		printerr("[ GenerateSpriteSheet ] 没有预览图像")
+		show_message("没有预览图像")
 		return
 	export_preview_dialog.popup_centered()
 
@@ -267,8 +284,7 @@ func _on_export_preview_dialog_file_selected(path):
 	if preview_container.get_texture() != null:
 		var texture = preview_container.get_texture()
 		ResourceSaver.save(texture, path)
-		print("[ GenerateSpriteSheet ] 已保存预览图像")
-
+		show_message("已保存预览图像")
 
 
 func _on__resize_selected(new_size: Vector2i):
