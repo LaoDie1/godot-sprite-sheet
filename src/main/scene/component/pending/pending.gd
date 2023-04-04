@@ -48,7 +48,7 @@ func get_texture_list() -> Array[Texture2D]:
 ## 获取选中的节点的数据
 func get_selected_data_list() -> Array[Dictionary]:
 	var selected_list = get_data_list().filter(func(data): return data['selected'])
-	selected_list.sort_custom(func(a, b): a["node"].get_index() > b["node"].get_index() )
+#	selected_list.sort_custom(func(a, b): a["node"].get_index() > b["node"].get_index() )
 	return selected_list
 
 ## 获取选中的图片

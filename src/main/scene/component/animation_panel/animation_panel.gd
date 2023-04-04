@@ -31,6 +31,12 @@ const ANIM_ITEMS_SCRIPT = preload("anim_items.gd")
 var _last_export_type : String = ""
 
 
+#============================================================
+#  SetGet
+#============================================================
+func has_animation_items() -> bool:
+	return anim_item_container.get_child_count() > 0
+
 
 #============================================================
 #  内置
@@ -47,25 +53,31 @@ func _drop_data(at_position, data):
 	# 放下数据，添加动画组
 	var callback_data_list : Array[Dictionary] = data['data']
 	# 添加动画组
-	var items = ANIM_ITEMS_SCENE.instantiate()
-	anim_item_container.add_child(items)
-	items.add_items("anim_%s" % items.get_index(), callback_data_list.map(func(data): return data['texture']), Vector2(32, 32))
-	items.played.connect(func(animation): self.played.emit(animation) )
+	var texture_list = Array(
+		callback_data_list.map(func(data): return data['texture']),
+		TYPE_OBJECT, "Texture2D", null
+	)
+	add_animation_items(texture_list)
 	
 	prompt_label.visible = false
 	
+	# 取消选中状态
 	for callback_data in callback_data_list:
 		var node = callback_data['node']
 		node.set_selected(false)
 
 
-func has_animation() -> bool:
-	return anim_item_container.get_child_count() > 0
-
-
 #============================================================
 #  自定义
 #============================================================
+## 添加动画组
+func add_animation_items(texture_list: Array[Texture2D]):
+	var items = ANIM_ITEMS_SCENE.instantiate()
+	anim_item_container.add_child(items)
+	items.add_items("anim_%s" % items.get_index(), texture_list, Vector2(32, 32))
+	items.played.connect(func(animation): self.played.emit(animation) )
+
+
 ## 生成动画资源容器，用于 [AnimationPlayer] 中
 func generate_animation_library() -> AnimationLibrary:
 	var anim_lib = AnimationLibrary.new()
@@ -110,7 +122,7 @@ func _on_stop_anim_pressed():
 
 
 func _on_export_as_animation_pressed():
-	if not has_animation():
+	if not has_animation_items():
 		GenerateSpriteSheetMain.show_message("没有添加动画")
 		return 
 	
@@ -119,7 +131,7 @@ func _on_export_as_animation_pressed():
 
 
 func _on_export_as_sprite_frames_pressed():
-	if not has_animation():
+	if not has_animation_items():
 		GenerateSpriteSheetMain.show_message("没有添加动画")
 		return 
 	

@@ -139,7 +139,7 @@ class Merge:
 			if merge_type == MergeMode.SCALE:
 				# 缩放到指定大小
 				image = GenerateSpriteSheetUtil.resize_image(image, sub_image_size)
-			merge_image.blit_rect(image, Rect2i(Vector2i(), cell_size), coordinate)
+			merge_image.blit_rect(image, Rect2i(Vector2i(left_margin, top_margin), cell_size), coordinate)
 			idx += 1
 		
 		# 返回合并的图像
