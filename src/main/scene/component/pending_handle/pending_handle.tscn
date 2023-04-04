@@ -79,6 +79,7 @@ horizontal_alignment = 2
 unique_name_in_owner = true
 layout_mode = 2
 max_value = 16384.0
+suffix = "px"
 select_all_on_focus = true
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
@@ -97,6 +98,7 @@ unique_name_in_owner = true
 layout_mode = 2
 max_value = 16384.0
 allow_greater = true
+suffix = "px"
 select_all_on_focus = true
 
 [node name="space" type="Control" parent="GridContainer/HBoxContainer/GridContainer"]
@@ -119,6 +121,7 @@ min_value = -1000.0
 max_value = 1000.0
 allow_greater = true
 allow_lesser = true
+suffix = "px"
 select_all_on_focus = true
 
 [node name="HBoxContainer6" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
@@ -138,6 +141,7 @@ min_value = -1000.0
 max_value = 1000.0
 allow_greater = true
 allow_lesser = true
+suffix = "px"
 select_all_on_focus = true
 
 [node name="HBoxContainer5" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
@@ -157,6 +161,7 @@ min_value = -1000.0
 max_value = 1000.0
 allow_greater = true
 allow_lesser = true
+suffix = "px"
 select_all_on_focus = true
 
 [node name="HBoxContainer11" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
@@ -176,6 +181,7 @@ min_value = -1000.0
 max_value = 1000.0
 allow_greater = true
 allow_lesser = true
+suffix = "px"
 select_all_on_focus = true
 
 [node name="HBoxContainer7" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
@@ -195,6 +201,7 @@ min_value = -1000.0
 max_value = 1000.0
 allow_greater = true
 allow_lesser = true
+suffix = "px"
 select_all_on_focus = true
 
 [node name="HBoxContainer9" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
@@ -214,6 +221,7 @@ min_value = -1000.0
 max_value = 1000.0
 allow_greater = true
 allow_lesser = true
+suffix = "px"
 select_all_on_focus = true
 
 [node name="HBoxContainer8" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
@@ -233,6 +241,7 @@ min_value = -1000.0
 max_value = 1000.0
 allow_greater = true
 allow_lesser = true
+suffix = "px"
 select_all_on_focus = true
 
 [node name="HBoxContainer10" type="HBoxContainer" parent="GridContainer/HBoxContainer/GridContainer"]
@@ -252,6 +261,7 @@ min_value = -1000.0
 max_value = 1000.0
 allow_greater = true
 allow_lesser = true
+suffix = "px"
 select_all_on_focus = true
 
 [node name="Control" type="Control" parent="GridContainer/HBoxContainer/GridContainer"]
@@ -318,6 +328,7 @@ layout_mode = 2
 min_value = 1.0
 value = 32.0
 allow_greater = true
+suffix = "px"
 select_all_on_focus = true
 
 [node name="Label2" type="Label" parent="GridContainer/HBoxContainer2"]
@@ -333,6 +344,7 @@ min_value = 1.0
 max_value = 1000.0
 value = 32.0
 allow_greater = true
+suffix = "px"
 select_all_on_focus = true
 
 [connection signal="pressed" from="GridContainer/merge" to="." method="_on_merge_pressed"]

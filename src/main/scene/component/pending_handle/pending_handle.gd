@@ -228,12 +228,34 @@ func _on_resize_select_pressed():
 
 
 func _on_merge_mode_item_selected(index):
-	width.editable = (index != MergeMode.MAX_SIZE)
-	height.editable = (index != MergeMode.MAX_SIZE)
+	# 设置对应的节点的是否可编辑映射数据
+	var node_map : Dictionary = {
+		width: null,
+		height: null,
+		max_column: null,
+	}
+	match index:
+		MergeMode.SCALE:
+			pass
+		MergeMode.CUT:
+			pass
+		MergeMode.MAX_SIZE:
+			node_map[width] = false
+			node_map[height] = false
+		
+		MergeMode.FLOW:
+			node_map[height] =  false
+			node_map[width] =  false
+			node_map[max_column] = false
 	
-	max_column.editable = (index != MergeMode.FLOW)
-	height.editable = (index != MergeMode.FLOW)
+	# 修改是否可编辑状态
+	for node in node_map:
+		var editable = node_map[node]
+		if editable == null:
+			editable = true
+		node["editable"] = editable
 	
+	# 其他更新
 	if index == MergeMode.FLOW:
 		width_label.text = "最大宽度："
 		height_label.text = "最大高度："

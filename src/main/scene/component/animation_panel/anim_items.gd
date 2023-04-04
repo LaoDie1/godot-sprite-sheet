@@ -18,7 +18,7 @@ signal played(animation: Animation)
 
 
 var _texture_list: Array[Texture2D] = []
-var _animation : Animation
+var _animation : Animation = Animation.new()
 
 
 #============================================================
@@ -27,16 +27,14 @@ var _animation : Animation
 ## 获取动画
 func get_animation() -> Animation:
 	var interval = 1.0 / frame_speed.value
-	if _animation == null:
-		_animation = Animation.new()
-		# 添加动画
-		var textures = item_container.get_children().map(func(node): return node.texture )
-		var track_key = _animation.add_track(Animation.TYPE_VALUE)
-		_animation.track_set_path(track_key, ".:texture")
-		var texture : Texture2D
-		for i in textures.size():
-			_animation.track_insert_key(track_key, interval * i, textures[i])
-	
+	_animation.clear()
+	# 添加动画
+	var textures = item_container.get_children().map(func(node): return node.texture )
+	var track_key = _animation.add_track(Animation.TYPE_VALUE)
+	_animation.track_set_path(track_key, ".:texture")
+	var texture : Texture2D
+	for i in textures.size():
+		_animation.track_insert_key(track_key, interval * i, textures[i])
 	_animation.length = item_container.get_child_count() * interval
 	_animation.loop_mode = Animation.LOOP_LINEAR if loop_btn.button_pressed else Animation.LOOP_NONE
 	

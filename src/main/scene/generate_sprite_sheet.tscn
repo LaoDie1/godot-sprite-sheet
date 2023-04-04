@@ -219,11 +219,11 @@ drag_to_rearrange_enabled = true
 [node name="切分" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container" instance=ExtResource("5_4xu8y")]
 layout_mode = 2
 
-[node name="预览图像处理" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container" instance=ExtResource("6_wo0gv")]
+[node name="动画" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container" instance=ExtResource("5_lhecx")]
 visible = false
 layout_mode = 2
 
-[node name="动画" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container" instance=ExtResource("5_lhecx")]
+[node name="预览图像处理" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container" instance=ExtResource("6_wo0gv")]
 visible = false
 layout_mode = 2
 
@@ -307,13 +307,13 @@ shortcut_keys_enabled = false
 [connection signal="file_selected" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/export_preview/export_preview_dialog" to="." method="_on_export_preview_dialog_file_selected"]
 [connection signal="split_column_row" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分" to="." method="_on__split_column_row"]
 [connection signal="split_size" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分" to="." method="_on__split_size"]
+[connection signal="played" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/动画" to="." method="_on_animation_panel_played"]
+[connection signal="stopped" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/动画" to="." method="_on_animation_panel_stopped"]
 [connection signal="clear_transparency" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/预览图像处理" to="." method="_on__clear_transparency"]
 [connection signal="outline" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/预览图像处理" to="." method="_on__outline"]
 [connection signal="recolor" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/预览图像处理" to="." method="_on__recolor"]
 [connection signal="rescale" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/预览图像处理" to="." method="_on__rescale"]
 [connection signal="resize" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/预览图像处理" to="." method="_on__resize"]
-[connection signal="played" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/动画" to="." method="_on_animation_panel_played"]
-[connection signal="stopped" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/动画" to="." method="_on_animation_panel_stopped"]
 [connection signal="merged" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/待处理图像" to="." method="_on__merged"]
 [connection signal="resize_selected" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/待处理图像" to="." method="_on__resize_selected"]
 [connection signal="item_double_clicked" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/pending" to="." method="_on_pending_item_double_clicked"]
