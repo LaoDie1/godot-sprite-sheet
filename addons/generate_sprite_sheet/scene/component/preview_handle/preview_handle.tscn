@@ -1,0 +1,234 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://addons/generate_sprite_sheet/scene/component/preview_handle/preview_handle.gd" id="1_2u6a4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nyxa8"]
+bg_color = Color(1, 1, 1, 0.392157)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[node name="preview_handle" type="MarginContainer"]
+script = ExtResource("1_2u6a4")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="resize" type="Button" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "重设大小"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="line" type="MarginContainer" parent="VBoxContainer/GridContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="VBoxContainer/GridContainer/HBoxContainer/line"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "宽："
+horizontal_alignment = 2
+
+[node name="texture_width" type="SpinBox" parent="VBoxContainer/GridContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 32.0
+allow_greater = true
+suffix = "px"
+select_all_on_focus = true
+
+[node name="Label2" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "高："
+horizontal_alignment = 2
+
+[node name="texture_height" type="SpinBox" parent="VBoxContainer/GridContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 32.0
+allow_greater = true
+suffix = "px"
+select_all_on_focus = true
+
+[node name="rescale" type="Button" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "缩放"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="line" type="MarginContainer" parent="VBoxContainer/GridContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="VBoxContainer/GridContainer/HBoxContainer2/line"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "x："
+horizontal_alignment = 2
+
+[node name="texture_scale_x" type="SpinBox" parent="VBoxContainer/GridContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 0.1
+step = 0.1
+value = 1.0
+allow_greater = true
+select_all_on_focus = true
+
+[node name="Label2" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "y："
+horizontal_alignment = 2
+
+[node name="texture_scale_y" type="SpinBox" parent="VBoxContainer/GridContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 0.1
+step = 0.1
+value = 1.0
+allow_greater = true
+select_all_on_focus = true
+
+[node name="recolor" type="Button" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "重设颜色"
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="line" type="MarginContainer" parent="VBoxContainer/GridContainer/HBoxContainer3"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="VBoxContainer/GridContainer/HBoxContainer3/line"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "将："
+horizontal_alignment = 2
+
+[node name="from_color" type="ColorPickerButton" parent="VBoxContainer/GridContainer/HBoxContainer3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "替换为："
+horizontal_alignment = 2
+
+[node name="to_color" type="ColorPickerButton" parent="VBoxContainer/GridContainer/HBoxContainer3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 1)
+
+[node name="Control2" type="Control" parent="VBoxContainer/GridContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+
+[node name="color_swap" type="Button" parent="VBoxContainer/GridContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+text = "切换"
+
+[node name="Control3" type="Control" parent="VBoxContainer/GridContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer3"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "阈值："
+horizontal_alignment = 2
+
+[node name="color_threshold" type="HSlider" parent="VBoxContainer/GridContainer/HBoxContainer3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 1.0
+step = 0.01
+value = 0.01
+
+[node name="outline" type="Button" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "描边"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="line" type="MarginContainer" parent="VBoxContainer/GridContainer/HBoxContainer4"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="VBoxContainer/GridContainer/HBoxContainer4/line"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
+
+[node name="Label" type="Label" parent="VBoxContainer/GridContainer/HBoxContainer4"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "颜色："
+horizontal_alignment = 2
+
+[node name="outline_color" type="ColorPickerButton" parent="VBoxContainer/GridContainer/HBoxContainer4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 4)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="clear_transparency" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "清空周围透明区域"
+
+[connection signal="pressed" from="VBoxContainer/GridContainer/resize" to="." method="_on_resize_pressed"]
+[connection signal="pressed" from="VBoxContainer/GridContainer/rescale" to="." method="_on_rescale_pressed"]
+[connection signal="pressed" from="VBoxContainer/GridContainer/recolor" to="." method="_on_recolor_pressed"]
+[connection signal="pressed" from="VBoxContainer/GridContainer/HBoxContainer3/color_swap" to="." method="_on_color_swap_pressed"]
+[connection signal="pressed" from="VBoxContainer/GridContainer/outline" to="." method="_on_outline_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/clear_transparency" to="." method="_on_clear_transparency_pressed"]

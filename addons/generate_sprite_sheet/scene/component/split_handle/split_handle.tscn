@@ -1,0 +1,167 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://addons/generate_sprite_sheet/scene/component/split_handle/split_handle.gd" id="1_8h64c"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nyxa8"]
+bg_color = Color(1, 1, 1, 0.392157)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[node name="split_handle" type="MarginContainer"]
+offset_right = 580.0
+offset_bottom = 108.0
+script = ExtResource("1_8h64c")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "间隔宽度："
+horizontal_alignment = 2
+
+[node name="separactor_width" type="SpinBox" parent="VBoxContainer/MarginContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 16.0
+allow_greater = true
+suffix = "px"
+select_all_on_focus = true
+
+[node name="Label4" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "间隔高度："
+horizontal_alignment = 2
+
+[node name="separactor_height" type="SpinBox" parent="VBoxContainer/MarginContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 16.0
+allow_greater = true
+suffix = "px"
+select_all_on_focus = true
+
+[node name="line2" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="VBoxContainer/line2"]
+modulate = Color(0, 0, 0, 0.470588)
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="split_size" type="Button" parent="VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "大小切分"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="line" type="MarginContainer" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer/line"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "宽："
+horizontal_alignment = 1
+
+[node name="split_width" type="SpinBox" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 16.0
+allow_greater = true
+suffix = "px"
+select_all_on_focus = true
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "高："
+horizontal_alignment = 2
+
+[node name="split_height" type="SpinBox" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 16.0
+allow_greater = true
+suffix = "px"
+select_all_on_focus = true
+
+[node name="split_column_row" type="Button" parent="VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+text = "列行切分"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/GridContainer"]
+layout_mode = 2
+
+[node name="line" type="MarginContainer" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer2/line"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "列："
+horizontal_alignment = 1
+
+[node name="split_column" type="SpinBox" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 4.0
+allow_greater = true
+select_all_on_focus = true
+
+[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+text = "行："
+horizontal_alignment = 2
+
+[node name="split_row" type="SpinBox" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer2"]
+unique_name_in_owner = true
+layout_mode = 2
+value = 4.0
+allow_greater = true
+select_all_on_focus = true
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/GridContainer/split_size" to="." method="_on_split_size_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/GridContainer/split_column_row" to="." method="_on_split_column_row_pressed"]

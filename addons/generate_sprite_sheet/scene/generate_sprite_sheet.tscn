@@ -1,0 +1,337 @@
+[gd_scene load_steps=14 format=3 uid="uid://b1tpykh786g0s"]
+
+[ext_resource type="Script" path="res://addons/generate_sprite_sheet/scene/generate_sprite_sheet.gd" id="1_xquvv"]
+[ext_resource type="Script" path="res://addons/generate_sprite_sheet/scene/component/menu_list.gd" id="2_nf7es"]
+[ext_resource type="PackedScene" path="res://addons/generate_sprite_sheet/scene/component/file_tree/file_tree.tscn" id="3_1vyu0"]
+[ext_resource type="PackedScene" path="res://addons/generate_sprite_sheet/scene/component/preview_container/preview_container.tscn" id="4_x7gtn"]
+[ext_resource type="PackedScene" path="res://addons/generate_sprite_sheet/scene/component/split_handle/split_handle.tscn" id="5_4xu8y"]
+[ext_resource type="PackedScene" path="res://addons/generate_sprite_sheet/scene/component/animation_panel/animation_panel.tscn" id="5_lhecx"]
+[ext_resource type="PackedScene" uid="uid://ntquy1siykp0" path="res://addons/generate_sprite_sheet/scene/component/pending/pending.tscn" id="5_milus"]
+[ext_resource type="PackedScene" path="res://addons/generate_sprite_sheet/scene/component/pending_handle/pending_handle.tscn" id="6_7squn"]
+[ext_resource type="PackedScene" path="res://addons/generate_sprite_sheet/scene/component/preview_handle/preview_handle.tscn" id="6_wo0gv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nyxa8"]
+bg_color = Color(1, 1, 1, 0.392157)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+
+[sub_resource type="Animation" id="Animation_lwym1"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_tyg0a"]
+resource_name = "twinkle"
+length = 3.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 3.4, 3.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.298039), Color(1, 1, 1, 1), Color(1, 1, 1, 0.298039), Color(1, 1, 1, 1), Color(1, 1, 1, 0.298039), Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fnkjw"]
+_data = {
+"RESET": SubResource("Animation_lwym1"),
+"twinkle": SubResource("Animation_tyg0a")
+}
+
+[node name="generate_sprite_sheet" type="MarginContainer"]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_xquvv")
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="menu_list" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("2_nf7es")
+
+[node name="export_panding_dialog" type="FileDialog" parent="VBoxContainer/MarginContainer/menu_list"]
+unique_name_in_owner = true
+title = "Open a Directory"
+size = Vector2i(500, 350)
+ok_button_text = "选择当前文件夹"
+file_mode = 2
+access = 2
+
+[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 225
+
+[node name="file_tree" parent="VBoxContainer/HSplitContainer" instance=ExtResource("3_1vyu0")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="scan_dir_dialog" type="FileDialog" parent="VBoxContainer/HSplitContainer/file_tree"]
+unique_name_in_owner = true
+title = "Open a Directory"
+size = Vector2i(600, 400)
+ok_button_text = "选择当前文件夹"
+file_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HSplitContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VSplitContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = -100
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VSplitContainer" type="VSplitContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 300
+
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+
+[node name="预览" type="MarginContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/TabContainer"]
+layout_mode = 2
+
+[node name="preview_container" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/TabContainer/预览" instance=ExtResource("4_x7gtn")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="line2" type="MarginContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Panel" type="Panel" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/line2"]
+modulate = Color(0, 0, 0, 0.470588)
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="clear_select" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "清除选择"
+
+[node name="select_all" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "全选"
+
+[node name="Control2" type="Control" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(12, 0)
+layout_mode = 2
+
+[node name="add_selected_rect" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "添加选中区域"
+
+[node name="space" type="Control" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="add_preview_texture" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "添加预览图像"
+
+[node name="line" type="MarginContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/line"]
+modulate = Color(0, 0, 0, 0.470588)
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
+
+[node name="export_preview" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "导出预览图像"
+
+[node name="export_preview_dialog" type="FileDialog" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/export_preview"]
+unique_name_in_owner = true
+size = Vector2i(500, 350)
+access = 2
+filters = PackedStringArray("*.png; PNG")
+
+[node name="line" type="MarginContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Panel" type="Panel" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/line"]
+modulate = Color(0, 0, 0, 0.470588)
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+
+[node name="handle_container" type="TabContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="切分" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container" instance=ExtResource("5_4xu8y")]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="动画" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container" instance=ExtResource("5_lhecx")]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="预览图像处理" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container" instance=ExtResource("6_wo0gv")]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="待处理图像" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container" instance=ExtResource("6_7squn")]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer"]
+layout_mode = 2
+
+[node name="line" type="MarginContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 2
+
+[node name="Panel" type="Panel" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/line"]
+modulate = Color(0, 0, 0, 0.470588)
+custom_minimum_size = Vector2(0, 1)
+layout_mode = 2
+
+[node name="pending" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer" instance=ExtResource("5_milus")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer"]
+layout_mode = 2
+
+[node name="prompt_info_label" type="Label" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "(message)"
+
+[node name="prompt_info_anim_player" type="AnimationPlayer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer/prompt_info_label"]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_fnkjw")
+}
+
+[node name="Control" type="Control" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="line" type="MarginContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer/line"]
+modulate = Color(0, 0, 0, 0.470588)
+custom_minimum_size = Vector2(1, 1)
+layout_mode = 2
+
+[node name="git_new_version" type="RichTextLabel" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer"]
+modulate = Color(0.603922, 0.756863, 0.890196, 1)
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+bbcode_enabled = true
+text = "[url=https://github.com/LaoDie1/generate_sprite_sheet] *查看最新版本 [/url]"
+scroll_active = false
+shortcut_keys_enabled = false
+
+[connection signal="menu_pressed" from="VBoxContainer/MarginContainer/menu_list" to="." method="_on_menu_list_menu_pressed"]
+[connection signal="dir_selected" from="VBoxContainer/MarginContainer/menu_list/export_panding_dialog" to="." method="_on_export_panding_dialog_dir_selected"]
+[connection signal="added_item" from="VBoxContainer/HSplitContainer/file_tree" to="." method="_on_file_tree_added_item"]
+[connection signal="selected" from="VBoxContainer/HSplitContainer/file_tree" to="." method="_on_file_tree_selected"]
+[connection signal="dir_selected" from="VBoxContainer/HSplitContainer/file_tree/scan_dir_dialog" to="." method="_on_file_dialog_dir_selected"]
+[connection signal="created_texture" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/TabContainer/预览/preview_container" to="." method="_on_preview_container_created_texture"]
+[connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/clear_select" to="." method="_on_clear_select_pressed"]
+[connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/select_all" to="." method="_on_select_all_pressed"]
+[connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/add_selected_rect" to="." method="_on_add_selected_rect_pressed"]
+[connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/add_preview_texture" to="." method="_on_add_preview_texture_pressed"]
+[connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/export_preview" to="." method="_on_export_preview_pressed"]
+[connection signal="file_selected" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/export_preview/export_preview_dialog" to="." method="_on_export_preview_dialog_file_selected"]
+[connection signal="split_column_row" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分" to="." method="_on__split_column_row"]
+[connection signal="split_size" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分" to="." method="_on__split_size"]
+[connection signal="played" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/动画" to="." method="_on_animation_panel_played"]
+[connection signal="stopped" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/动画" to="." method="_on_animation_panel_stopped"]
+[connection signal="clear_transparency" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/预览图像处理" to="." method="_on__clear_transparency"]
+[connection signal="outline" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/预览图像处理" to="." method="_on__outline"]
+[connection signal="recolor" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/预览图像处理" to="." method="_on__recolor"]
+[connection signal="rescale" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/预览图像处理" to="." method="_on__rescale"]
+[connection signal="resize" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/预览图像处理" to="." method="_on__resize"]
+[connection signal="merged" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/待处理图像" to="." method="_on__merged"]
+[connection signal="resize_selected" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/待处理图像" to="." method="_on__resize_selected"]
+[connection signal="item_double_clicked" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/pending" to="." method="_on_pending_item_double_clicked"]
+[connection signal="previewed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/pending" to="." method="_on_pending_previewed"]
+[connection signal="meta_clicked" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer/git_new_version" to="." method="_on_git_new_version_meta_clicked"]
