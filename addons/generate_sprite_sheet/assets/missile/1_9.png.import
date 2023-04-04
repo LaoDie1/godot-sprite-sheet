@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4t8tuiympvkh"
-path="res://.godot/imported/s4m_ur4i_elements-gamejam-free-8x8-sprites.png-61941be10ea03013f55e568004d33ce0.ctex"
+uid="uid://c3bo0tvbc78cm"
+path="res://.godot/imported/1_9.png-532d6de82be0fc0d72812fe7aec27efa.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/main/assets/texture/s4m_ur4i_elements-gamejam-free-8x8-sprites.png"
-dest_files=["res://.godot/imported/s4m_ur4i_elements-gamejam-free-8x8-sprites.png-61941be10ea03013f55e568004d33ce0.ctex"]
+source_file="res://addons/generate_sprite_sheet/assets/missile/1_9.png"
+dest_files=["res://.godot/imported/1_9.png-532d6de82be0fc0d72812fe7aec27efa.ctex"]
 
 [params]
 

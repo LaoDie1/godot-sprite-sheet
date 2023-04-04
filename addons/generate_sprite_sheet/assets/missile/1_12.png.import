@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://1w10yffxsl2v"
-path="res://.godot/imported/Butcher.png-9043cede00008ebc0a5127f71f60196c.ctex"
+uid="uid://xj3il57xahmg"
+path="res://.godot/imported/1_12.png-4d616ab2507706e5c876decfe1363c03.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/main/assets/texture/Butcher.png"
-dest_files=["res://.godot/imported/Butcher.png-9043cede00008ebc0a5127f71f60196c.ctex"]
+source_file="res://addons/generate_sprite_sheet/assets/missile/1_12.png"
+dest_files=["res://.godot/imported/1_12.png-4d616ab2507706e5c876decfe1363c03.ctex"]
 
 [params]
 

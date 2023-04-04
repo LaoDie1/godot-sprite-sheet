@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2c7o06pwh518"
-path="res://.godot/imported/1_10.png-86d98b6ad6d3a0d03b72e1e05b2f6794.ctex"
+uid="uid://bfdouvcavk0u7"
+path="res://.godot/imported/1_1.png-86c6b163bbba0eebfd8de19ed4e6724a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/main/assets/texture/missile/1_10.png"
-dest_files=["res://.godot/imported/1_10.png-86d98b6ad6d3a0d03b72e1e05b2f6794.ctex"]
+source_file="res://addons/generate_sprite_sheet/assets/missile/1_1.png"
+dest_files=["res://.godot/imported/1_1.png-86c6b163bbba0eebfd8de19ed4e6724a.ctex"]
 
 [params]
 

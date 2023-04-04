@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bq8ag4etypu8v"
-path="res://.godot/imported/godot.svg-d81cc8f5f695198e01515736207f7845.ctex"
+uid="uid://1w10yffxsl2v"
+path="res://.godot/imported/Butcher.png-73318c39591304c919522d3472558c77.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://src/main/assets/texture/godot.svg"
-dest_files=["res://.godot/imported/godot.svg-d81cc8f5f695198e01515736207f7845.ctex"]
+source_file="res://addons/generate_sprite_sheet/assets/Butcher.png"
+dest_files=["res://.godot/imported/Butcher.png-73318c39591304c919522d3472558c77.ctex"]
 
 [params]
 
@@ -32,6 +32,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false
