@@ -55,6 +55,7 @@ func get_selected_data_list() -> Array[Dictionary]:
 func get_selected_texture_list() -> Array[Texture2D]:
 	return Array(get_selected_data_list().map(func(data): return data['texture']), TYPE_OBJECT, "Texture2D", null)
 
+
 ## 获取选中的节点列表
 func get_selected_node_list() -> Array[ITEM_SCRIPT]:
 	var list : Array[ITEM_SCRIPT] = []
@@ -77,7 +78,7 @@ func _ready():
 func _can_drop_data(at_position, data):
 	return (data is Dictionary
 		and data.has("type")
-		and data['type'] == "drag_file"
+		and data['type'] == GenerateSpriteSheetUtil.DragType.FileTree
 	)
 
 
@@ -86,7 +87,7 @@ func _drop_data(at_position, data):
 	for d in data_list:
 		if d['path_type'] == GenerateSpriteSheet_FileTree.PathType.FILE:
 			add_data({
-				"texture": load(d.path),
+				"texture": GenerateSpriteSheetUtil.load_image(d.path),
 				"path": d.path,
 			})
 

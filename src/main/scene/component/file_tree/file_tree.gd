@@ -19,6 +19,11 @@ signal double_clicked(path_type: int, path: String)
 signal dragged(data_list: Array[Dictionary])
 
 
+enum ConfKey {
+	SCAN_DIR_KEY
+}
+
+
 enum PathType {
 	DIRECTORY,
 	FILE,
@@ -35,6 +40,10 @@ var _root : TreeItem
 #============================================================
 #  SetGet
 #============================================================
+func _get_config_data() -> Dictionary:
+	var cache_data = GenerateSpriteSheetUtil.get_cache_data()
+	return GenerateSpriteSheetUtil.get_dict_or_add(cache_data, "file_tree")
+
 ## 获取所有选中的 item
 func get_selected_items() -> Array[TreeItem]:
 	var all_items : Array[TreeItem] = []
@@ -43,6 +52,16 @@ func get_selected_items() -> Array[TreeItem]:
 		all_items.append(selected_item)
 		selected_item = tree.get_next_selected(selected_item)
 	return all_items
+
+
+#============================================================
+#  内置
+#============================================================
+func _ready():
+	var dir = _get_config_data().get(ConfKey.SCAN_DIR_KEY, "")
+	if dir and DirAccess.dir_exists_absolute(dir):
+		update_tree(dir, GenerateSpriteSheetUtil.get_texture_filter())
+
 
 
 #============================================================
@@ -80,6 +99,8 @@ func _update_tree_item(parent_directory: String, parent_item: TreeItem):
 
 ## 更新整个文件目录
 func update_tree(directory: String, filter: Callable = Callable()):
+	_get_config_data()[ConfKey.SCAN_DIR_KEY] = directory
+	
 	_last_filter = filter
 	directory = directory.trim_suffix("/")
 	
@@ -100,13 +121,13 @@ func _on_tree_cell_selected():
 		var data : Dictionary = item.get_metadata(0) as Dictionary
 		var path_type : int = data.path_type
 		var path : String = data.path
-		match data.path_type:
-			PathType.FILE:
-				if FileAccess.file_exists(path):
-					pass
-			PathType.DIRECTORY:
-				if DirAccess.dir_exists_absolute(path):
-					pass
+#		match data.path_type:
+#			PathType.FILE:
+#				if FileAccess.file_exists(path):
+#					pass
+#			PathType.DIRECTORY:
+#				if DirAccess.dir_exists_absolute(path):
+#					pass
 		
 		self.selected.emit(path_type, path)
 
@@ -131,7 +152,7 @@ func _on_tree_dragged(item: TreeItem, data_ref: Dictionary):
 	for selected_item in all_items:
 		data_list.append(selected_item.get_metadata(0))
 	
-	data_ref['type'] = "drag_file"
+	data_ref['type'] = GenerateSpriteSheetUtil.DragType.FileTree 
 	data_ref.data = data_list
 	label.text = item.get_text(0)
 	set_drag_preview(label)

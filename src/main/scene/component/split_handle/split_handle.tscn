@@ -30,7 +30,7 @@ layout_mode = 2
 text = "间隔宽度："
 horizontal_alignment = 2
 
-[node name="split_height2" type="SpinBox" parent="VBoxContainer/MarginContainer/HBoxContainer2"]
+[node name="separactor_width" type="SpinBox" parent="VBoxContainer/MarginContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 value = 16.0
@@ -44,7 +44,7 @@ layout_mode = 2
 text = "间隔高度："
 horizontal_alignment = 2
 
-[node name="split_height3" type="SpinBox" parent="VBoxContainer/MarginContainer/HBoxContainer2"]
+[node name="separactor_height" type="SpinBox" parent="VBoxContainer/MarginContainer/HBoxContainer2"]
 unique_name_in_owner = true
 layout_mode = 2
 value = 16.0

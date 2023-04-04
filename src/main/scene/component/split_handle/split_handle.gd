@@ -16,6 +16,8 @@ signal split_column_row(column_row: Vector2i)
 @onready var split_height = %split_height
 @onready var split_column = %split_column
 @onready var split_row = %split_row
+@onready var separactor_width = %separactor_width
+@onready var separactor_height = %separactor_height
 
 
 

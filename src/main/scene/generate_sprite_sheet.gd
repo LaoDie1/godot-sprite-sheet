@@ -12,9 +12,6 @@ extends MarginContainer
 
 const MAIN_NODE_META_KEY = &"GenerateSpriteSheetMain_main_node"
 
-var TEXTURE_FILTER = func(file: String):
-	return file.get_extension() in ["png", "jpg", "svg"]
-
 
 # 菜单列表
 @onready var menu_list := %menu_list as MenuList
@@ -39,16 +36,16 @@ var TEXTURE_FILTER = func(file: String):
 #============================================================
 #  内置
 #============================================================
+func _init():
+	pass
+
+
 func _ready():
 	# 初始化菜单
 	menu_list.init_menu({
 		"文件": ["扫描目录"],
 		"导出": ["导出所有待处理图像"]
 	})
-	
-	# 扫描加载文件列表
-	var path = "res://src/main/assets/texture/"
-	file_tree.update_tree(path, TEXTURE_FILTER)
 	
 	# 边距
 	for child in handle_container.get_children():
@@ -59,6 +56,18 @@ func _ready():
 	# 提示信息
 	Engine.set_meta(MAIN_NODE_META_KEY, self)
 	prompt_info_label.modulate.a = 0
+	
+	
+	await get_tree().create_timer(0.1).timeout
+	# 扫描加载文件列表(测试使用)
+	if file_tree._root == null:
+		var path = "res://src/main/assets/texture/"
+		file_tree.update_tree(path, GenerateSpriteSheetUtil.get_texture_filter())
+	
+
+
+func _exit_tree():
+	GenerateSpriteSheetUtil.save_cache_data()
 
 
 #============================================================
@@ -119,10 +128,10 @@ func if_has_texture_else_show_message(callback: Callable, message: String = "没
 #============================================================
 #  连接信号
 #============================================================
-func _on_file_tree_selected(path_type, path):
+func _on_file_tree_selected(path_type, path: String):
 	preview_container.clear_texture()
 	if path_type == GenerateSpriteSheet_FileTree.PathType.FILE:
-		var res = load(path)
+		var res : Texture2D = GenerateSpriteSheetUtil.load_image(path)
 		if res is Texture2D:
 			preview_container.preview(res)
 
@@ -132,7 +141,7 @@ func _on_file_tree_added_item(item: TreeItem):
 	var data = item.get_metadata(0) as Dictionary
 	if data.path_type == GenerateSpriteSheet_FileTree.PathType.FILE:
 		var path = data.path
-		var texture = load(path)
+		var texture = GenerateSpriteSheetUtil.load_image(path)
 		item.set_icon(0, texture)
 		item.set_icon_max_width(0, 16)
 
@@ -183,7 +192,7 @@ func _on_menu_list_menu_pressed(idx, menu_path):
 
 
 func _on_file_dialog_dir_selected(dir):
-	file_tree.update_tree(dir, TEXTURE_FILTER)
+	file_tree.update_tree(dir, GenerateSpriteSheetUtil.get_texture_filter())
 
 
 func _on_pending_item_double_clicked(data):
@@ -257,7 +266,7 @@ func _on__resize_selected(new_size: Vector2i):
 	).else_show_message("没有选中的图像")
 
 
-func _on__rescale(texture_scale: Vector2i):
+func _on__rescale(texture_scale: Vector2):
 	if_has_texture_else_show_message(func():
 		# 缩放
 		var texture = preview_container.get_texture()

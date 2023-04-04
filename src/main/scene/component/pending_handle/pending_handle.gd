@@ -245,7 +245,6 @@ func _on_merge_mode_item_selected(index):
 		
 		MergeMode.FLOW:
 			node_map[height] =  false
-			node_map[width] =  false
 			node_map[max_column] = false
 	
 	# 修改是否可编辑状态
