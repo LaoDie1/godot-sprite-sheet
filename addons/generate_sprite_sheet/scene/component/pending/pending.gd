@@ -92,10 +92,17 @@ func _ready():
 	
 	# 加载上次缓存数据
 	var config = get_config_data()
-	var data_list = config.get("data_list", [])
+	const KEY = "data_list"
+	var data_list = config.get(KEY, [])
 	for data in data_list:
 		add_data(data)
-	config["data_list"] = _data_list
+	if _data_list.is_empty():
+		_data_list.append_array(data_list)
+	config[KEY] = _data_list
+	
+	
+	prompt_label.visible = _data_list.is_empty()
+	
 
 
 
@@ -131,7 +138,9 @@ func _gui_input(event):
 #  自定义
 #============================================================
 func add_data(data: Dictionary):
-	data = data.duplicate(true)
+	data = data.duplicate()
+	_data_list.append(data)
+	
 	assert(data.has("texture"), "必须要含有 texture key 的数据")
 	var texture_rect := ITEM_SCENE.instantiate() as ITEM_SCRIPT
 	texture_rect.custom_minimum_size = Vector2(64, 64)
@@ -193,7 +202,6 @@ func add_data(data: Dictionary):
 		callback_data_list.append_array(selected_data_list)
 	)
 	
-	_data_list.append(data)
 	texture_rect.tree_exited.connect(func(): _data_list.erase(data) )
 
 

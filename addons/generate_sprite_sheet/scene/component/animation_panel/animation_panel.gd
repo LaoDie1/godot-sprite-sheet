@@ -79,15 +79,17 @@ func _drop_data(at_position, data):
 #  内置
 #============================================================
 func _ready():
-	var config_data = get_config_data()
 	
-	# 缓存动画
+	# 缓存动画数据
+	var config_data = get_config_data()
 	const ANIM_ITEMS_KEY = "anim_items"
 	var anim_list_group = config_data.get(ANIM_ITEMS_KEY, [])
 	for anim_list in anim_list_group:
 		add_animation_items(anim_list)
 	# 记录到配置数据
 	config_data[ANIM_ITEMS_KEY] = _anim_items
+	
+	prompt_label.visible = _anim_items.is_empty()
 
 
 #============================================================
