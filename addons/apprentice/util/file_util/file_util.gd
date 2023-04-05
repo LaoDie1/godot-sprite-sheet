@@ -94,24 +94,6 @@ static func read_as_text(file_path: String, skip_cr: bool = false):
 			file = null
 			return text
 
-## 写入数据。与其他写入不同的是，这个会将数据转为字符串之后保存
-static func write_data(data, file_path: String):
-	var file := FileAccess.open(file_path, FileAccess.WRITE)
-	if file:
-		file.store_string(var_to_str(data))
-		return true
-	return false
-
-
-## 读取数据。读取 [method write_data] 保存的文件数据
-static func read_data(file_path):
-	if FileAccess.file_exists(file_path):
-		var file := FileAccess.open(file_path, FileAccess.READ)
-		if file:
-			var data = file.get_as_text(file_path)
-			file = null
-			return str_to_var(data)
-
 
 ##  保存为变量数据
 ##[br]
@@ -133,8 +115,53 @@ static func read_as_var(file_path: String, allow_objects: bool = false):
 		var file := FileAccess.open(file_path, FileAccess.READ)
 		if file:
 			var data = file.get_var(allow_objects)
-			file = null
+			file.flush()
 			return data
+
+
+## 保存为资源文件数据。这个文件的后缀名必须为 tres 或 res，否则会保存失败
+static func write_as_res(file_path: String, data):
+	var file := FileAccess.open(file_path, FileAccess.WRITE)
+	if file:
+		var res = FileUtilRes.new()
+		res.data = {
+			"value": data
+		}
+		res.take_over_path(file_path)
+		var r = ResourceSaver.save(res, file_path)
+		if r == OK:
+			return true
+		print(r)
+	return false
+
+
+## 读取 res 文件数据
+static func read_as_res(file_path: String):
+	if FileAccess.file_exists(file_path):
+		var res = ResourceLoader.load(file_path) as FileUtilRes
+		return res.data.get("value")
+	return null
+
+
+## 写入为二进制文件
+static func write_as_bytes(file_path: String, data) -> bool:
+	var bytes = var_to_bytes_with_objects(data)
+	var file := FileAccess.open(file_path, FileAccess.WRITE)
+	if file:
+		file.store_buffer(bytes)
+		file.flush()
+		return true
+	return false
+
+
+## 读取字节数据
+static func read_as_bytes(file_path: String):
+	if FileAccess.file_exists(file_path):
+		var file = FileAccess.open(file_path, FileAccess.READ)
+		if file:
+			var bytes = file.get_file_as_bytes(file_path)
+			return bytes_to_var_with_objects(bytes)
+	return null
 
 
 ## 转为 JSON 写入文件
@@ -201,4 +228,5 @@ static func save_scene(node: Node, path: String, save_flags: int = ResourceSaver
 	var scene = PackedScene.new()
 	scene.pack(node)
 	return ResourceSaver.save(scene, path, save_flags)
+
 

@@ -39,8 +39,8 @@ static func get_meta_data(key: StringName, default):
 static func get_cache_data() -> Dictionary:
 	var data = {}
 	if FileAccess.file_exists(CACHE_DATA_FILE_PATH):
-		var file = FileAccess.open(CACHE_DATA_FILE_PATH, FileAccess.READ)
-		data = file.get_var()
+		var bytes = FileAccess.get_file_as_bytes(CACHE_DATA_FILE_PATH)
+		data = bytes_to_var_with_objects(bytes)
 	
 	if data == null:
 		data = {}
@@ -53,16 +53,23 @@ static func get_cache_data() -> Dictionary:
 static func save_cache_data():
 	if_invalid_make_dir(CONFIG_DIR)
 	var file = FileAccess.open(CACHE_DATA_FILE_PATH, FileAccess.WRITE)
-	file.store_var(get_cache_data())
-	file = null
+	var cache_data = get_cache_data()
+	var bytes = var_to_bytes_with_objects(cache_data)
+	file.store_buffer(bytes)
+	file.flush()
+
+
+## 获取配置数据
+static func get_config_data(key: StringName, default : Dictionary = {}) -> Dictionary:
+	return get_dict_or_add(get_cache_data(), key, default)
 
 
 ## 获取字典中的字典类型的数据，如果没有则进行新增这个key的空字典值
-static func get_dict_or_add(data: Dictionary, key) -> Dictionary:
+static func get_dict_or_add(data: Dictionary, key, default: Dictionary = {}) -> Dictionary:
 	if data.has(key):
 		return data[key]
 	else:
-		data[key] = {}
+		data[key] = default
 		return data[key]
 
 

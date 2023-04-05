@@ -43,6 +43,10 @@ var _last_right_clicked_item_data : Dictionary
 #============================================================
 #  SetGet
 #============================================================
+func get_config_data() -> Dictionary:
+	return GenerateSpriteSheetUtil.get_config_data("GenerateSpriteSheet_Pending")
+
+
 ## 获取所有待处理数据
 func get_data_list() -> Array[Dictionary]:
 	return _data_list
@@ -85,6 +89,14 @@ func _ready():
 	
 	panel_popup_menu.clear()
 	panel_popup_menu.add_item("创建空的图像")
+	
+	# 加载上次缓存数据
+	var config = get_config_data()
+	var data_list = config.get("data_list", [])
+	for data in data_list:
+		add_data(data)
+	config["data_list"] = _data_list
+
 
 
 func _can_drop_data(at_position, data):

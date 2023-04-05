@@ -7,7 +7,6 @@
 #============================================================
 ## 菜单列表
 @tool
-class_name MenuList
 extends HBoxContainer
 
 

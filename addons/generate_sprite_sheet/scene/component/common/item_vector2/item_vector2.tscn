@@ -28,9 +28,6 @@ corner_radius_bottom_left = 2
 custom_minimum_size = Vector2(0.016, 0)
 theme_override_constants/separation = 8
 script = ExtResource("1_j3j6m")
-value = Vector2i(0, 0)
-step = null
-suffix = null
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 2

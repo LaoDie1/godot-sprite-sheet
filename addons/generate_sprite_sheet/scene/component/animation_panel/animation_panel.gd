@@ -33,11 +33,15 @@ const ANIM_ITEMS_SCRIPT = preload("anim_items.gd")
 
 
 var _last_export_type : String = ""
+var _anim_items : Array[Array] = []
 
 
 #============================================================
 #  SetGet
 #============================================================
+func get_config_data() -> Dictionary:
+	return GenerateSpriteSheetUtil.get_config_data("animation_panel")
+
 func has_animation_items() -> bool:
 	return anim_item_container.get_child_count() > 0
 
@@ -72,17 +76,47 @@ func _drop_data(at_position, data):
 
 
 #============================================================
+#  内置
+#============================================================
+func _ready():
+	var config_data = get_config_data()
+	
+	# 缓存动画
+	const ANIM_ITEMS_KEY = &"anim_items"
+	var anim_list_group = config_data.get(ANIM_ITEMS_KEY, [])
+	for anim_list in anim_list_group:
+		add_animation_items(anim_list, false)
+	
+	# 记录到配置数据
+	config_data[ANIM_ITEMS_KEY] = _anim_items
+	
+
+
+#============================================================
 #  自定义
 #============================================================
+var _scrolled : bool = false
+
 ## 添加动画组
-func add_animation_items(texture_list: Array[Texture2D]):
+func add_animation_items(texture_list: Array, cache : bool = true):
 	var items = ANIM_ITEMS_SCENE.instantiate()
 	anim_item_container.add_child(items)
 	items.add_items("anim_%s" % items.get_index(), texture_list, Vector2(32, 32))
 	items.played.connect(func(animation): self.played.emit(animation) )
 	items.added_to_pending.connect(func(): self.added_to_pending.emit(texture_list) )
+	
+	# 缓存数据
+	if cache:
+		_anim_items.append(texture_list)
+	
 	# 滚动条向下滚动
-	scroll_container.scroll_vertical += items.size.y + 32
+	if _scrolled:
+		return
+	_scrolled = true
+	await get_tree().process_frame
+	await get_tree().process_frame
+	scroll_container.scroll_vertical += items.size.y + 16
+	_scrolled = false
 
 
 ## 生成动画资源容器，用于 [AnimationPlayer] 中

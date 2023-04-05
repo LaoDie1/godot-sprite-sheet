@@ -42,8 +42,7 @@ var _root : TreeItem
 #  SetGet
 #============================================================
 func _get_config_data() -> Dictionary:
-	var cache_data = GenerateSpriteSheetUtil.get_cache_data()
-	return GenerateSpriteSheetUtil.get_dict_or_add(cache_data, "file_tree")
+	return GenerateSpriteSheetUtil.get_config_data("file_tree")
 
 ## 获取所有选中的 item
 func get_selected_items() -> Array[TreeItem]:

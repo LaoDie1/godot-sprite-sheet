@@ -19,7 +19,7 @@ signal exported
 
 
 # 菜单列表
-@onready var menu_list := %menu_list as MenuList
+@onready var menu_list = %menu_list
 # 文件树
 @onready var file_tree := %file_tree as GenerateSpriteSheet_FileTree
 # 等待处理文件列表，拖拽进去，选中这个文件，可以从操作台中进行开始处理这个图片
@@ -65,7 +65,6 @@ func _ready():
 	if file_tree._root == null:
 		var path = "res://addons/generate_sprite_sheet/assets/"
 		file_tree.update_tree(path, GenerateSpriteSheetUtil.get_texture_filter())
-	
 
 
 func _exit_tree():
@@ -158,9 +157,16 @@ func _on_preview_container_created_texture(texture: Texture2D):
 func _on_add_selected_rect_pressed():
 	if_has_texture_else_show_message(func():
 		# 添加选中的表格区域的图片到待处理区
-		for image_texture in preview_container.get_selected_texture_list():
+		var texture_list = preview_container.get_selected_texture_list()
+		if texture_list.is_empty():
+			show_message("没有选中块！")
+			return
+		
+		for image_texture in texture_list:
 			pending.add_data({ texture = image_texture })
 		preview_container.clear_select()
+		show_message("添加 %d 张图块到处理区" % texture_list.size())
+		
 	)
 
 

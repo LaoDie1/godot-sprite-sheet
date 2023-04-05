@@ -208,8 +208,7 @@ func play(animation: Animation):
 	preview_split_grid.visible = false
 	
 	# 播放动画
-	if preview_anim_player.is_playing():
-		preview_anim_player.stop()
+	preview_anim_player.stop()
 	var ANIM_NAME = "anima"
 	var lib = preview_anim_player.get_animation_library("")
 	if lib.has_animation(ANIM_NAME):
