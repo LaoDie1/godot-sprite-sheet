@@ -210,7 +210,7 @@ func _on_popup_menu_index_pressed(index):
 			prompt_label.visible = item_container.get_child_count() == 0
 		
 		ImagePopupItem.EXPORT_SELECTED:
-			export_selected_dialog.popup()
+			export_selected_dialog.popup_centered()
 
 
 func _on_panel_popup_menu_index_pressed(index):

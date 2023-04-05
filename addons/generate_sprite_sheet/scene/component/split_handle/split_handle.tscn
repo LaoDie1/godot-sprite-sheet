@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bqf7jx3ytc1tf"]
+[gd_scene load_steps=4 format=3 uid="uid://bqf7jx3ytc1tf"]
 
 [ext_resource type="Script" path="res://addons/generate_sprite_sheet/scene/component/split_handle/split_handle.gd" id="1_8h64c"]
+[ext_resource type="PackedScene" uid="uid://b3cve426il0hc" path="res://addons/generate_sprite_sheet/scene/component/common/item_vector2/item_vector2.tscn" id="2_kd8pb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nyxa8"]
 bg_color = Color(1, 1, 1, 0.392157)
@@ -18,40 +19,66 @@ script = ExtResource("1_8h64c")
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
-visible = false
 layout_mode = 2
-theme_override_constants/margin_left = 16
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
 layout_mode = 2
 
 [node name="Label3" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(40, 0)
+custom_minimum_size = Vector2(72, 0)
 layout_mode = 2
-text = "间隔宽度："
-horizontal_alignment = 2
+text = "边距"
+horizontal_alignment = 1
 
-[node name="separactor_width" type="SpinBox" parent="VBoxContainer/MarginContainer/HBoxContainer2"]
+[node name="line" type="MarginContainer" parent="VBoxContainer/MarginContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="VBoxContainer/MarginContainer/HBoxContainer2/line"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
+
+[node name="marge" parent="VBoxContainer/MarginContainer/HBoxContainer2" instance=ExtResource("2_kd8pb")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(276, 0)
 layout_mode = 2
-value = 16.0
-allow_greater = true
-suffix = "px"
-select_all_on_focus = true
+x_name = "left"
+y_name = "top"
 
-[node name="Label4" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(40, 0)
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
-text = "间隔高度："
-horizontal_alignment = 2
 
-[node name="separactor_height" type="SpinBox" parent="VBoxContainer/MarginContainer/HBoxContainer2"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="VBoxContainer/MarginContainer2/HBoxContainer2"]
+custom_minimum_size = Vector2(72, 0)
+layout_mode = 2
+text = "间隔"
+horizontal_alignment = 1
+
+[node name="line" type="MarginContainer" parent="VBoxContainer/MarginContainer2/HBoxContainer2"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="VBoxContainer/MarginContainer2/HBoxContainer2/line"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
+
+[node name="separator" parent="VBoxContainer/MarginContainer2/HBoxContainer2" instance=ExtResource("2_kd8pb")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(278, 0)
 layout_mode = 2
-value = 16.0
-allow_greater = true
-suffix = "px"
-select_all_on_focus = true
+x_name = "left"
+y_name = "top"
 
 [node name="line2" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -72,7 +99,7 @@ layout_mode = 2
 layout_mode = 2
 columns = 2
 
-[node name="split_size" type="Button" parent="VBoxContainer/HBoxContainer/GridContainer"]
+[node name="split_size_btn" type="Button" parent="VBoxContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
 text = "大小切分"
 
@@ -91,35 +118,13 @@ custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-text = "宽："
-horizontal_alignment = 1
-
-[node name="split_width" type="SpinBox" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer"]
+[node name="split_size" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer" instance=ExtResource("2_kd8pb")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(278, 0)
 layout_mode = 2
-value = 16.0
-allow_greater = true
-suffix = "px"
-select_all_on_focus = true
+value = Vector2i(16, 16)
 
-[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-text = "高："
-horizontal_alignment = 2
-
-[node name="split_height" type="SpinBox" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-value = 16.0
-allow_greater = true
-suffix = "px"
-select_all_on_focus = true
-
-[node name="split_column_row" type="Button" parent="VBoxContainer/HBoxContainer/GridContainer"]
+[node name="split_column_row_btn" type="Button" parent="VBoxContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
 text = "列行切分"
 
@@ -138,31 +143,13 @@ custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-text = "列："
-horizontal_alignment = 1
-
-[node name="split_column" type="SpinBox" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer2"]
+[node name="split_column_row" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer2" instance=ExtResource("2_kd8pb")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(278, 0)
 layout_mode = 2
-value = 4.0
-allow_greater = true
-select_all_on_focus = true
+value = Vector2i(4, 4)
 
-[node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-text = "行："
-horizontal_alignment = 2
-
-[node name="split_row" type="SpinBox" parent="VBoxContainer/HBoxContainer/GridContainer/HBoxContainer2"]
-unique_name_in_owner = true
-layout_mode = 2
-value = 4.0
-allow_greater = true
-select_all_on_focus = true
-
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/GridContainer/split_size" to="." method="_on_split_size_pressed"]
-[connection signal="pressed" from="VBoxContainer/HBoxContainer/GridContainer/split_column_row" to="." method="_on_split_column_row_pressed"]
+[connection signal="value_changed" from="VBoxContainer/MarginContainer/HBoxContainer2/marge" to="." method="_on_marge_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/MarginContainer2/HBoxContainer2/separator" to="." method="_on_item_vector_2_value_changed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/GridContainer/split_size_btn" to="." method="_on_split_size_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/GridContainer/split_column_row_btn" to="." method="_on_split_column_row_pressed"]

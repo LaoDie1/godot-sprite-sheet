@@ -65,23 +65,6 @@ func set_selected(v: bool):
 		self.selected.emit(_selected)
 
 
-func add_texture_group(group: String):
-	_groups.append(group)
-	group_label.text = ", ".join(_groups)
-
-
-func _update_tooltip():
-	if _data:
-		tooltip_text = """
-index: {index}
-size: {size}
-	""".format({
-			"index": get_index(),
-			"size": str(_data['texture'].get_size() if _data.get("texture") else Vector2i(0, 0)),
-		}).strip_edges()
-	
-
-
 #============================================================
 #  内置
 #============================================================
@@ -128,6 +111,29 @@ func _get_drag_data(at_position):
 	else:
 		printerr("没有数据")
 
+
+#============================================================
+#  自定义
+#============================================================
+func _update_tooltip():
+	if _data:
+		tooltip_text = """
+index: {index}
+size: {size}
+	""".format({
+			"index": get_index(),
+			"size": str(_data['texture'].get_size() if _data.get("texture") else Vector2i(0, 0)),
+		}).strip_edges()
+
+
+func add_texture_group(group: String):
+	_groups.append(group)
+	group_label.text = ", ".join(_groups)
+
+
+func update_texture(texture: Texture2D):
+	_data["texture"] = texture
+	set_data(_data)
 
 
 #============================================================

@@ -11,6 +11,7 @@ class_name GenerateSpriteSheet_PreviewContainer
 extends MarginContainer
 
 
+## 双击创建这个区域的图片
 signal created_texture(texture: Texture2D)
 
 
@@ -65,14 +66,13 @@ func get_texture() -> Texture2D:
 func get_selected_texture_list() -> Array[ImageTexture]:
 	var texture : Texture2D = preview_rect.texture
 	var list : Array[ImageTexture] = []
-	var cell_size = preview_split_grid.get_cell_size()
-	var pos : Vector2i
+	var rect : Rect2i
 	var new_texture : ImageTexture
 	# 选中的表格中创建图片
 	for coordinate in preview_split_grid.get_selected_coordinate_list():
 		# 创建这个区域的图片
-		pos = coordinate * cell_size
-		new_texture = GenerateSpriteSheetUtil.create_texture_by_rect(texture, Rect2i(pos, cell_size))
+		rect = preview_split_grid.get_cell_rect_by_coord(coordinate)
+		new_texture = GenerateSpriteSheetUtil.create_texture_by_rect(texture, rect)
 		list.append(new_texture)
 	
 	return list
@@ -128,12 +128,13 @@ func _update_preview_scale(add_v: float = 0.0):
 
 ## 清除显示的图像
 func clear_texture():
-	preview_anim_player.stop()
-	preview_rect.texture = null
-	preview_split_grid.visible = false
-#	preview_rect.position = DEFAULT_LEFT_TOP_POS
-	preview_rect.size = Vector2()
-	texture_size_label.visible = false
+	if has_texture():
+		preview_anim_player.stop()
+		preview_rect.texture = null
+		preview_split_grid.visible = false
+	#	preview_rect.position = DEFAULT_LEFT_TOP_POS
+		preview_rect.size = Vector2()
+		texture_size_label.visible = false
 	clear_select()
 
 
@@ -161,17 +162,15 @@ func preview(texture: Texture2D, reset_pos: bool = false):
 
 ##  切分图像，显示表格
 ##[br]
-##[br][code]split_size[/code]  切分大小
+##[br][code]split_size[/code]  切分的每个单元格大小
 func split(split_size: Vector2):
 	if preview_rect.texture != null:
 		var preview_texture : Texture2D = preview_rect.texture
 		
 		# 预览表格
-		var texture_size = preview_texture.get_size()
-		var cell_grid = (texture_size / split_size).ceil() # 表格数量
-		preview_split_grid.column_row_number = cell_grid
-		preview_split_grid.size = cell_grid * split_size
+		preview_split_grid.update_column_row_by_cell_size(preview_texture.get_size(), split_size)
 		preview_split_grid.visible = true
+		
 		border_rect.visible = true
 		clear_select()
 
@@ -224,6 +223,16 @@ func stop():
 	preview_anim_player.stop()
 
 
+## 更新切分网格间隔距离
+func update_grid_separator(value: Vector2i):
+	preview_split_grid.separator = value
+
+
+## 更新切分网格边距
+func update_grid_margin(value: Vector2i):
+	preview_split_grid.marge = value
+
+
 #============================================================
 #  连接信号
 #============================================================
@@ -263,14 +272,14 @@ func _on_preview_canvas_gui_input(event):
 func _on_preview_grid_double_clicked(pos: Vector2i, coordinate: Vector2i):
 	# 双击创建对应区域的图片
 	if preview_rect.texture:
-		var cell_size : Vector2i = preview_split_grid.get_cell_size()
-		if cell_size == Vector2i():
+		var rect = preview_split_grid.get_cell_rect_by_position(pos)
+		if rect.size == Vector2i.ZERO:
 			print("[ GenerateSpriteSheet ] 没有表格大小")
 			return
 		
 		var texture : Texture2D = preview_rect.texture
 		# 创建这个区域的图片
-		var new_texture = GenerateSpriteSheetUtil.create_texture_by_rect(texture, Rect2i(pos, cell_size))
+		var new_texture = GenerateSpriteSheetUtil.create_texture_by_rect(texture, rect)
 		self.created_texture.emit(new_texture)
 	
 

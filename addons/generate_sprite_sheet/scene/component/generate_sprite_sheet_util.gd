@@ -198,7 +198,6 @@ static func copy_image(image: Image) -> Image:
 
 ## 替换颜色
 static func replace_color(texture: Texture2D, from: Color, to: Color, threshold: float):
-	Log.info([to])
 	var image = copy_image(texture.get_image())
 	var image_size = image.get_size()
 	var color : Color

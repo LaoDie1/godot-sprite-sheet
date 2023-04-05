@@ -81,7 +81,8 @@ func add_animation_items(texture_list: Array[Texture2D]):
 	items.add_items("anim_%s" % items.get_index(), texture_list, Vector2(32, 32))
 	items.played.connect(func(animation): self.played.emit(animation) )
 	items.added_to_pending.connect(func(): self.added_to_pending.emit(texture_list) )
-	scroll_container.scroll_vertical += items.size.y
+	# 滚动条向下滚动
+	scroll_container.scroll_vertical += items.size.y + 32
 
 
 ## 生成动画资源容器，用于 [AnimationPlayer] 中

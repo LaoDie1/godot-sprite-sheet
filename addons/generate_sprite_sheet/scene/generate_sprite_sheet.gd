@@ -34,13 +34,10 @@ const MAIN_NODE_META_KEY = &"GenerateSpriteSheetMain_main_node"
 @onready var prompt_info_anim_player = %prompt_info_anim_player 
 
 
+
 #============================================================
 #  内置
 #============================================================
-func _init():
-	pass
-
-
 func _ready():
 	# 初始化菜单
 	menu_list.init_menu({
@@ -254,46 +251,6 @@ func _on_export_preview_dialog_file_selected(path):
 		show_message("已保存预览图像")
 
 
-func _on__resize_selected(new_size: Vector2i):
-	var data_list = pending.get_selected_data_list()
-	if_true(data_list, func():
-		# 重置待处理区图片大小
-		for data in pending.get_selected_data_list():
-			var texture = data['texture'] as Texture2D
-			if Vector2i(texture.get_size()) != new_size:
-				var node = data['node'] as Control
-				data['texture'] = GenerateSpriteSheetUtil.resize_texture(texture, new_size)
-				node.set_data(data)
-	).else_show_message("没有选中的图像")
-
-
-func _on__rescale(texture_scale: Vector2):
-	if_has_texture_else_show_message(func():
-		# 缩放
-		var texture = preview_container.get_texture()
-		var new_texture = GenerateSpriteSheetUtil.scale_texture(texture, texture_scale)
-	#	pending.add_data({ "texture": new_texture })
-		preview_container.preview(new_texture)
-	)
-
-
-func _on__resize(texture_size):
-	if_has_texture_else_show_message(func():
-		# 重设大小
-		var texture = preview_container.get_texture()
-		var new_texture = GenerateSpriteSheetUtil.resize_texture(texture, texture_size)
-		preview_container.preview(new_texture)
-	)
-
-
-func _on__recolor(from: Color, to: Color, threshold: float):
-	if_has_texture_else_show_message(func():
-		var texture = preview_container.get_texture()
-		var new_texture = GenerateSpriteSheetUtil.replace_color(texture, from, to, threshold)
-		preview_container.preview(new_texture, false)
-	)
-
-
 func _on_git_new_version_meta_clicked(meta):
 	OS.shell_open(meta)
 
@@ -310,36 +267,21 @@ func _on_pending_previewed(texture: Texture2D):
 	).else_show_message("错误的预览图像")
 
 
-func _on__outline(color: Color):
-	if_has_texture_else_show_message(func():
-		var texture = preview_container.get_texture()
-		var new_texture = GenerateSpriteSheetUtil.outline(texture, color)
-		preview_container.preview(new_texture, false)
-	)
-
-
 func _on__split_column_row(column_row: Vector2i):
 	if_has_texture_else_show_message(func():
-		var texture_size = Vector2i(preview_container.get_texture().get_size())
-		var cell_size : Vector2i = texture_size / column_row
-		preview_container.split(cell_size)
+		if_true(column_row.x > 0 and column_row.y > 0, func():
+			var texture_size = Vector2i(preview_container.get_texture().get_size())
+			var cell_size : Vector2i = texture_size / column_row
+			preview_container.split(cell_size)
+		).else_show_message("行列大小不能小于 0！")
 	)
 
 
 func _on__split_size(cell_size: Vector2i):
 	if_has_texture_else_show_message(func():
-		preview_container.split(cell_size)
-	)
-
-
-func _on__clear_transparency():
-	if_has_texture_else_show_message(func():
-		var texture = preview_container.get_texture()
-		var image = texture.get_image() as Image
-		var rect = image.get_used_rect()
-		var new_image = image.get_region(rect)
-		preview_container.preview( ImageTexture.create_from_image(new_image) )
-		
+		if_true(cell_size.x > 0 and cell_size.y > 0, func():
+			preview_container.split(cell_size)
+		).else_show_message("大小必须超过 0！")
 	)
 
 
@@ -348,3 +290,28 @@ func _on__added_to_pending(texture_list: Array[Texture2D]):
 		pending.add_data({
 			"texture": texture
 		})
+
+
+func _on__split_grid_changed(marge: Vector2i, separator: Vector2i):
+	preview_container.update_grid_margin(marge)
+	preview_container.update_grid_separator(separator)
+
+
+func _on__handled(handle: GenerateSpriteSheet_PreviewHandle.Handle):
+	if_has_texture_else_show_message(func():
+		match handle.update_type:
+			handle.PREVIEW:
+				handle.execute([preview_container.get_texture()], func(list: Array[Texture2D]):
+					preview_container.preview(list[0])
+				, show_message)
+			
+			handle.PENDING_SELECTED:
+				handle.execute(pending.get_selected_texture_list(), func(list: Array[Texture2D]):
+					var idx = 0
+					for data in pending.get_selected_data_list():
+						data['node'].update_texture(list[idx])
+						idx += 1
+					
+				, show_message)
+			
+	)

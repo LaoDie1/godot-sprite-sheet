@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://0l3clf6px771"]
 
 [ext_resource type="Script" path="res://addons/generate_sprite_sheet/scene/component/pending/item.gd" id="1_j6qch"]
 

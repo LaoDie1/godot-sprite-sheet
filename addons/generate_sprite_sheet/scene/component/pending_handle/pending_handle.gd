@@ -12,7 +12,6 @@ extends MarginContainer
 
 
 signal merged(data: Merge)
-signal resize_selected(new_size: Vector2i)
 
 
 ## 合并方式
@@ -30,24 +29,15 @@ const MergeModeItem : Dictionary = {
 	MergeMode.FLOW: "流式排列合并"
 }
 
-
-@onready var max_column = %max_column
-@onready var width = %width
-@onready var height = %height
-@onready var width_label = %width_label
-@onready var height_label = %height_label
-@onready var left_separation = %left_separation
-@onready var right_separation = %right_separation
-@onready var top_separation = %top_separation
-@onready var down_separation = %down_separation
-@onready var left_margin = %left_margin
-@onready var right_margin = %right_margin
-@onready var top_margin = %top_margin
-@onready var down_margin = %down_margin
 @onready var merge_mode = %merge_mode
-@onready var select_texture_width = %select_texture_width
-@onready var select_texture_height = %select_texture_height
-
+@onready var max_column_label = %max_column_label
+@onready var max_column = %max_column
+@onready var cell_size_label = %cell_size_label
+@onready var cell_size = %cell_size
+@onready var max_width_label = %max_width_label
+@onready var max_width = %max_width
+@onready var separator = %separator
+@onready var marge = %marge
 
 # 合并功能
 class Merge:
@@ -57,9 +47,7 @@ class Merge:
 	var max_width : int
 	var max_height : int
 	var left_separation : int
-	var right_separation : int
 	var top_separation : int
-	var down_separation : int
 	var left_margin : int
 	var right_margin : int
 	var top_margin : int 
@@ -124,8 +112,8 @@ class Merge:
 		
 		# 每个图块包含边距的大小
 		var cell_size =  Vector2i(
-			(sub_image_size.x + left_separation + right_separation), 
-			(sub_image_size.y + top_separation + down_separation)
+			(sub_image_size.x + left_separation), 
+			(sub_image_size.y + top_separation)
 		)
 		
 		# 整张图片大小
@@ -162,8 +150,8 @@ class Merge:
 		
 		# 流式方式合并
 		var leftmost = left_margin + left_separation
-		var separation_x = left_separation + right_separation
-		var separation_y = top_separation + down_separation
+		var separation_x = left_separation
+		var separation_y = top_separation
 		
 		var merge_image : Image = Image.create(max_width, 16384, false, Image.FORMAT_RGBA8)
 		var pos : Vector2i = Vector2i(leftmost, top_margin + top_separation)
@@ -200,11 +188,17 @@ class Merge:
 #  内置
 #============================================================
 func _ready():
-	merge_mode.clear()
+	var merge_mode_node = %merge_mode as OptionButton
+	merge_mode_node.clear()
 	for i in MergeModeItem.values():
-		merge_mode.add_item(i)
-	merge_mode.selected = 0
-	self.grab_focus()
+		merge_mode_node.add_item(i)
+	merge_mode_node.selected = 0
+	merge_mode_node.focus_mode = Control.FOCUS_NONE
+	merge_mode_node.visible = false
+	await get_tree().process_frame
+	merge_mode_node.visible = true
+	
+	_on_merge_mode_item_selected(0)
 
 
 
@@ -212,62 +206,73 @@ func _ready():
 #  连接信号
 #============================================================
 func _on_merge_pressed():
+	var marge_rect := Rect2i(marge.get_value())
 	self.merged.emit(Merge.new({
-		"max_column": max_column.value,
-		width.name: width.value,
-		height.name: height.value,
-		"left_separation": left_separation.value,
-		"right_separation": right_separation.value,
-		"top_separation": top_separation.value,
-		"down_separation": down_separation.value,
-		"left_margin": left_margin.value,
-		"right_margin": right_margin.value,
-		"top_margin": top_margin.value,
-		"down_margin": down_margin.value,
 		"merge_type": merge_mode.get_selected_id(),
+		"max_column": max_column.value,
+		"width": cell_size.get_value().x,
+		"height": cell_size.get_value().y,
+		"max_width": max_width.value,
+		"left_separation": separator.get_value().x,
+		"top_separation": separator.get_value().y,
+		"left_margin": marge_rect.position.x,
+		"right_margin": marge_rect.size.x,
+		"top_margin": marge_rect.position.y,
+		"down_margin": marge_rect.size.y,
 	}))
 
 
-func _on_resize_select_pressed():
-	self.resize_selected.emit(Vector2i( select_texture_width.value, select_texture_height.value ))
-
-
 func _on_merge_mode_item_selected(index):
-	# 设置对应的节点的是否可编辑映射数据
-	var node_map : Dictionary = {
-		width: null,
-		height: null,
+	# 修改是否可编辑状态节点
+	var editable_node_map : Dictionary = {
+		cell_size: null,
 		max_column: null,
 	}
 	match index:
 		MergeMode.SCALE:
 			pass
+			
 		MergeMode.CUT:
 			pass
+			
 		MergeMode.MAX_SIZE:
-			node_map[width] = false
-			node_map[height] = false
+			editable_node_map[cell_size] = false
 		
 		MergeMode.FLOW:
-			node_map[height] =  false
-			node_map[max_column] = false
-	
-	# 修改是否可编辑状态
-	for node in node_map:
-		var editable = node_map[node]
+			editable_node_map[max_column] = false
+	# 更新
+	for node in editable_node_map:
+		var editable = editable_node_map[node]
 		if editable == null:
 			editable = true
 		node["editable"] = editable
 	
-	# 其他更新
-	if index == MergeMode.FLOW:
-		width_label.text = "最大宽度："
-		height_label.text = "最大高度："
-		width.name = "max_width"
-		height.name = "max_height"
-	else:
-		width_label.text = "宽度："
-		height_label.text = "高度："
-		width.name = "width"
-		height.name = "height"
+	
+	# 可见性更新
+	var visible_node_map : Dictionary = {
+		max_width_label: null,
+		max_width: null,
+		cell_size_label: null,
+		cell_size: null,
+		max_column_label: null,
+		max_column: null,
+	}
+	match index:
+		MergeMode.FLOW:
+			visible_node_map[cell_size_label] = false
+			visible_node_map[cell_size] = false
+			visible_node_map[max_column_label] = false
+			visible_node_map[max_column] = false
+		
+		_:
+			visible_node_map[max_width_label] = false
+			visible_node_map[max_width] = false
+		
+	# 更新
+	for node in visible_node_map:
+		var visi = visible_node_map[node]
+		if visi == null:
+			visi = true
+		node['visible'] = visi
+		
 	
