@@ -4,6 +4,13 @@ version: Godot 4.0 stable
 
 > 勾选 generate_sprite_sheet 插件即可使用
 
+
+首先通过：“文件 > 扫描目录” 菜单进行扫描目录中的图片，然后对扫描到的文件进行操作
+
+
+---
+
+
 插件：
 
 ![](https://github.com/LaoDie1/generate_sprite_sheet/blob/master/addons/generate_sprite_sheet/20230405000024.png)
