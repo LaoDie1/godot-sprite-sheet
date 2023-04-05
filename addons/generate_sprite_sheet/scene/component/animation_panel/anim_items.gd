@@ -47,11 +47,14 @@ func is_loop() -> bool:
 func get_frame_speed() -> int:
 	return frame_speed.value
 
+func set_animation_name(v: String):
+	anim_name_edit.text = v
+
 
 #============================================================
 #  自定义
 #============================================================
-func add_items(anim_name: String, texture_list: Array, show_size: Vector2) -> void:
+func add_items(anim_name: String, texture_list: Array, show_size: Vector2):
 	anim_name_edit.text = anim_name
 	_texture_list = Array(texture_list, TYPE_OBJECT, "Texture2D", null)
 	for texture in texture_list:

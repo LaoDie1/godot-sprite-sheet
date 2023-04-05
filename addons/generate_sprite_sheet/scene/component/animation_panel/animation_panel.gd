@@ -28,8 +28,9 @@ const ANIM_ITEMS_SCRIPT = preload("anim_items.gd")
 
 @onready var anim_item_container = %anim_item_container
 @onready var prompt_label = %prompt_label
-@onready var export_res_dialog := %export_res_dialog as FileDialog
 @onready var scroll_container = %ScrollContainer
+@onready var export_res_dialog := %export_res_dialog as FileDialog
+@onready var import_res_dialog = %import_res_dialog
 
 
 var _last_export_type : String = ""
@@ -98,7 +99,7 @@ func _ready():
 var _scrolled : bool = false
 
 ## 添加动画组
-func add_animation_items(texture_list: Array, cache : bool = true):
+func add_animation_items(texture_list: Array, cache : bool = true) -> ANIM_ITEMS_SCRIPT:
 	var items = ANIM_ITEMS_SCENE.instantiate()
 	anim_item_container.add_child(items)
 	items.add_items("anim_%s" % items.get_index(), texture_list, Vector2(32, 32))
@@ -112,13 +113,17 @@ func add_animation_items(texture_list: Array, cache : bool = true):
 		_anim_items.append(texture_list)
 	
 	# 滚动条向下滚动
-	if _scrolled:
-		return
-	_scrolled = true
-	await get_tree().process_frame
-	await get_tree().process_frame
-	scroll_container.scroll_vertical += items.size.y + 16
-	_scrolled = false
+	(func():
+		if _scrolled:
+			return
+		if Engine.get_main_loop():
+			_scrolled = true
+			await get_tree().process_frame
+			await get_tree().process_frame
+			scroll_container.scroll_vertical += items.size.y + 16
+			_scrolled = false
+	).call_deferred()
+	return items
 
 
 ## 生成动画资源容器，用于 [AnimationPlayer] 中
@@ -136,6 +141,7 @@ func generate_animation_library() -> AnimationLibrary:
 ## 生成精灵动画帧，用于 [AnimatedSprite2D] 中
 func generate_sprite_frames() -> SpriteFrames:
 	var sprite_frames := SpriteFrames.new()
+	sprite_frames.clear_all()
 	for child in anim_item_container.get_children():
 		child = child as ANIM_ITEMS_SCRIPT
 		if child is ANIM_ITEMS_SCRIPT:
@@ -155,6 +161,25 @@ func generate_sprite_frames() -> SpriteFrames:
 			for texture in texture_list:
 				sprite_frames.add_frame(anim_name, texture)
 	return sprite_frames
+
+
+## 导入动画数据
+func export_animation(animation: Animation) -> Array[ANIM_ITEMS_SCRIPT]:
+	var node_list : Array[ANIM_ITEMS_SCRIPT] = []
+	for track_idx in animation.get_track_count():
+		if (animation.track_get_type(track_idx) == Animation.TYPE_VALUE
+			and animation.track_get_key_count(track_idx) > 0
+			and animation.track_get_key_value(track_idx, 0) is Texture2D	# 需要是 Texture2D 的轨道
+		):
+			var texture_list : Array[Texture2D] = []
+			var texture : Texture2D
+			for key_idx in animation.track_get_key_count(track_idx):
+				texture = animation.track_get_key_value(track_idx, key_idx)
+				texture_list.append(texture)
+			var node = add_animation_items(texture_list)
+			node_list.append(node)
+	return node_list
+
 
 
 #============================================================
@@ -200,3 +225,41 @@ func _on_export_res_dialog_file_selected(path):
 	else:
 		GenerateSpriteSheetMain.show_message("错误的导出类型，程序出现BUG")
 
+
+func _on_import_frame_pressed():
+	import_res_dialog.popup_centered()
+	
+
+
+func _on_import_res_dialog_files_selected(paths):
+	# 导入动画文件
+	for path in paths:
+		var res = load(path)
+		if res is SpriteFrames:
+			var sprite_frames = res as SpriteFrames
+			var texture : Texture2D
+			for animation_name in sprite_frames.get_animation_names():
+				var count = sprite_frames.get_frame_count(animation_name)
+				var texture_list : Array[Texture2D] = []
+				for idx in count:
+					texture = sprite_frames.get_frame_texture(animation_name, idx)
+					texture_list.append(texture)
+				var items = add_animation_items(texture_list)
+				items.set_animation_name(animation_name)
+			
+		elif res is AnimationLibrary:
+			var anim_lib = res as AnimationLibrary
+			for animation_name in anim_lib.get_animation_list():
+				var animation :  Animation = anim_lib.get_animation(animation_name)
+				var item_list = export_animation(animation)
+				var idx = 0
+				for item_node in item_list:
+					item_node.set_animation_name(animation_name + "_" + str(idx))
+					idx += 1
+		
+		elif res is Animation:
+			export_animation(res)
+		
+		else:
+			printerr("不是有效的动画文件，资源类型必须是 [SpriteFrames, AnimationLibrary, Animation] 中的一种！")
+	
