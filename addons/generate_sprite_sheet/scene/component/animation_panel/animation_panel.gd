@@ -18,6 +18,8 @@ signal stopped
 signal exported_animation_library(animation_library: AnimationLibrary)
 ## 已经导出精灵动画帧，用于 [AnimatedSprite2D] 中
 signal exported_sprite_frames(sprite_frames: SpriteFrames)
+## 添加这个动画序列到待处理区
+signal added_to_pending(texture_list: Array[Texture2D])
 
 
 const ANIM_ITEMS_SCENE = preload("anim_items.tscn")
@@ -27,6 +29,7 @@ const ANIM_ITEMS_SCRIPT = preload("anim_items.gd")
 @onready var anim_item_container = %anim_item_container
 @onready var prompt_label = %prompt_label
 @onready var export_res_dialog := %export_res_dialog as FileDialog
+@onready var scroll_container = %ScrollContainer
 
 
 var _last_export_type : String = ""
@@ -77,6 +80,8 @@ func add_animation_items(texture_list: Array[Texture2D]):
 	anim_item_container.add_child(items)
 	items.add_items("anim_%s" % items.get_index(), texture_list, Vector2(32, 32))
 	items.played.connect(func(animation): self.played.emit(animation) )
+	items.added_to_pending.connect(func(): self.added_to_pending.emit(texture_list) )
+	scroll_container.scroll_vertical += items.size.y
 
 
 ## 生成动画资源容器，用于 [AnimationPlayer] 中
@@ -142,15 +147,18 @@ func _on_export_as_sprite_frames_pressed():
 
 
 func _on_export_res_dialog_file_selected(path):
+	# 保存文件
 	if _last_export_type == "AnimationLibrary":
 		var res = generate_animation_library()
 		ResourceSaver.save(res, path)
 		exported_animation_library.emit(res)
+		GenerateSpriteSheetMain.show_message("已导出为 AnimationLibrary 文件")
 		
 	elif _last_export_type == "SpriteFrames":
 		var res = generate_sprite_frames()
 		ResourceSaver.save(res, path)
 		self.exported_sprite_frames.emit(res)
+		GenerateSpriteSheetMain.show_message("已导出为 SpriteFrames 文件")
 	
 	else:
 		GenerateSpriteSheetMain.show_message("错误的导出类型，程序出现BUG")

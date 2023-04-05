@@ -341,3 +341,10 @@ func _on__clear_transparency():
 		preview_container.preview( ImageTexture.create_from_image(new_image) )
 		
 	)
+
+
+func _on__added_to_pending(texture_list: Array[Texture2D]):
+	for texture in texture_list:
+		pending.add_data({
+			"texture": texture
+		})

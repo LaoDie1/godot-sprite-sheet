@@ -19,6 +19,11 @@ signal previewed(texture: Texture2D)
 const ITEM_SCENE = preload("item.tscn")
 const ITEM_SCRIPT = preload("item.gd")
 
+const ImagePopupItem = {
+	PREVIEW = "预览",
+	EXPORT_SELECTED = "导出选中的图像...",
+	REMOVE = "移除",
+}
 
 @onready var item_container = %item_container
 @onready var item_popup_menu = %item_popup_menu
@@ -26,6 +31,7 @@ const ITEM_SCRIPT = preload("item.gd")
 @onready var group_name_edit = %group_name_edit
 @onready var panel_popup_menu = %panel_popup_menu
 @onready var prompt_label = %prompt_label
+@onready var export_selected_dialog = %export_selected_dialog
 
 
 var _data_list : Array[Dictionary] = []
@@ -68,11 +74,14 @@ func get_selected_node_list() -> Array[ITEM_SCRIPT]:
 #  内置
 #============================================================
 func _ready():
-	item_popup_menu.add_item("预览")
+	item_popup_menu.clear()
+	item_popup_menu.add_item(ImagePopupItem.PREVIEW)
+	item_popup_menu.add_item(ImagePopupItem.EXPORT_SELECTED)
 	item_popup_menu.add_separator()
-	item_popup_menu.add_item("移除")
+	item_popup_menu.add_item(ImagePopupItem.REMOVE)
 	item_popup_menu.add_separator()
 	
+	panel_popup_menu.clear()
 	panel_popup_menu.add_item("创建空的图像")
 
 
@@ -91,6 +100,17 @@ func _drop_data(at_position, data):
 				"texture": GenerateSpriteSheetUtil.load_image(d.path),
 				"path": d.path,
 			})
+
+
+func _gui_input(event):
+	if event is InputEventMouseButton:
+		if event.pressed:
+			if event.button_index == MOUSE_BUTTON_LEFT:
+				cancel_all_selected()
+				
+			elif event.button_index == MOUSE_BUTTON_RIGHT:
+				panel_popup_menu.popup(Rect2i(get_global_mouse_position(), Vector2i()))
+		
 
 
 #============================================================
@@ -163,14 +183,24 @@ func add_data(data: Dictionary):
 	texture_rect.tree_exited.connect(func(): _data_list.erase(data) )
 
 
+## 取消所有选中
+func cancel_all_selected():
+	for selecte_node in get_selected_node_list():
+		selecte_node.set_selected(false)
+
+
+
+#============================================================
+#  连接信号
+#============================================================
 func _on_popup_menu_index_pressed(index):
 	var menu_name = item_popup_menu.get_item_text(index)
 	match menu_name:
-		"预览":
+		ImagePopupItem.PREVIEW:
 			var texture = _last_right_clicked_item_data['texture']
 			self.previewed.emit(texture)
 		
-		"移除":
+		ImagePopupItem.REMOVE:
 			var data_list = get_selected_data_list()
 			for node in data_list.map(func(data): return data['node']):
 				node.queue_free()
@@ -178,6 +208,9 @@ func _on_popup_menu_index_pressed(index):
 			await Engine.get_main_loop().process_frame
 			await Engine.get_main_loop().process_frame
 			prompt_label.visible = item_container.get_child_count() == 0
+		
+		ImagePopupItem.EXPORT_SELECTED:
+			export_selected_dialog.popup()
 
 
 func _on_panel_popup_menu_index_pressed(index):
@@ -187,20 +220,26 @@ func _on_panel_popup_menu_index_pressed(index):
 			add_data({"texture": null})
 
 
-
 func _on_group_dialog_confirmed():
 	# (暂未实现功能)
 	var group_name : String = group_name_edit.text.strip_edges()
 	if group_name != "":
-		var selected_data_list = _data_list.filter(func(data): return data['selected'])
-		var node_list = selected_data_list.map(func(data): return data['node'])
+		var node_list = get_selected_node_list()
 		for node in node_list:
 			node.add_texture_group("group_name")
 			
 
 
-func _on_gui_input(event):
-	if event is InputEventMouseButton:
-		if event.pressed and event.button_index == MOUSE_BUTTON_RIGHT:
-			panel_popup_menu.popup(Rect2i(get_global_mouse_position(), Vector2i()))
+func _on_save_selected_dir_selected(dir: String):
+	# 导出选中的图像
+	var file_path : String
+	var idx : int = 0
+	for texture in get_selected_texture_list():
+		file_path = dir.path_join("image_%03d.png" % idx)	# 保存为 png 图像
+		while FileAccess.file_exists(file_path):
+			idx += 1
+		texture.get_image().save_png(file_path)
+		idx += 1
+	
+
 

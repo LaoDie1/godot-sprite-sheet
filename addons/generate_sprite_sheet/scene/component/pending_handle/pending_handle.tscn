@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://c3kc7mi126vb4"]
 
 [ext_resource type="Script" path="res://addons/generate_sprite_sheet/scene/component/pending_handle/pending_handle.gd" id="1_p306e"]
 
@@ -276,6 +276,16 @@ offset_top = 1.0
 offset_right = 166.0
 offset_bottom = 21.0
 button_pressed = true
+item_count = 4
+selected = 0
+popup/item_0/text = "缩放到指定大小"
+popup/item_0/id = 0
+popup/item_1/text = "剪切掉多余部分"
+popup/item_1/id = 1
+popup/item_2/text = "图块设为最大图像的大小"
+popup/item_2/id = 2
+popup/item_3/text = "流式排列合并"
+popup/item_3/id = 3
 
 [node name="Control2" type="Control" parent="GridContainer/HBoxContainer/GridContainer"]
 layout_mode = 2

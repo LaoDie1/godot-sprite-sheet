@@ -15,6 +15,22 @@ signal merged(data: Merge)
 signal resize_selected(new_size: Vector2i)
 
 
+## 合并方式
+enum MergeMode {
+	SCALE,		# 缩放图像到指定大小后合并
+	CUT,		# 按照定宽度合并图片，剪切掉超出的部分
+	MAX_SIZE,	# 按照最大宽高设置图片
+	FLOW,		# 流式排列，按照不同大小图片逐个排列合并
+}
+
+const MergeModeItem : Dictionary = {
+	MergeMode.SCALE: "缩放到指定大小",
+	MergeMode.CUT: "剪切掉多余部分",
+	MergeMode.MAX_SIZE: "图块设为最大图像的大小",
+	MergeMode.FLOW: "流式排列合并"
+}
+
+
 @onready var max_column = %max_column
 @onready var width = %width
 @onready var height = %height
@@ -33,15 +49,7 @@ signal resize_selected(new_size: Vector2i)
 @onready var select_texture_height = %select_texture_height
 
 
-## 合并方式
-enum MergeMode {
-	SCALE,		# 缩放图像到指定大小后合并
-	CUT,		# 按照定宽度合并图片，剪切掉超出的部分
-	MAX_SIZE,	# 按照最大宽高设置图片
-	FLOW,		# 流式排列，按照不同大小图片逐个排列合并
-}
-
-
+# 合并功能
 class Merge:
 	var max_column : int
 	var width : int
@@ -192,15 +200,11 @@ class Merge:
 #  内置
 #============================================================
 func _ready():
-	var mode_type : Dictionary = {
-		MergeMode.SCALE: "缩放到指定大小",
-		MergeMode.CUT: "剪切掉多余部分",
-		MergeMode.MAX_SIZE: "图块设为最大图像的大小",
-		MergeMode.FLOW: "流式排列合并"
-	}
-	for i in mode_type.values():
+	merge_mode.clear()
+	for i in MergeModeItem.values():
 		merge_mode.add_item(i)
 	merge_mode.selected = 0
+	self.grab_focus()
 
 
 

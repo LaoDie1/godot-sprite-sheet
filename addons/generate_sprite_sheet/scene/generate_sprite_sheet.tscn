@@ -4,10 +4,10 @@
 [ext_resource type="Script" path="res://addons/generate_sprite_sheet/scene/component/menu_list.gd" id="2_nf7es"]
 [ext_resource type="PackedScene" path="res://addons/generate_sprite_sheet/scene/component/file_tree/file_tree.tscn" id="3_1vyu0"]
 [ext_resource type="PackedScene" path="res://addons/generate_sprite_sheet/scene/component/preview_container/preview_container.tscn" id="4_x7gtn"]
-[ext_resource type="PackedScene" path="res://addons/generate_sprite_sheet/scene/component/split_handle/split_handle.tscn" id="5_4xu8y"]
-[ext_resource type="PackedScene" path="res://addons/generate_sprite_sheet/scene/component/animation_panel/animation_panel.tscn" id="5_lhecx"]
+[ext_resource type="PackedScene" uid="uid://bqf7jx3ytc1tf" path="res://addons/generate_sprite_sheet/scene/component/split_handle/split_handle.tscn" id="5_4xu8y"]
+[ext_resource type="PackedScene" uid="uid://dichgr4h37u16" path="res://addons/generate_sprite_sheet/scene/component/animation_panel/animation_panel.tscn" id="5_lhecx"]
 [ext_resource type="PackedScene" uid="uid://ntquy1siykp0" path="res://addons/generate_sprite_sheet/scene/component/pending/pending.tscn" id="5_milus"]
-[ext_resource type="PackedScene" path="res://addons/generate_sprite_sheet/scene/component/pending_handle/pending_handle.tscn" id="6_7squn"]
+[ext_resource type="PackedScene" uid="uid://c3kc7mi126vb4" path="res://addons/generate_sprite_sheet/scene/component/pending_handle/pending_handle.tscn" id="6_7squn"]
 [ext_resource type="PackedScene" path="res://addons/generate_sprite_sheet/scene/component/preview_handle/preview_handle.tscn" id="6_wo0gv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nyxa8"]
@@ -213,6 +213,7 @@ layout_mode = 2
 
 [node name="handle_container" type="TabContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 240)
 layout_mode = 2
 size_flags_vertical = 3
 
@@ -323,6 +324,7 @@ shortcut_keys_enabled = false
 [connection signal="file_selected" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/export_preview/export_preview_dialog" to="." method="_on_export_preview_dialog_file_selected"]
 [connection signal="split_column_row" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分" to="." method="_on__split_column_row"]
 [connection signal="split_size" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/切分" to="." method="_on__split_size"]
+[connection signal="added_to_pending" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/动画" to="." method="_on__added_to_pending"]
 [connection signal="played" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/动画" to="." method="_on_animation_panel_played"]
 [connection signal="stopped" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/动画" to="." method="_on_animation_panel_stopped"]
 [connection signal="clear_transparency" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/预览图像处理" to="." method="_on__clear_transparency"]

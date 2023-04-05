@@ -10,12 +10,14 @@ extends HSplitContainer
 
 
 signal played(animation: Animation)
+signal added_to_pending()
 
 
 @onready var anim_name_edit = %anim_name_edit
 @onready var item_container = %item_container
 @onready var frame_speed = %frame_speed
 @onready var loop_btn = %loop_btn as BaseButton
+@onready var update_frame_count_timer = %update_frame_count_timer
 
 
 var _texture_list: Array[Texture2D] = []
@@ -27,18 +29,7 @@ var _animation : Animation = Animation.new()
 #============================================================
 ## 获取动画
 func get_animation() -> Animation:
-	var interval = 1.0 / frame_speed.value
-	_animation.clear()
-	# 添加动画
-	var textures = item_container.get_children().map(func(node): return node.texture )
-	var track_key = _animation.add_track(Animation.TYPE_VALUE)
-	_animation.track_set_path(track_key, ".:texture")
-	var texture : Texture2D
-	for i in textures.size():
-		_animation.track_insert_key(track_key, interval * i, textures[i])
-	_animation.length = item_container.get_child_count() * interval
-	_animation.loop_mode = Animation.LOOP_LINEAR if loop_btn.button_pressed else Animation.LOOP_NONE
-	
+	update_animation()
 	return _animation
 
 
@@ -72,6 +63,20 @@ func add_items(anim_name: String, texture_list: Array, show_size: Vector2) -> vo
 		item_container.add_child(texture_rect)
 
 
+func update_animation():
+	var interval = 1.0 / frame_speed.value
+	_animation.clear()
+	# 添加动画
+	var textures = item_container.get_children().map(func(node): return node.texture )
+	var track_key = _animation.add_track(Animation.TYPE_VALUE)
+	_animation.track_set_path(track_key, ".:texture")
+	var texture : Texture2D
+	for i in textures.size():
+		_animation.track_insert_key(track_key, interval * i, textures[i])
+	_animation.length = item_container.get_child_count() * interval
+	_animation.loop_mode = Animation.LOOP_LINEAR if loop_btn.button_pressed else Animation.LOOP_NONE
+
+
 #============================================================
 #  连接信号
 #============================================================
@@ -81,3 +86,18 @@ func _on_play_pressed():
 
 func _on_remove_pressed():
 	queue_free()
+
+
+func _on_add_to_pending_pressed():
+	self.added_to_pending.emit()
+
+
+func _on_loop_btn_pressed():
+	update_frame_count_timer.stop()
+	update_frame_count_timer.start()
+
+
+func _on_frame_speed_value_changed(value):
+	update_frame_count_timer.stop()
+	update_frame_count_timer.start()
+
