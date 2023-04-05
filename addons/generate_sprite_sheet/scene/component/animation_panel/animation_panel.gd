@@ -86,12 +86,8 @@ func _ready():
 	var anim_list_group = config_data.get(ANIM_ITEMS_KEY, [])
 	for anim_list in anim_list_group:
 		add_animation_items(anim_list)
-	
 	# 记录到配置数据
 	config_data[ANIM_ITEMS_KEY] = _anim_items
-	
-	config_data.erase([])
-	
 
 
 #============================================================
@@ -105,7 +101,9 @@ func add_animation_items(texture_list: Array, cache : bool = true):
 	anim_item_container.add_child(items)
 	items.add_items("anim_%s" % items.get_index(), texture_list, Vector2(32, 32))
 	items.played.connect(func(animation): self.played.emit(animation) )
-	items.added_to_pending.connect(func(): self.added_to_pending.emit(texture_list) )
+	items.added_to_pending.connect(func(): 
+		self.added_to_pending.emit(Array(texture_list, TYPE_OBJECT, "Texture2D", null)) 
+	)
 	
 	# 缓存数据
 	if cache:
