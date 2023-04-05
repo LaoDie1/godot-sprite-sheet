@@ -11,6 +11,7 @@ extends HSplitContainer
 
 signal played(animation: Animation)
 signal added_to_pending()
+signal removed
 
 
 @onready var anim_name_edit = %anim_name_edit
@@ -88,6 +89,7 @@ func _on_play_pressed():
 
 
 func _on_remove_pressed():
+	self.removed.emit()
 	queue_free()
 
 
