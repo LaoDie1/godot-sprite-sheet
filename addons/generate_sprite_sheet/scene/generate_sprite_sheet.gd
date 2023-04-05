@@ -14,6 +14,10 @@ extends MarginContainer
 const MAIN_NODE_META_KEY = &"GenerateSpriteSheetMain_main_node"
 
 
+## 导出了文件
+signal exported
+
+
 # 菜单列表
 @onready var menu_list := %menu_list as MenuList
 # 文件树
@@ -213,8 +217,12 @@ func _on_export_panding_dialog_dir_selected(dir: String):
 					break
 			exported_file_list.append(dir.path_join(filename))
 			ResourceSaver.save(texture, exported_file_list.back() )
-		print("已导出文件：")
+		
+		show_message("已导出文件：" + str(exported_file_list))
 		print(exported_file_list)
+		print()
+		
+		self.exported.emit()
 	).else_show_message("没有这个目录")
 
 
@@ -249,6 +257,7 @@ func _on_export_preview_dialog_file_selected(path):
 		var texture = preview_container.get_texture()
 		ResourceSaver.save(texture, path)
 		show_message("已保存预览图像")
+		self.exported.emit()
 
 
 func _on_git_new_version_meta_clicked(meta):
@@ -315,3 +324,7 @@ func _on__handled(handle: GenerateSpriteSheet_PreviewHandle.Handle):
 				, show_message)
 			
 	)
+
+
+func _on_pending_exported_texture(texture_list):
+	self.exported.emit()

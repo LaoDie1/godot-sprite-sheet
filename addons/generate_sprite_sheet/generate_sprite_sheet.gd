@@ -12,7 +12,7 @@ extends EditorPlugin
 const MAIN = preload("scene/generate_sprite_sheet.tscn")
 
 
-var main : Control = MAIN.instantiate()
+var main : GenerateSpriteSheetMain = MAIN.instantiate()
 
 
 func _enter_tree():
@@ -22,6 +22,11 @@ func _enter_tree():
 		.add_child(main)
 	main.set_anchors_preset(Control.PRESET_FULL_RECT, true)
 	main.hide()
+	main.exported.connect(func():
+		get_editor_interface().get_resource_filesystem().scan()
+		get_editor_interface().get_resource_filesystem().scan_sources()
+	)
+	
 
 
 func _has_main_screen():

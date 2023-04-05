@@ -268,17 +268,16 @@ layout_mode = 2
 [node name="prompt_info_label" type="Label" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
 text = "(message)"
+clip_text = true
+text_overrun_behavior = 3
 
 [node name="prompt_info_anim_player" type="AnimationPlayer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer/prompt_info_label"]
 unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_fnkjw")
 }
-
-[node name="Control" type="Control" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
 
 [node name="line" type="MarginContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer"]
 layout_mode = 2
@@ -321,6 +320,7 @@ shortcut_keys_enabled = false
 [connection signal="stopped" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/动画" to="." method="_on_animation_panel_stopped"]
 [connection signal="handled" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/图像处理" to="." method="_on__handled"]
 [connection signal="merged" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/合并图像" to="." method="_on__merged"]
+[connection signal="exported_texture" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/pending" to="." method="_on_pending_exported_texture"]
 [connection signal="item_double_clicked" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/pending" to="." method="_on_pending_item_double_clicked"]
 [connection signal="previewed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/pending" to="." method="_on_pending_previewed"]
 [connection signal="meta_clicked" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer/git_new_version" to="." method="_on_git_new_version_meta_clicked"]

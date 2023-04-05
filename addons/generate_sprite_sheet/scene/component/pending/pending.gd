@@ -15,6 +15,8 @@ signal item_selected(data: Dictionary)
 signal item_right_clicked(data: Dictionary)
 signal item_double_clicked(data: Dictionary)
 signal previewed(texture: Texture2D)
+signal exported_texture(texture_list: Array[Texture2D])
+
 
 const ITEM_SCENE = preload("item.tscn")
 const ITEM_SCRIPT = preload("item.gd")
@@ -240,6 +242,8 @@ func _on_save_selected_dir_selected(dir: String):
 			idx += 1
 		texture.get_image().save_png(file_path)
 		idx += 1
+	
+	self.exported_texture.emit(get_selected_texture_list())
 	
 
 
