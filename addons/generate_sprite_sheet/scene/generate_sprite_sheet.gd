@@ -18,6 +18,10 @@ const MAIN_NODE_META_KEY = &"GenerateSpriteSheetMain_main_node"
 signal exported
 
 
+@export_node_path("GenerateSpriteSheet_AnimationPanel")
+var anim_handle : NodePath
+
+
 # 菜单列表
 @onready var menu_list = %menu_list
 # 文件树
@@ -334,3 +338,15 @@ func _on__handled(handle: GenerateSpriteSheet_PreviewHandle.Handle):
 
 func _on_pending_exported_texture(texture_list):
 	self.exported.emit()
+
+
+func _on_add_to_anim_pressed():
+	var texture_list = preview_container.get_selected_texture_list()
+	if texture_list.is_empty():
+		show_message("没有选中图像")
+		return
+	
+	var anim_handle_panel = get_node(anim_handle) as GenerateSpriteSheet_AnimationPanel
+	anim_handle_panel.add_animation_items(texture_list)
+	preview_container.clear_select()
+	show_message("已添加为动画")

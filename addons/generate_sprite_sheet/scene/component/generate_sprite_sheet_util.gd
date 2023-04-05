@@ -56,7 +56,7 @@ static func save_cache_data():
 	var cache_data = get_cache_data()
 	var bytes = var_to_bytes_with_objects(cache_data)
 	file.store_buffer(bytes)
-	file.flush()
+	file = null
 
 
 ## 获取配置数据

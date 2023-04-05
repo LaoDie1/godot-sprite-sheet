@@ -82,13 +82,15 @@ func _ready():
 	var config_data = get_config_data()
 	
 	# 缓存动画
-	const ANIM_ITEMS_KEY = &"anim_items"
+	const ANIM_ITEMS_KEY = "anim_items"
 	var anim_list_group = config_data.get(ANIM_ITEMS_KEY, [])
 	for anim_list in anim_list_group:
-		add_animation_items(anim_list, false)
+		add_animation_items(anim_list)
 	
 	# 记录到配置数据
 	config_data[ANIM_ITEMS_KEY] = _anim_items
+	
+	config_data.erase([])
 	
 
 
