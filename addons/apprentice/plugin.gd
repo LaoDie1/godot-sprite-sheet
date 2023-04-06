@@ -72,8 +72,6 @@ func _enter_tree() -> void:
 		var to = AutoLoadConfig.CONFIG_PATH.path_join("example_config.gd")
 		DirAccess.copy_absolute(current_path.path_join("config/example_config.gd"), to)
 	
-	
-
 
 func _exit_tree() -> void:
 	for s_name in __added_type:

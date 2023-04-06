@@ -45,6 +45,7 @@ signal exported
 #  内置
 #============================================================
 func _ready():
+	
 	# 初始化菜单
 	menu_list.init_menu({
 		"FILE": ["SCAN_DIR"],
@@ -66,11 +67,12 @@ func _ready():
 	if file_tree._root == null:
 		var path = "res://addons/generate_sprite_sheet/assets/"
 		file_tree.update_tree(path, GenerateSpriteSheetUtil.get_texture_filter())
-
-
-func _exit_tree():
-	GenerateSpriteSheetUtil.save_cache_data()
-
+	
+	
+	# 是场景根节点时
+#	if get_parent() is SubViewport:
+#		return
+#	print(GenerateSpriteSheetUtil.get_cache_data())
 
 
 #============================================================

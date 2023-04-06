@@ -94,11 +94,11 @@ func _ready():
 	# 加载上次缓存数据
 	var config = get_config_data()
 	const KEY = "data_list"
-	var data_list = config.get(KEY, [])
+	if not config.has(KEY):
+		config[KEY] = _data_list
+	var data_list = config[KEY]
 	for data in data_list:
 		add_data(data)
-	if _data_list.is_empty():
-		_data_list.append_array(data_list)
 	config[KEY] = _data_list
 	
 	prompt_label.visible = _data_list.is_empty()
@@ -141,21 +141,21 @@ func add_data(data: Dictionary):
 	_data_list.append(data)
 	
 	assert(data.has("texture"), "必须要含有 texture key 的数据")
-	var texture_rect := ITEM_SCENE.instantiate() as ITEM_SCRIPT
-	texture_rect.custom_minimum_size = Vector2(64, 64)
-	item_container.add_child(texture_rect)
+	var item_node := ITEM_SCENE.instantiate() as ITEM_SCRIPT
+	item_node.custom_minimum_size = Vector2(64, 64)
+	item_container.add_child(item_node)
 	prompt_label.visible = false
-	data['node'] = texture_rect
+	data['node'] = item_node
 	data['selected'] = false
 	
 	var texture = data.get('texture') as Texture2D
 	if texture == null or texture.get_image().is_empty():
 		data['texture'] = ImageTexture.create_from_image(Image.create(1, 1, false, Image.FORMAT_BPTC_RGBA))
 	
-	texture_rect.set_data(data)
+	item_node.set_data(data)
 	
 	# 选中
-	texture_rect.selected.connect(func(state: bool): 
+	item_node.selected.connect(func(state: bool): 
 		data['selected'] = state
 		
 		if state:
@@ -174,34 +174,38 @@ func add_data(data: Dictionary):
 			# ctrl 键多选，如果没有则会自动取消显示其他选中的项
 			if not Input.is_key_pressed(KEY_CTRL) and not Input.is_key_pressed(KEY_SHIFT):
 				var selected_node_list = get_selected_node_list()
-				selected_node_list.erase(texture_rect)
+				selected_node_list.erase(item_node)
 				if not selected_node_list.is_empty():
 					for selected_node in selected_node_list:
 						selected_node.set_selected(false)
 			
 	)
 	# 右键点击
-	texture_rect.right_clicked.connect(func():
+	item_node.right_clicked.connect(func():
 		item_popup_menu.popup(Rect2i( get_global_mouse_position(), Vector2i() ))
-		texture_rect.set_selected(true)
+		item_node.set_selected(true)
 		_last_right_clicked_item_data = data
 		self.item_right_clicked.emit(data)
 	)
 	# 双击
-	texture_rect.double_clicked.connect(func(): 
+	item_node.double_clicked.connect(func(): 
 		self.item_double_clicked.emit(data)
-		texture_rect.set_selected.call_deferred(false)
+		item_node.set_selected.call_deferred(false)
 	)
 	
 	# 拖拽
-	texture_rect.dragged.connect(func(callback_data_list: Array):
+	item_node.dragged.connect(func(callback_data_list: Array):
 		var selected_data_list = _data_list.filter(func(d): return d['selected'])
 		if selected_data_list.is_empty():
 			selected_data_list.append(data)
 		callback_data_list.append_array(selected_data_list)
 	)
 	
-	texture_rect.tree_exited.connect(func(): _data_list.erase(data) )
+	item_node.tree_exited.connect(func(): 
+		# 这里 await 是为了防止退出程序后，这个地方生效了则会删除掉数据
+		await Engine.get_main_loop().create_timer(1).timeout
+		_data_list.erase(data)
+	)
 
 
 ## 取消所有选中

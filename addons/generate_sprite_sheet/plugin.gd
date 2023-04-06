@@ -49,6 +49,7 @@ func _get_plugin_icon():
 
 
 func _exit_tree():
+	GenerateSpriteSheetUtil.save_cache_data()
 	main.queue_free()
 
 

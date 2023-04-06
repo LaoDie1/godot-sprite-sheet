@@ -49,16 +49,20 @@ static func get_meta_data(key: StringName, default: Callable):
 
 ## 获取程序缓存数据
 static func get_cache_data() -> Dictionary:
-	return get_meta_data(CACHE_KEY, func():
+	var callback = func():
 		var data : Dictionary = {}
 		if FileAccess.file_exists(CACHE_DATA_FILE_PATH):
 			var bytes = FileAccess.get_file_as_bytes(CACHE_DATA_FILE_PATH)
 			data = bytes_to_var_with_objects(bytes)
 		return data
-	)
+	var data = get_meta_data(CACHE_KEY, callback)
+	if data.is_empty():
+		data = callback.call()
+	return data
+	
 
 
-## 保存缓存数据
+## 保存缓存数据，注意防止编辑器打开的节点会保存这个节点
 static func save_cache_data():
 	if_invalid_make_dir(CONFIG_DIR)
 	var cache_data = get_cache_data()
@@ -67,8 +71,10 @@ static func save_cache_data():
 		
 		var file = FileAccess.open(CACHE_DATA_FILE_PATH, FileAccess.WRITE)
 		file.store_buffer(bytes)
-		file.flush()
-		
+		file = null
+	
+	print("[ GenerateSpriteSheetUtil ] 保存数据：", cache_data)
+	
 	Engine.remove_meta(CACHE_KEY)
 	Engine.remove_meta(TEXTURE_FILTER_KEY)
 

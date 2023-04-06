@@ -80,7 +80,6 @@ func _drop_data(at_position, data):
 #  内置
 #============================================================
 func _ready():
-	
 	# 缓存动画数据
 	var config_data = get_config_data()
 	const ANIM_ITEMS_KEY = "anim_items"
