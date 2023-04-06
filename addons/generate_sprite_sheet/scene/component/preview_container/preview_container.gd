@@ -229,7 +229,7 @@ func update_grid_separator(value: Vector2i):
 
 ## 更新切分网格边距
 func update_grid_margin(value: Vector2i):
-	preview_split_grid.marge = value
+	preview_split_grid.margin = value
 
 
 #============================================================

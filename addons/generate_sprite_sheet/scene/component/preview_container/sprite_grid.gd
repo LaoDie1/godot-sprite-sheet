@@ -55,9 +55,9 @@ var width : float =  1:
 		separator_color = v
 		queue_redraw()
 ## 边距
-@export var marge : Vector2i:
+@export var margin : Vector2i:
 	set(v):
-		marge = v
+		margin = v
 		_draw_coordinate_list.clear()
 		queue_redraw()
 
@@ -79,7 +79,7 @@ func get_cell_size() -> Vector2i:
 
 ## 获取每个单元格整的占用的大小
 func get_cell_size_full() -> Vector2i:
-#	var marge_size = Vector2( marge.position.x + marge.size.x, marge.position.y + marge.size.y )
+#	var margin_size = Vector2( margin.position.x + margin.size.x, margin.position.y + margin.size.y )
 	return Vector2i(size) / column_row_number
 
 ## 获取选中的表格单元格坐标列表
@@ -132,26 +132,26 @@ func _draw():
 	# 所有网格
 	for column in column_row_number.x:
 		for row in column_row_number.y:
-			draw_rect(Rect2i(Vector2i(column, row) * cell_size_full + marge, cell_size), color, false, width)
+			draw_rect(Rect2i(Vector2i(column, row) * cell_size_full + margin, cell_size), color, false, width)
 	
 	# 间隔
 	if separator.x > 0 and separator.y > 0:
-		var end_y : int = column_row_number.y * cell_size_full.y - separator.y + marge.y
-		var end_x : int = column_row_number.x * cell_size_full.x - separator.x + marge.x
+		var end_y : int = column_row_number.y * cell_size_full.y - separator.y + margin.y
+		var end_x : int = column_row_number.x * cell_size_full.x - separator.x + margin.x
 		
 		var start_x : int
 		for column in range(1, column_row_number.x):
-			start_x = column * cell_size_full.x - separator.x / 2 + marge.x
-			draw_line(Vector2i(start_x, marge.y), Vector2i(start_x, end_y), separator_color, separator.x)
+			start_x = column * cell_size_full.x - separator.x / 2 + margin.x
+			draw_line(Vector2i(start_x, margin.y), Vector2i(start_x, end_y), separator_color, separator.x)
 		
 		var start_y : int
 		for row in range(1, column_row_number.y):
-			start_y = row * cell_size_full.y - separator.y / 2 + marge.y
-			draw_line(Vector2i(marge.x, start_y), Vector2i(end_x, start_y), separator_color, separator.y)
+			start_y = row * cell_size_full.y - separator.y / 2 + margin.y
+			draw_line(Vector2i(margin.x, start_y), Vector2i(end_x, start_y), separator_color, separator.y)
 	
 	# 选中的坐标
 	for coordinate in _draw_coordinate_list:
-		draw_rect(Rect2i(coordinate * cell_size_full + marge, cell_size), select_color, false, select_width)
+		draw_rect(Rect2i(coordinate * cell_size_full + margin, cell_size), select_color, false, select_width)
 
 
 func _gui_input(event):

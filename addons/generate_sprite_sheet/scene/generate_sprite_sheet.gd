@@ -18,10 +18,6 @@ const MAIN_NODE_META_KEY = &"GenerateSpriteSheetMain_main_node"
 signal exported
 
 
-@export_node_path("GenerateSpriteSheet_AnimationPanel")
-var anim_handle : NodePath
-
-
 # 菜单列表
 @onready var menu_list = %menu_list
 # 文件树
@@ -33,6 +29,8 @@ var anim_handle : NodePath
 @onready var preview_container := %preview_container as GenerateSpriteSheet_PreviewContainer
 # 操作处理容器
 @onready var handle_container = %handle_container
+
+@onready var anim_handle := %ANIM as GenerateSpriteSheet_AnimationPanel
 
 @onready var export_panding_dialog := %export_panding_dialog as FileDialog
 @onready var scan_dir_dialog := %scan_dir_dialog as FileDialog
@@ -49,8 +47,8 @@ var anim_handle : NodePath
 func _ready():
 	# 初始化菜单
 	menu_list.init_menu({
-		"文件": ["扫描目录"],
-		"导出": ["导出所有待处理图像"]
+		"FILE": ["SCAN_DIR"],
+		"EXPORT": ["EXPORT_PENDING_IMAGE"]
 	})
 	
 	# 边距
@@ -63,7 +61,6 @@ func _ready():
 	Engine.set_meta(MAIN_NODE_META_KEY, self)
 	prompt_info_label.modulate.a = 0
 	
-	
 	await get_tree().create_timer(0.1).timeout
 	# 扫描加载文件列表(测试使用)
 	if file_tree._root == null:
@@ -73,6 +70,7 @@ func _ready():
 
 func _exit_tree():
 	GenerateSpriteSheetUtil.save_cache_data()
+
 
 
 #============================================================
@@ -193,11 +191,12 @@ func _on_select_all_pressed():
 
 
 func _on_menu_list_menu_pressed(idx, menu_path):
+	Log.info([menu_path])
 	match menu_path:
-		"/文件/扫描目录":
+		"/FILE/SCAN_DIR":
 			scan_dir_dialog.popup_centered()
 		
-		"/导出/导出所有待处理图像":
+		"/EXPORT/EXPORT_PENDING_IMAGE":
 			if_true(pending.get_data_list().size() > 0, func():
 				export_panding_dialog.popup_centered()
 			).else_show_message("没有待处理的图像")
@@ -312,8 +311,8 @@ func _on__added_to_pending(texture_list: Array[Texture2D]):
 		})
 
 
-func _on__split_grid_changed(marge: Vector2i, separator: Vector2i):
-	preview_container.update_grid_margin(marge)
+func _on__split_grid_changed(margin: Vector2i, separator: Vector2i):
+	preview_container.update_grid_margin(margin)
 	preview_container.update_grid_separator(separator)
 
 
@@ -347,7 +346,6 @@ func _on_add_to_anim_pressed():
 		show_message("没有选中图像")
 		return
 	
-	var anim_handle_panel = get_node(anim_handle) as GenerateSpriteSheet_AnimationPanel
-	anim_handle_panel.add_animation_items(texture_list)
+	anim_handle.add_animation_items(texture_list)
 	preview_container.clear_select()
 	show_message("已添加为动画")

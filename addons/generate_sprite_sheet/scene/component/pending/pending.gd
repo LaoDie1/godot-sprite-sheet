@@ -21,10 +21,10 @@ signal exported_texture(texture_list: Array[Texture2D])
 const ITEM_SCENE = preload("item.tscn")
 const ITEM_SCRIPT = preload("item.gd")
 
-const ImagePopupItem = {
-	PREVIEW = "预览",
-	EXPORT_SELECTED = "导出选中的图像...",
-	REMOVE = "移除",
+enum ImagePopupItem {
+	PREVIEW,
+	EXPORT_SELECTED_IMAGE,
+	REMOVE,
 }
 
 @onready var item_container = %item_container
@@ -81,14 +81,15 @@ func get_selected_node_list() -> Array[ITEM_SCRIPT]:
 #============================================================
 func _ready():
 	item_popup_menu.clear()
-	item_popup_menu.add_item(ImagePopupItem.PREVIEW)
-	item_popup_menu.add_item(ImagePopupItem.EXPORT_SELECTED)
+	var keys = ImagePopupItem.keys()
+	item_popup_menu.add_item(keys[ImagePopupItem.PREVIEW], ImagePopupItem.PREVIEW)
+	item_popup_menu.add_item(keys[ImagePopupItem.EXPORT_SELECTED_IMAGE], ImagePopupItem.EXPORT_SELECTED_IMAGE)
 	item_popup_menu.add_separator()
-	item_popup_menu.add_item(ImagePopupItem.REMOVE)
+	item_popup_menu.add_item(keys[ImagePopupItem.REMOVE], ImagePopupItem.REMOVE)
 	item_popup_menu.add_separator()
 	
 	panel_popup_menu.clear()
-	panel_popup_menu.add_item("创建空的图像")
+	panel_popup_menu.add_item("CREATE_EMPTY_IMAGE")
 	
 	# 加载上次缓存数据
 	var config = get_config_data()
@@ -100,9 +101,7 @@ func _ready():
 		_data_list.append_array(data_list)
 	config[KEY] = _data_list
 	
-	
 	prompt_label.visible = _data_list.is_empty()
-	
 
 
 
@@ -216,8 +215,8 @@ func cancel_all_selected():
 #  连接信号
 #============================================================
 func _on_popup_menu_index_pressed(index):
-	var menu_name = item_popup_menu.get_item_text(index)
-	match menu_name:
+	var id = item_popup_menu.get_item_id(index)
+	match id:
 		ImagePopupItem.PREVIEW:
 			var texture = _last_right_clicked_item_data['texture']
 			self.previewed.emit(texture)
@@ -231,14 +230,14 @@ func _on_popup_menu_index_pressed(index):
 			await Engine.get_main_loop().process_frame
 			prompt_label.visible = item_container.get_child_count() == 0
 		
-		ImagePopupItem.EXPORT_SELECTED:
+		ImagePopupItem.EXPORT_SELECTED_IMAGE:
 			export_selected_dialog.popup_centered()
 
 
 func _on_panel_popup_menu_index_pressed(index):
 	var menu_name = panel_popup_menu.get_item_text(index)
 	match menu_name:
-		"创建空的图像":
+		"CREATE_EMPTY_IMAGE":
 			add_data({"texture": null})
 
 

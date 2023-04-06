@@ -1,0 +1,17 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://c8aepkwcs4mb3"
+
+[deps]
+
+files=["res://addons/generate_sprite_sheet/assets/translation/translation.en.translation", "res://addons/generate_sprite_sheet/assets/translation/translation.zh.translation"]
+
+source_file="res://addons/generate_sprite_sheet/assets/translation/translation.csv"
+dest_files=["res://addons/generate_sprite_sheet/assets/translation/translation.en.translation", "res://addons/generate_sprite_sheet/assets/translation/translation.zh.translation"]
+
+[params]
+
+compress=true
+delimiter=0

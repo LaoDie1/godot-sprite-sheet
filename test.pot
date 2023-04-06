@@ -1,0 +1,44 @@
+# LANGUAGE translation for generate_sprite_sheet for the following files:
+# res://addons/generate_sprite_sheet/scene/component/animation_panel/animation_panel.tscn
+#
+# FIRST AUTHOR < EMAIL @ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: generate_sprite_sheet\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8-bit\n"
+
+#: addons/generate_sprite_sheet/scene/component/animation_panel/animation_panel.tscn
+msgid "STOP"
+msgstr ""
+
+#: addons/generate_sprite_sheet/scene/component/animation_panel/animation_panel.tscn
+msgid "EXPORT_ANIMATION"
+msgstr ""
+
+#: addons/generate_sprite_sheet/scene/component/animation_panel/animation_panel.tscn
+msgid "EXPORT_AS_ANIM_LIB"
+msgstr ""
+
+#: addons/generate_sprite_sheet/scene/component/animation_panel/animation_panel.tscn
+msgid "EXPORT_AS_SPRITE_FRAMES"
+msgstr ""
+
+#: addons/generate_sprite_sheet/scene/component/animation_panel/animation_panel.tscn
+msgid "DRAG_IN_PENDING_IMAGE"
+msgstr ""
+
+#: addons/generate_sprite_sheet/scene/component/animation_panel/animation_panel.tscn
+msgid "TRES"
+msgstr ""
+
+#: addons/generate_sprite_sheet/scene/component/animation_panel/animation_panel.tscn
+msgid "RES"
+msgstr ""
+
+#: addons/generate_sprite_sheet/scene/component/animation_panel/animation_panel.tscn
+msgid "Open File(s)"
+msgstr ""

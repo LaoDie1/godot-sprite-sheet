@@ -73,8 +73,12 @@ class Handle:
 #  内置
 #============================================================
 func _ready():
-	var first_button = %update_target.get_child(0) as Button
+	var first_button = %operate_target.get_child(0) as Button
 	button_group = first_button.button_group as ButtonGroup
+	
+	var button_list = %node_container.get_children().filter(func(node): return node is Button )
+	GenerateSpriteSheetUtil.set_width_by_max_width(button_list)
+	
 
 
 # 执行这个方法处理图片

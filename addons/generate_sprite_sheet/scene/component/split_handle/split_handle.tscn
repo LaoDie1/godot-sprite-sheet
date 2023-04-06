@@ -24,10 +24,11 @@ layout_mode = 2
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(72, 0)
+[node name="margin_label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(216, 0)
 layout_mode = 2
-text = "边距"
+text = "MARGIN"
 horizontal_alignment = 1
 
 [node name="line" type="MarginContainer" parent="VBoxContainer/MarginContainer/HBoxContainer2"]
@@ -42,16 +43,12 @@ custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
 
-[node name="marge" parent="VBoxContainer/MarginContainer/HBoxContainer2" instance=ExtResource("2_kd8pb")]
+[node name="margin" parent="VBoxContainer/MarginContainer/HBoxContainer2" instance=ExtResource("2_kd8pb")]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(276, 0)
 layout_mode = 2
 x_name = "left"
 y_name = "top"
-min_value = 0.0
-max_value = 100.0
-allow_greater = false
-allow_lesser = false
 
 [node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -59,10 +56,11 @@ layout_mode = 2
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/MarginContainer2"]
 layout_mode = 2
 
-[node name="Label3" type="Label" parent="VBoxContainer/MarginContainer2/HBoxContainer2"]
-custom_minimum_size = Vector2(72, 0)
+[node name="separate_label" type="Label" parent="VBoxContainer/MarginContainer2/HBoxContainer2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(216, 0)
 layout_mode = 2
-text = "间隔"
+text = "SEPARATE"
 horizontal_alignment = 1
 
 [node name="line" type="MarginContainer" parent="VBoxContainer/MarginContainer2/HBoxContainer2"]
@@ -83,10 +81,6 @@ custom_minimum_size = Vector2(278, 0)
 layout_mode = 2
 x_name = "left"
 y_name = "top"
-min_value = 0.0
-max_value = 100.0
-allow_greater = false
-allow_lesser = false
 
 [node name="line2" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -108,8 +102,10 @@ layout_mode = 2
 columns = 2
 
 [node name="split_size_btn" type="Button" parent="VBoxContainer/HBoxContainer/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(216, 0)
 layout_mode = 2
-text = "大小切分"
+text = "SIZE_SEGMENTATION"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
@@ -131,14 +127,12 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(278, 0)
 layout_mode = 2
 value = Vector2(16, 16)
-min_value = 0.0
-max_value = 100.0
-allow_greater = false
-allow_lesser = false
 
 [node name="split_column_row_btn" type="Button" parent="VBoxContainer/HBoxContainer/GridContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(216, 0)
 layout_mode = 2
-text = "列行切分"
+text = "COL_ROW_SEGMENTATION"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
@@ -160,12 +154,8 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(278, 0)
 layout_mode = 2
 value = Vector2(4, 4)
-min_value = 0.0
-max_value = 100.0
-allow_greater = false
-allow_lesser = false
 
-[connection signal="value_changed" from="VBoxContainer/MarginContainer/HBoxContainer2/marge" to="." method="_on_marge_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/MarginContainer/HBoxContainer2/margin" to="." method="_on_marge_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/MarginContainer2/HBoxContainer2/separator" to="." method="_on_item_vector_2_value_changed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/GridContainer/split_size_btn" to="." method="_on_split_size_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/GridContainer/split_column_row_btn" to="." method="_on_split_column_row_pressed"]

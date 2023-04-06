@@ -9,6 +9,9 @@
 class_name GenerateSpriteSheetUtil
 
 
+const CACHE_KEY = "GenerateSpriteSheetUtil_get_cache_data"
+const TEXTURE_FILTER_KEY = "GenerateSpriteSheetUtil_get_texture_filter"
+
 ## 默认格式
 const DEFAULT_FORMAT = Image.FORMAT_RGBA8
 
@@ -20,6 +23,14 @@ const DragType = {
 }
 
 
+## 获取过滤条件
+static func get_texture_filter() -> Callable:
+	return get_meta_data(TEXTURE_FILTER_KEY, func():
+		return func(file: String): 
+			return file.get_extension() in ["png", "jpg", "svg"]
+	)
+
+
 ## 如果路径无效，则进行创建
 static func if_invalid_make_dir(dir: String) -> void:
 	if not DirAccess.dir_exists_absolute(dir):
@@ -27,33 +38,39 @@ static func if_invalid_make_dir(dir: String) -> void:
 
 
 ## 获取meta数据
-static func get_meta_data(key: StringName, default):
+static func get_meta_data(key: StringName, default: Callable):
 	if Engine.has_meta(key):
 		return Engine.get_meta(key)
 	else:
-		Engine.set_meta(key, default)
-	return default
+		var value = default.call()
+		Engine.set_meta(key, value)
+		return value
 
 
 ## 获取程序缓存数据
 static func get_cache_data() -> Dictionary:
-	var data = {}
-	if FileAccess.file_exists(CACHE_DATA_FILE_PATH):
-		var bytes = FileAccess.get_file_as_bytes(CACHE_DATA_FILE_PATH)
-		data = bytes_to_var_with_objects(bytes)
-	if data == null:
-		data = {}
-	return data
+	return get_meta_data(CACHE_KEY, func():
+		var data : Dictionary = {}
+		if FileAccess.file_exists(CACHE_DATA_FILE_PATH):
+			var bytes = FileAccess.get_file_as_bytes(CACHE_DATA_FILE_PATH)
+			data = bytes_to_var_with_objects(bytes)
+		return data
+	)
 
 
 ## 保存缓存数据
 static func save_cache_data():
 	if_invalid_make_dir(CONFIG_DIR)
-	var file = FileAccess.open(CACHE_DATA_FILE_PATH, FileAccess.WRITE)
 	var cache_data = get_cache_data()
-	var bytes = var_to_bytes_with_objects(cache_data)
-	file.store_buffer(bytes)
-	file = null
+	if not cache_data.is_empty():
+		var bytes = var_to_bytes_with_objects(cache_data)
+		
+		var file = FileAccess.open(CACHE_DATA_FILE_PATH, FileAccess.WRITE)
+		file.store_buffer(bytes)
+		file.flush()
+		
+	Engine.remove_meta(CACHE_KEY)
+	Engine.remove_meta(TEXTURE_FILTER_KEY)
 
 
 ## 获取配置数据
@@ -253,14 +270,6 @@ static func outline(texture: Texture2D, outline_color: Color, threshold: float =
 	return ImageTexture.create_from_image(new_image)
 
 
-## 获取过滤条件
-static func get_texture_filter() -> Callable:
-	const KEY = "GenerateSpriteSheetUtil_get_texture_filter"
-	return get_meta_data(KEY, func(file: String):
-		return file.get_extension() in ["png", "jpg", "svg"]
-	)
-
-
 ## 加载图片
 static func load_image(path: String) -> Texture2D:
 	if path.begins_with("res:"):
@@ -269,4 +278,17 @@ static func load_image(path: String) -> Texture2D:
 		var image = Image.load_from_file(path)
 		return ImageTexture.create_from_image(image)
 
+
+## 根据节点最大宽度设置宽度
+##[br]
+##[br][code]controls[/code]  [Control] 类型的节点列表
+static func set_width_by_max_width(controls: Array):
+	var max_width = 0
+	for node in controls:
+		(node as Control).custom_minimum_size.x = 0
+		(node as Control).size.x = 0
+		if max_width < node.size.x:
+			max_width = node.size.x
+	for node in controls:
+		node.custom_minimum_size.x = max_width
 

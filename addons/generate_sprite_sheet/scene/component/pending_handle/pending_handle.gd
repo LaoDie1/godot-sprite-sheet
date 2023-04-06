@@ -23,10 +23,10 @@ enum MergeMode {
 }
 
 const MergeModeItem : Dictionary = {
-	MergeMode.SCALE: "缩放到指定大小",
-	MergeMode.CUT: "剪切掉多余部分",
-	MergeMode.MAX_SIZE: "图块设为最大图像的大小",
-	MergeMode.FLOW: "流式排列合并"
+	MergeMode.SCALE: "SCALE_TO_SPECIFIED_SIZE",
+	MergeMode.CUT: "CUT_OFF_THE_EXCESS",
+	MergeMode.MAX_SIZE: "SET_TO_LARGEST_BLOCK_SIZE",
+	MergeMode.FLOW: "FLOW_ARRANGE_MERGE"
 }
 
 ## 每个单元格位置的图片的排列位置
@@ -63,7 +63,7 @@ const MergePosItem : Dictionary = {
 @onready var max_width_label = %max_width_label
 @onready var max_width = %max_width
 @onready var separator = %separator
-@onready var marge = %marge
+@onready var margin = %margin
 @onready var merge_cell_pos_label = %merge_cell_pos_label
 @onready var merge_cell_pos = %merge_cell_pos
 
@@ -264,7 +264,7 @@ func _ready():
 #  连接信号
 #============================================================
 func _on_merge_pressed():
-	var marge_rect := Rect2i(marge.get_value())
+	var margin_rect := Rect2i(margin.get_value())
 	self.merged.emit(Merge.new({
 		"merge_type": merge_mode.get_selected_id(),
 		"max_column": max_column.value,
@@ -273,10 +273,10 @@ func _on_merge_pressed():
 		"max_width": max_width.value,
 		"left_separation": separator.get_value().x,
 		"top_separation": separator.get_value().y,
-		"left_margin": marge_rect.position.x,
-		"right_margin": marge_rect.size.x,
-		"top_margin": marge_rect.position.y,
-		"down_margin": marge_rect.size.y,
+		"left_margin": margin_rect.position.x,
+		"right_margin": margin_rect.size.x,
+		"top_margin": margin_rect.position.y,
+		"down_margin": margin_rect.size.y,
 		"merge_cell_pos": merge_cell_pos.selected,
 	}))
 

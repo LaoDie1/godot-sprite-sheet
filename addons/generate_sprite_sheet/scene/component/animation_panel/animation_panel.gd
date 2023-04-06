@@ -122,8 +122,8 @@ func add_animation_items(texture_list: Array, cache : bool = true) -> ANIM_ITEMS
 			return
 		if Engine.get_main_loop():
 			_scrolled = true
-			await get_tree().process_frame
-			await get_tree().process_frame
+			await Engine.get_main_loop().process_frame
+			await Engine.get_main_loop().process_frame
 			scroll_container.scroll_vertical += items.size.y + 16
 			_scrolled = false
 	).call_deferred()

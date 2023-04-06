@@ -10,9 +10,19 @@ extends MarginContainer
 
 
 ## 更新切分的表格
-signal split_grid_changed(marge: Vector2i, separator: Vector2i)
+signal split_grid_changed(margin: Vector2i, separator: Vector2i)
 signal split_size(cell_size : Vector2i)
 signal split_column_row(column_row: Vector2i)
+
+
+#============================================================
+#  内置
+#============================================================
+func _ready():
+	GenerateSpriteSheetUtil.set_width_by_max_width([
+		%margin_label, %separate_label, %split_size_btn, %split_column_row_btn
+	])
+
 
 
 #============================================================
@@ -27,8 +37,8 @@ func _on_split_column_row_pressed():
 
 
 func _on_item_vector_2_value_changed(value: Vector2):
-	self.split_grid_changed.emit( %marge.get_value(), %separator.get_value() )
+	self.split_grid_changed.emit( %margin.get_value(), %separator.get_value() )
 
 
-func _on_marge_value_changed(value):
-	self.split_grid_changed.emit( %marge.get_value(), %separator.get_value() )
+func _on_margin_value_changed(value):
+	self.split_grid_changed.emit( %margin.get_value(), %separator.get_value() )
