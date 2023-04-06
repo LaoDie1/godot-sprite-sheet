@@ -23,8 +23,7 @@ signal value_changed(value: Vector2)
 @export var editable : bool = true:
 	set(v):
 		editable = v
-		%x.editable = v
-		%y.editable = v
+		_update_node_value("editable", v)
 @export var value : Vector2:
 	set(v):
 		if value != v:
@@ -35,13 +34,33 @@ signal value_changed(value: Vector2)
 @export var step : float = 1.0:
 	set(v):
 		step = v
-		%x.step = step
-		%y.step = step
+		_update_node_value("step", v)
 @export var suffix : String = "px":
 	set(v):
 		suffix = v
-		%x.suffix = suffix
-		%y.suffix = suffix
+		_update_node_value("suffix", v)
+@export var min_value : float = 0.0:
+	set(v): 
+		min_value = v
+		if not allow_lesser:
+			value.x = max(value.x, min_value)
+			value.y = max(value.y, min_value)
+		_update_node_value("min_value", v)
+@export var max_value : float = 100.0:
+	set(v): 
+		max_value = v
+		if not allow_greater:
+			value.x = min(value.x, max_value)
+			value.y = min(value.y, max_value)
+		_update_node_value("max_value", v)
+@export var allow_greater : bool = false:
+	set(v):
+		allow_greater = v
+		_update_node_value("allow_greater", v)
+@export var allow_lesser : bool = false:
+	set(v):
+		allow_lesser = v
+		_update_node_value("allow_lesser", v)
 
 
 #============================================================
@@ -54,6 +73,10 @@ func get_item_node(item_type: String):
 func get_value() -> Vector2:
 	return Vector2( %x.value, %y.value )
 
+
+func _update_node_value(prop, value):
+	%x[prop] = value
+	%y[prop] = value
 
 
 #============================================================

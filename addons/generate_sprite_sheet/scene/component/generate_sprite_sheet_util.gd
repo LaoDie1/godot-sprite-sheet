@@ -41,12 +41,9 @@ static func get_cache_data() -> Dictionary:
 	if FileAccess.file_exists(CACHE_DATA_FILE_PATH):
 		var bytes = FileAccess.get_file_as_bytes(CACHE_DATA_FILE_PATH)
 		data = bytes_to_var_with_objects(bytes)
-	
 	if data == null:
 		data = {}
-	
-	const KEY = "GenerateSpriteSheetUtil_get_last_data"
-	return get_meta_data(KEY, data)
+	return data
 
 
 ## 保存缓存数据
@@ -164,6 +161,7 @@ static func resize_texture(texture: Texture2D, size: Vector2i) -> ImageTexture:
 	return ImageTexture.create_from_image(new_image)
 
 
+##  重设大小
 static func resize_image(image: Image, size: Vector2i) -> Image:
 	var new_image := Image.new()
 	new_image.copy_from(image)

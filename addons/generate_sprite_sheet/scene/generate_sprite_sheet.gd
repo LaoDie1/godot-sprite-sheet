@@ -207,6 +207,7 @@ func _on_file_dialog_dir_selected(dir):
 	file_tree.update_tree(dir, GenerateSpriteSheetUtil.get_texture_filter())
 
 
+
 func _on_pending_item_double_clicked(data):
 	# 预览双击的图片
 	var texture = data["texture"]

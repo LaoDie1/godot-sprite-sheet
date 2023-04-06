@@ -109,7 +109,7 @@ func _get_drag_data(at_position):
 		}
 		
 	else:
-		printerr("没有数据")
+		GenerateSpriteSheetMain.show_message("没有数据")
 
 
 #============================================================

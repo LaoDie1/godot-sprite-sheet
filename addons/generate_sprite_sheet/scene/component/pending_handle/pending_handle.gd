@@ -29,6 +29,32 @@ const MergeModeItem : Dictionary = {
 	MergeMode.FLOW: "流式排列合并"
 }
 
+## 每个单元格位置的图片的排列位置
+enum MergePos {
+	CENTER_LEFT,
+	TOP_LEFT,
+	CENTER_TOP,
+	TOP_RIGHT,
+	CENTER_RIGHT,
+	BOTTOM_RIGHT,
+	CENTER_BOTTOM,
+	BOTTOM_LEFT,
+	CENTER,
+}
+
+const MergePosItem : Dictionary = {
+	MergePos.CENTER_LEFT: "左",
+	MergePos.TOP_LEFT: "左上",
+	MergePos.CENTER_TOP: "上",
+	MergePos.TOP_RIGHT: "右上",
+	MergePos.CENTER_RIGHT: "右",
+	MergePos.BOTTOM_RIGHT: "右下",
+	MergePos.CENTER_BOTTOM: "下",
+	MergePos.BOTTOM_LEFT: "左下",
+	MergePos.CENTER: "居中",
+}
+
+
 @onready var merge_mode = %merge_mode
 @onready var max_column_label = %max_column_label
 @onready var max_column = %max_column
@@ -38,7 +64,13 @@ const MergeModeItem : Dictionary = {
 @onready var max_width = %max_width
 @onready var separator = %separator
 @onready var marge = %marge
+@onready var merge_cell_pos_label = %merge_cell_pos_label
+@onready var merge_cell_pos = %merge_cell_pos
 
+
+#============================================================
+#  合并操作
+#============================================================
 # 合并功能
 class Merge:
 	var max_column : int
@@ -52,20 +84,20 @@ class Merge:
 	var right_margin : int
 	var top_margin : int 
 	var down_margin : int 
+	
 	var merge_type : int
+	var merge_cell_pos : int
 	
 	
 	func _init(data: Dictionary):
 		for prop in data:
 			set(prop, data[prop])
 	
-	
 	## 执行合并
 	func execute(texture_list: Array[Texture2D]) -> Texture2D:
 		if merge_type == MergeMode.FLOW:
 			# 流式图片合并
 			return _flow(texture_list)
-		
 		else:
 			return _normal(texture_list)
 	
@@ -90,21 +122,11 @@ class Merge:
 		if merge_type == MergeMode.MAX_SIZE:
 			# 找到最大宽和高
 			var idx : int = 0
-			var texture : Texture2D
-			for y in max_row:
-				for x in max_column:
-					if idx < texture_list.size():
-						texture = texture_list[idx]
-						idx += 1
-						if sub_image_size.x < texture.get_size().x:
-							sub_image_size.x = texture.get_size().x
-						if sub_image_size.y < texture.get_size().y:
-							sub_image_size.y = texture.get_size().y
-						
-					else:
-						break
-				if idx < texture_list.size():
-					break
+			for texture in texture_list:
+				if sub_image_size.x < texture.get_size().x:
+					sub_image_size.x = texture.get_size().x
+				if sub_image_size.y < texture.get_size().y:
+					sub_image_size.y = texture.get_size().y
 			
 		else:
 			# 设置的宽高参数
@@ -123,20 +145,49 @@ class Merge:
 		var merge_image : Image = Image.create(image_width, image_height, false, image_format)
 		
 		# 开始合并
-		var coordinate : Vector2i
+		var draw_pos : Vector2i
 		var x : int
 		var y : int 
 		var idx = 0
 		var image : Image
 		for texture in texture_list:
+			# 计算图片所在坐标位置
 			x = idx % max_column
 			y = idx / max_column
-			coordinate = Vector2i(x, y) * cell_size
+			draw_pos = Vector2i(x, y) * cell_size
 			image = texture.get_image()
 			if merge_type == MergeMode.SCALE:
 				# 缩放到指定大小
 				image = GenerateSpriteSheetUtil.resize_image(image, sub_image_size)
-			merge_image.blit_rect(image, Rect2i(Vector2i(left_margin, top_margin), cell_size), coordinate)
+			
+			# 设置位置
+			var offset_pos : Vector2i = draw_pos
+			if merge_type == MergeMode.MAX_SIZE:
+				var diff_size : Vector2i = cell_size - image.get_size()
+				# 左和上为默认位置，无需 if 判断
+				if diff_size != Vector2i():
+					match merge_cell_pos:
+						MergePos.CENTER_LEFT:
+							offset_pos.y += diff_size.y / 2
+						MergePos.CENTER_BOTTOM:
+							offset_pos.x += diff_size.x / 2
+							offset_pos.y += diff_size.y
+						MergePos.CENTER_RIGHT:
+							offset_pos.x += diff_size.x
+							offset_pos.y += diff_size.y / 2
+						MergePos.CENTER_TOP:
+							offset_pos.x += diff_size.x / 2
+						MergePos.CENTER:
+							offset_pos += diff_size / 2
+						MergePos.TOP_RIGHT:
+							offset_pos.x += diff_size.x
+						MergePos.BOTTOM_LEFT:
+							offset_pos.y += diff_size.y
+						MergePos.BOTTOM_RIGHT:
+							offset_pos += diff_size
+					
+			
+			merge_image.blit_rect(image, Rect2i(Vector2i(left_margin, top_margin), cell_size), offset_pos)
 			idx += 1
 		
 		# 返回合并的图像
@@ -158,7 +209,6 @@ class Merge:
 		var next_y : int
 		var image : Image
 		var image_size : Vector2i
-		texture_list.reverse()
 		var texture : Texture2D
 		for idx in texture_list.size():
 			texture = texture_list[idx]
@@ -188,15 +238,23 @@ class Merge:
 #  内置
 #============================================================
 func _ready():
+	# 合并方式
 	var merge_mode_node = %merge_mode as OptionButton
 	merge_mode_node.clear()
 	for i in MergeModeItem.values():
 		merge_mode_node.add_item(i)
 	merge_mode_node.selected = 0
-	merge_mode_node.focus_mode = Control.FOCUS_NONE
-	merge_mode_node.visible = false
-	await get_tree().process_frame
-	merge_mode_node.visible = true
+	
+	# 合并的每个图块的位置
+	merge_cell_pos.clear()
+	var default := preload("cell_pos_theme.theme") as Theme
+	var keys = MergePos.keys()
+	for key in MergePosItem:
+		var value = MergePosItem[key]
+		var dir_prop = "ControlAlign" + str(keys[key]).capitalize().replace(" ", "")
+		var texture = default.get_icon(dir_prop, "EditorIcons")
+		merge_cell_pos.add_icon_item(texture, value)
+	merge_cell_pos.select(1)
 	
 	_on_merge_mode_item_selected(0)
 
@@ -219,60 +277,37 @@ func _on_merge_pressed():
 		"right_margin": marge_rect.size.x,
 		"top_margin": marge_rect.position.y,
 		"down_margin": marge_rect.size.y,
+		"merge_cell_pos": merge_cell_pos.selected,
 	}))
 
 
 func _on_merge_mode_item_selected(index):
-	# 修改是否可编辑状态节点
-	var editable_node_map : Dictionary = {
-		cell_size: null,
-		max_column: null,
+	# 可见性的节点
+	var visible_node_list : Array = [
+		max_width_label, max_width, cell_size_label, cell_size, max_column_label, max_column, 
+		merge_cell_pos_label, merge_cell_pos,
+	]
+	# 不可见的节点（去掉可见的节点）
+	var no_visi_map = {
+		MergeMode.SCALE: [
+			merge_cell_pos_label, merge_cell_pos, max_width_label, max_width,
+		],
+		MergeMode.CUT: [
+			merge_cell_pos_label, merge_cell_pos, max_width_label, max_width,
+		],
+		MergeMode.MAX_SIZE: [
+			cell_size_label, cell_size, max_width_label, max_width,
+		],
+		MergeMode.FLOW: [
+			merge_cell_pos_label, merge_cell_pos,
+			cell_size_label, cell_size, max_column_label, max_column
+		],
 	}
-	match index:
-		MergeMode.SCALE:
-			pass
-			
-		MergeMode.CUT:
-			pass
-			
-		MergeMode.MAX_SIZE:
-			editable_node_map[cell_size] = false
-		
-		MergeMode.FLOW:
-			editable_node_map[max_column] = false
-	# 更新
-	for node in editable_node_map:
-		var editable = editable_node_map[node]
-		if editable == null:
-			editable = true
-		node["editable"] = editable
-	
-	
-	# 可见性更新
-	var visible_node_map : Dictionary = {
-		max_width_label: null,
-		max_width: null,
-		cell_size_label: null,
-		cell_size: null,
-		max_column_label: null,
-		max_column: null,
-	}
-	match index:
-		MergeMode.FLOW:
-			visible_node_map[cell_size_label] = false
-			visible_node_map[cell_size] = false
-			visible_node_map[max_column_label] = false
-			visible_node_map[max_column] = false
-		
-		_:
-			visible_node_map[max_width_label] = false
-			visible_node_map[max_width] = false
-		
-	# 更新
-	for node in visible_node_map:
-		var visi = visible_node_map[node]
-		if visi == null:
-			visi = true
-		node['visible'] = visi
-		
+	# 更新状态
+	var no_visible_node_list : Array = no_visi_map.get(index, [])
+	for node in no_visible_node_list:
+		node['visible'] = false
+	for node in visible_node_list:
+		if not no_visible_node_list.has(node):
+			node['visible'] = true
 	

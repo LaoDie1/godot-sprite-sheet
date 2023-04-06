@@ -44,6 +44,7 @@ var _root : TreeItem
 func _get_config_data() -> Dictionary:
 	return GenerateSpriteSheetUtil.get_config_data("file_tree")
 
+
 ## 获取所有选中的 item
 func get_selected_items() -> Array[TreeItem]:
 	var all_items : Array[TreeItem] = []
@@ -52,6 +53,7 @@ func get_selected_items() -> Array[TreeItem]:
 		all_items.append(selected_item)
 		selected_item = tree.get_next_selected(selected_item)
 	return all_items
+
 
 
 #============================================================

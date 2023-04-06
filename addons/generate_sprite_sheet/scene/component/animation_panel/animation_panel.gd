@@ -265,5 +265,6 @@ func _on_import_res_dialog_files_selected(paths):
 			export_animation(res)
 		
 		else:
+			GenerateSpriteSheetMain.show_message("不是有效的动画文件，资源类型必须是 [SpriteFrames, AnimationLibrary, Animation] 中的一种！")
 			printerr("不是有效的动画文件，资源类型必须是 [SpriteFrames, AnimationLibrary, Animation] 中的一种！")
 	

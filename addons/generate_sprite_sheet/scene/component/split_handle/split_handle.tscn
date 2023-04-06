@@ -48,6 +48,10 @@ custom_minimum_size = Vector2(276, 0)
 layout_mode = 2
 x_name = "left"
 y_name = "top"
+min_value = 0.0
+max_value = 100.0
+allow_greater = false
+allow_lesser = false
 
 [node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -79,6 +83,10 @@ custom_minimum_size = Vector2(278, 0)
 layout_mode = 2
 x_name = "left"
 y_name = "top"
+min_value = 0.0
+max_value = 100.0
+allow_greater = false
+allow_lesser = false
 
 [node name="line2" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -122,7 +130,11 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(278, 0)
 layout_mode = 2
-value = Vector2i(16, 16)
+value = Vector2(16, 16)
+min_value = 0.0
+max_value = 100.0
+allow_greater = false
+allow_lesser = false
 
 [node name="split_column_row_btn" type="Button" parent="VBoxContainer/HBoxContainer/GridContainer"]
 layout_mode = 2
@@ -147,7 +159,11 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(278, 0)
 layout_mode = 2
-value = Vector2i(4, 4)
+value = Vector2(4, 4)
+min_value = 0.0
+max_value = 100.0
+allow_greater = false
+allow_lesser = false
 
 [connection signal="value_changed" from="VBoxContainer/MarginContainer/HBoxContainer2/marge" to="." method="_on_marge_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/MarginContainer2/HBoxContainer2/separator" to="." method="_on_item_vector_2_value_changed"]
