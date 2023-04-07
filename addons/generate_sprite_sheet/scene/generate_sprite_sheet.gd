@@ -45,13 +45,6 @@ signal exported
 #  内置
 #============================================================
 func _ready():
-	if not Engine.is_editor_hint():
-		# 是场景根节点时则代表正在编辑中，所以退出节点不保存数据
-		if not get_parent() is SubViewport:
-			tree_exiting.connect(func():
-				GenerateSpriteSheetUtil.save_cache_data()
-			)
-	
 	# 初始化菜单
 	menu_list.init_menu({
 		"FILE": ["SCAN_DIR"],
@@ -73,6 +66,16 @@ func _ready():
 	if file_tree._root == null:
 		var path = "res://addons/generate_sprite_sheet/assets/"
 		file_tree.update_tree(path, GenerateSpriteSheetUtil.get_texture_filter())
+
+
+func _exit_tree():
+	if (Engine.is_editor_hint() 
+		and not get_parent() is SubViewport
+	):
+		# 是场景根节点时则代表正在编辑中，所以退出节点不保存数据
+		GenerateSpriteSheetUtil.save_cache_data()
+	elif not Engine.is_editor_hint():
+		GenerateSpriteSheetUtil.save_cache_data()
 
 
 #============================================================
@@ -238,25 +241,6 @@ func _on_export_panding_dialog_dir_selected(dir: String):
 	).else_show_message("没有这个目录")
 
 
-func _on_animation_panel_played(animation: Animation):
-	preview_container.play(animation)
-
-
-func _on_animation_panel_stopped():
-	preview_container.stop()
-
-
-func _on__merged(data: GenerateSpriteSheet_PendingHandle.Merge):
-	var texture_list : Array[Texture2D] = pending.get_selected_texture_list()
-	if_true(texture_list.size() > 0, func():
-		# 预览
-		var merge_texture = data.execute(texture_list)
-		if merge_texture:
-			preview_container.preview(merge_texture)
-		
-	).else_show_message("没有选中任何图像")
-
-
 func _on_export_preview_pressed():
 	if_has_texture_else_show_message(func():
 		export_preview_dialog.popup_centered()
@@ -288,7 +272,22 @@ func _on_pending_previewed(texture: Texture2D):
 	).else_show_message("错误的预览图像")
 
 
-func _on__split_column_row(column_row: Vector2i):
+func _on_pending_exported_texture(texture_list):
+	self.exported.emit()
+
+
+func _on_add_to_anim_pressed():
+	var texture_list = preview_container.get_selected_texture_list()
+	if texture_list.is_empty():
+		show_message("没有选中图像")
+		return
+	
+	anim_handle.add_animation_items(texture_list)
+	preview_container.clear_select()
+	show_message("已添加为动画")
+
+
+func _on_segment_split_column_row(column_row: Vector2i):
 	if_has_texture_else_show_message(func():
 		if_true(column_row.x > 0 and column_row.y > 0, func():
 			var texture_size = Vector2i(preview_container.get_texture().get_size())
@@ -298,7 +297,12 @@ func _on__split_column_row(column_row: Vector2i):
 	)
 
 
-func _on__split_size(cell_size: Vector2i):
+func _on_segment_split_grid_changed(margin, separator):
+	preview_container.update_grid_margin(margin)
+	preview_container.update_grid_separator(separator)
+
+
+func _on_segment_split_size(cell_size):
 	if_has_texture_else_show_message(func():
 		if_true(cell_size.x > 0 and cell_size.y > 0, func():
 			preview_container.split(cell_size)
@@ -306,19 +310,26 @@ func _on__split_size(cell_size: Vector2i):
 	)
 
 
-func _on__added_to_pending(texture_list: Array[Texture2D]):
-	for texture in texture_list:
-		pending.add_data({
-			"texture": texture
-		})
+func _on_anim_played(animation):
+	preview_container.play(animation)
 
 
-func _on__split_grid_changed(margin: Vector2i, separator: Vector2i):
-	preview_container.update_grid_margin(margin)
-	preview_container.update_grid_separator(separator)
+func _on_anim_stopped():
+	preview_container.stop()
 
 
-func _on__handled(handle: GenerateSpriteSheet_PreviewHandle.Handle):
+func _on_merge_handle_merged(data: GenerateSpriteSheet_PendingHandle.Merge):
+	var texture_list : Array[Texture2D] = pending.get_selected_texture_list()
+	if_true(texture_list.size() > 0, func():
+		# 预览
+		var merge_texture = data.execute(texture_list)
+		if merge_texture:
+			preview_container.preview(merge_texture)
+		
+	).else_show_message("没有选中任何图像")
+
+
+func _on_image_handle_handled(handle: GenerateSpriteSheet_PreviewHandle.Handle):
 	if_has_texture_else_show_message(func():
 		match handle.update_type:
 			handle.PREVIEW:
@@ -338,16 +349,8 @@ func _on__handled(handle: GenerateSpriteSheet_PreviewHandle.Handle):
 	)
 
 
-func _on_pending_exported_texture(texture_list):
-	self.exported.emit()
-
-
-func _on_add_to_anim_pressed():
-	var texture_list = preview_container.get_selected_texture_list()
-	if texture_list.is_empty():
-		show_message("没有选中图像")
-		return
-	
-	anim_handle.add_animation_items(texture_list)
-	preview_container.clear_select()
-	show_message("已添加为动画")
+func _on_anim_added_to_pending(texture_list):
+	for texture in texture_list:
+		pending.add_data({
+			"texture": texture
+		})

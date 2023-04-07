@@ -36,6 +36,7 @@ enum PathType {
 
 var _last_filter : Callable
 var _root : TreeItem
+var _last_scan_directory : String
 
 
 #============================================================
@@ -103,6 +104,7 @@ func _update_tree_item(parent_directory: String, parent_item: TreeItem):
 func update_tree(directory: String, filter: Callable = Callable()):
 	_get_config_data()[ConfKey.SCAN_DIR_KEY] = directory
 	
+	_last_scan_directory = directory
 	_last_filter = filter
 	directory = directory.trim_suffix("/")
 	
@@ -110,6 +112,11 @@ func update_tree(directory: String, filter: Callable = Callable()):
 	_root = tree.create_item()
 	_create_item(PathType.DIRECTORY, directory, null, _root)
 	_root.collapsed = false
+
+
+func rescan():
+	if _last_scan_directory != "":
+		update_tree(_last_scan_directory, _last_filter)
 
 
 
@@ -123,14 +130,6 @@ func _on_tree_cell_selected():
 		var data : Dictionary = item.get_metadata(0) as Dictionary
 		var path_type : int = data.path_type
 		var path : String = data.path
-#		match data.path_type:
-#			PathType.FILE:
-#				if FileAccess.file_exists(path):
-#					pass
-#			PathType.DIRECTORY:
-#				if DirAccess.dir_exists_absolute(path):
-#					pass
-		
 		self.selected.emit(path_type, path)
 
 
@@ -175,3 +174,11 @@ func _on_tree_item_collapsed(item: TreeItem):
 		if data.path_type == PathType.DIRECTORY:
 			_update_tree_item(data.path, item)
 		
+
+
+func _on_tree_item_mouse_selected(position, mouse_button_index):
+	var item = tree.get_selected()
+	if item:
+		var data = item.get_metadata(0)
+		self.selected.emit(data['path_type'], data['path'])
+

@@ -17,6 +17,8 @@ signal double_clicked
 ##的参数列表进行增加 [Dictionary] 类型的数据，且这个数据要有一个 texture 的 key 的数据
 signal dragged(callback_data_list: Array)
 
+signal removed
+
 
 const DEFAULT_COLOR = Color8(255, 255, 255, int(255 * 0.2))
 const SELECTED_COLOR = Color8(255, 255, 255, int(255 * 0.5))
@@ -134,6 +136,11 @@ func add_texture_group(group: String):
 func update_texture(texture: Texture2D):
 	_data["texture"] = texture
 	set_data(_data)
+
+
+func remove():
+	self.removed.emit()
+	queue_free()
 
 
 #============================================================

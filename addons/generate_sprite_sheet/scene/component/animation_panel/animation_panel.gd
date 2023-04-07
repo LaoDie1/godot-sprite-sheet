@@ -109,7 +109,10 @@ func add_animation_items(texture_list: Array, cache : bool = true) -> ANIM_ITEMS
 	)
 	items.removed.connect(func():
 		_anim_items.erase(texture_list)
+		prompt_label.visible = _anim_items.is_empty()
 	)
+	
+	prompt_label.visible = false
 	
 	# 缓存数据
 	if cache:

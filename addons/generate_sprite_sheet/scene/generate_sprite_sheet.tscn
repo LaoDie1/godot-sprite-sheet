@@ -64,14 +64,18 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
 script = ExtResource("1_xquvv")
-metadata/_edit_use_anchors_ = true
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
+metadata/_edit_group_ = true
 
 [node name="menu_list" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
 unique_name_in_owner = true
@@ -93,6 +97,7 @@ split_offset = 225
 
 [node name="file_tree" parent="VBoxContainer/HSplitContainer" instance=ExtResource("3_1vyu0")]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
 [node name="scan_dir_dialog" type="FileDialog" parent="VBoxContainer/HSplitContainer/file_tree"]
@@ -328,14 +333,14 @@ shortcut_keys_enabled = false
 [connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/add_preview_texture" to="." method="_on_add_preview_texture_pressed"]
 [connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/export_preview" to="." method="_on_export_preview_pressed"]
 [connection signal="file_selected" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/export_preview/export_preview_dialog" to="." method="_on_export_preview_dialog_file_selected"]
-[connection signal="split_column_row" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/SEGMENT" to="." method="_on__split_column_row"]
-[connection signal="split_grid_changed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/SEGMENT" to="." method="_on__split_grid_changed"]
-[connection signal="split_size" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/SEGMENT" to="." method="_on__split_size"]
-[connection signal="added_to_pending" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/ANIM" to="." method="_on__added_to_pending"]
-[connection signal="played" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/ANIM" to="." method="_on_animation_panel_played"]
-[connection signal="stopped" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/ANIM" to="." method="_on_animation_panel_stopped"]
-[connection signal="handled" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/IMAGE_HANDLE" to="." method="_on__handled"]
-[connection signal="merged" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/MERGE_HANDLE" to="." method="_on__merged"]
+[connection signal="split_column_row" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/SEGMENT" to="." method="_on_segment_split_column_row"]
+[connection signal="split_grid_changed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/SEGMENT" to="." method="_on_segment_split_grid_changed"]
+[connection signal="split_size" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/SEGMENT" to="." method="_on_segment_split_size"]
+[connection signal="added_to_pending" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/ANIM" to="." method="_on_anim_added_to_pending"]
+[connection signal="played" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/ANIM" to="." method="_on_anim_played"]
+[connection signal="stopped" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/ANIM" to="." method="_on_anim_stopped"]
+[connection signal="handled" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/IMAGE_HANDLE" to="." method="_on_image_handle_handled"]
+[connection signal="merged" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/MERGE_HANDLE" to="." method="_on_merge_handle_merged"]
 [connection signal="exported_texture" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/pending" to="." method="_on_pending_exported_texture"]
 [connection signal="item_double_clicked" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/pending" to="." method="_on_pending_item_double_clicked"]
 [connection signal="previewed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/pending" to="." method="_on_pending_previewed"]

@@ -12,11 +12,11 @@ extends EditorPlugin
 const MAIN = preload("scene/generate_sprite_sheet.tscn")
 
 
-var main : GenerateSpriteSheetMain = MAIN.instantiate()
+var main : GenerateSpriteSheetMain
 
 
 func _enter_tree():
-	# Initialization of the plugin goes here.
+	main = MAIN.instantiate()
 	get_editor_interface() \
 		.get_editor_main_screen() \
 		.add_child(main)

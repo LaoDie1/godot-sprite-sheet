@@ -201,9 +201,7 @@ func add_data(data: Dictionary):
 		callback_data_list.append_array(selected_data_list)
 	)
 	
-	item_node.tree_exited.connect(func(): 
-		# 这里 await 是为了防止退出程序后，这个地方生效了则会删除掉数据
-		await Engine.get_main_loop().create_timer(1).timeout
+	item_node.removed.connect(func(): 
 		_data_list.erase(data)
 	)
 
@@ -228,7 +226,7 @@ func _on_popup_menu_index_pressed(index):
 		ImagePopupItem.REMOVE:
 			var data_list = get_selected_data_list()
 			for node in data_list.map(func(data): return data['node']):
-				node.queue_free()
+				node.remove()
 			
 			await Engine.get_main_loop().process_frame
 			await Engine.get_main_loop().process_frame

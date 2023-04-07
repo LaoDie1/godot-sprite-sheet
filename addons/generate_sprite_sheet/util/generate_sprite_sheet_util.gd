@@ -12,12 +12,14 @@ class_name GenerateSpriteSheetUtil
 const CACHE_KEY = "GenerateSpriteSheetUtil_get_cache_data"
 const TEXTURE_FILTER_KEY = "GenerateSpriteSheetUtil_get_texture_filter"
 
-## 默认格式
-const DEFAULT_FORMAT = Image.FORMAT_RGBA8
-
+# [ 路径 ]
 const CONFIG_DIR = "res://.godot/generate_sprite_sheet"
 const CACHE_DATA_FILE_PATH = CONFIG_DIR + "/cache_data.gdata"
 
+## 默认颜色格式
+const DEFAULT_FORMAT = Image.FORMAT_RGBA8
+
+## 拖拽数据的类型
 const DragType = {
 	FileTree = "drag_file",
 }
@@ -25,10 +27,8 @@ const DragType = {
 
 ## 获取过滤条件
 static func get_texture_filter() -> Callable:
-	return get_meta_data(TEXTURE_FILTER_KEY, func():
-		return func(file: String): 
-			return file.get_extension() in ["png", "jpg", "svg"]
-	)
+	return func(file: String): 
+		return file.get_extension() in ["png", "jpg", "svg"]
 
 
 ## 如果路径无效，则进行创建
@@ -49,36 +49,29 @@ static func get_meta_data(key: StringName, default: Callable):
 
 ## 获取程序缓存数据
 static func get_cache_data() -> Dictionary:
-	var callback = func():
-		var data = {}
+	var data = get_meta_data(CACHE_KEY, func():
 		if FileAccess.file_exists(CACHE_DATA_FILE_PATH):
 			var bytes = FileAccess.get_file_as_bytes(CACHE_DATA_FILE_PATH)
-			if bytes != null:
-				data = bytes_to_var_with_objects(bytes)
-			else:
-				bytes = {}
-		if data == null:
-			data = {}
-		return data
-	
-	var data = get_meta_data(CACHE_KEY, callback)
-	if data.is_empty():
-		data = callback.call()
-		Engine.set_meta(CACHE_KEY, data)
+			if bytes:
+				var value = bytes_to_var_with_objects(bytes)
+				if value is Dictionary:
+					return value
+		return {}
+	)
 	
 	return data
 
 
 ## 保存缓存数据，注意防止编辑器打开的节点会保存这个节点
 static func save_cache_data():
-	if_invalid_make_dir(CONFIG_DIR)
+	if_invalid_make_dir(CACHE_DATA_FILE_PATH.get_base_dir())
+	
 	var cache_data = get_cache_data()
 	if not cache_data.is_empty():
 		var bytes = var_to_bytes_with_objects(cache_data)
-		
 		var file = FileAccess.open(CACHE_DATA_FILE_PATH, FileAccess.WRITE)
 		file.store_buffer(bytes)
-		file = null
+		file.flush()
 	
 	print("[ GenerateSpriteSheetUtil ] 保存数据：", cache_data)
 	
