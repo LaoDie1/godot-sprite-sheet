@@ -100,31 +100,24 @@ class Scan:
 		FILE,
 	}
 	
-	static func method(path: String, list: Array, recursive:bool, type):
+	static func method(path: String, list: Array, recursive:bool, type: int):
 		var directory := DirAccess.open(path)
 		if directory == null:
 			printerr("err: ", path)
 			return
-		directory.list_dir_begin()
-		# 遍历文件
-		var dir_list := []
-		var file_list := []
-		var file := ""
-		file = directory.get_next()
-		while file != "":
-			# 目录
-			if directory.current_is_dir() and not file.begins_with("."):
-				dir_list.append( path.path_join(file) )
-			# 文件
-			elif not directory.current_is_dir() and not file.begins_with("."):
-				file_list.append( path.path_join(file) )
-			
-			file = directory.get_next()
+		
 		# 添加
+		var dir_list = Array(directory.get_directories()).map(func(dir): return path.path_join(dir) )
 		if type == DIRECTORY:
 			list.append_array(dir_list)
 		else:
-			list.append_array(file_list)
+			# 文件排序
+			var files = Array(directory.get_files())
+			files.sort_custom(func(a, b):
+				return int(a) < int(b)
+			)
+			list.append_array(files.map(func(dir): return path.path_join(dir) ))
+		
 		# 递归扫描
 		if recursive:
 			for dir in dir_list:

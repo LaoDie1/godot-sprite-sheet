@@ -12,10 +12,8 @@ extends EditorScript
 func _run():
 	pass
 	
-#	var data = GenerateSpriteSheetUtil.get_cache_data()
-#	print(data)
+	var dir = DirAccess.open("res://")
+	print( dir.get_directories() )
 	
-	var roots = Engine.get_main_loop().root.get_child(0).get_children()
-	print(roots)
 	
 	
