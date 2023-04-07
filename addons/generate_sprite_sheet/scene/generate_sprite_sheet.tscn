@@ -322,6 +322,8 @@ shortcut_keys_enabled = false
 
 [connection signal="menu_pressed" from="VBoxContainer/MarginContainer/menu_list" to="." method="_on_menu_list_menu_pressed"]
 [connection signal="dir_selected" from="VBoxContainer/MarginContainer/menu_list/export_panding_dialog" to="." method="_on_export_panding_dialog_dir_selected"]
+[connection signal="add_to_animation" from="VBoxContainer/HSplitContainer/file_tree" to="." method="_on_file_tree_add_to_animation"]
+[connection signal="add_to_pending" from="VBoxContainer/HSplitContainer/file_tree" to="." method="_on_file_tree_add_to_pending"]
 [connection signal="added_item" from="VBoxContainer/HSplitContainer/file_tree" to="." method="_on_file_tree_added_item"]
 [connection signal="selected" from="VBoxContainer/HSplitContainer/file_tree" to="." method="_on_file_tree_selected"]
 [connection signal="dir_selected" from="VBoxContainer/HSplitContainer/file_tree/scan_dir_dialog" to="." method="_on_file_dialog_dir_selected"]

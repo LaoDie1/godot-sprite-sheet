@@ -19,6 +19,9 @@ signal double_clicked(path_type: int, path: String)
 # 开始拖拽。[code]data_list[/code] 数据为选中的 item 的数据列表
 signal dragged(data_list: Array[Dictionary])
 
+signal add_to_pending(texture_list: Array[Texture])
+signal add_to_animation(texture_list: Array[Texture])
+
 
 enum ConfKey {
 	SCAN_DIR_KEY
@@ -30,8 +33,14 @@ enum PathType {
 	FILE,
 }
 
+## 文件树右键菜单
+enum TreeMenuItem {
+	ADD_TO_PENDING_AREA,
+	ADD_TO_ANIM_AREA,
+}
 
 @onready var tree : Tree = %tree
+@onready var tree_popup_menu = %tree_popup_menu
 
 
 var _last_filter : Callable
@@ -65,20 +74,40 @@ func _ready():
 	if dir and DirAccess.dir_exists_absolute(dir):
 		update_tree(dir, GenerateSpriteSheetUtil.get_texture_filter())
 	
-	# 防止滚动条水平滚动
-	tree.scroll_vertical_enabled = true
-	tree.scroll_horizontal_enabled = true
-	tree.scroll_vertical_enabled = false
-	tree.scroll_horizontal_enabled = false
-	resized.connect(func():
-		tree.scroll_vertical_enabled = true
-		tree.scroll_horizontal_enabled = true
-		tree.scroll_vertical_enabled = false
-		tree.scroll_horizontal_enabled = false
-	)
-	var scroll_bar := %ScrollContainer.get_h_scroll_bar() as HScrollBar 
-	scroll_bar.value_changed.connect(func(value):
-		scroll_bar.value = 0
+#	# 防止滚动条水平滚动
+#	tree.scroll_vertical_enabled = true
+#	tree.scroll_horizontal_enabled = true
+#	tree.scroll_vertical_enabled = false
+#	tree.scroll_horizontal_enabled = false
+#	resized.connect(func():
+#		tree.scroll_vertical_enabled = true
+#		tree.scroll_horizontal_enabled = true
+#		tree.scroll_vertical_enabled = false
+#		tree.scroll_horizontal_enabled = false
+#	)
+	
+	# 添加菜单
+	tree_popup_menu.clear()
+	var keys = TreeMenuItem.keys()
+	for idx in keys.size():
+		tree_popup_menu.add_item(keys[idx], idx)
+	tree_popup_menu.index_pressed.connect(func(index):
+		match index:
+			TreeMenuItem.ADD_TO_PENDING_AREA, TreeMenuItem.ADD_TO_ANIM_AREA:
+				var texture_list = Array(
+					get_selected_items().map(
+						func(item: TreeItem): 
+							var d = item.get_metadata(0)
+							return GenerateSpriteSheetUtil.load_image(d['path'])
+							, 
+					),
+					TYPE_OBJECT, "Texture2D", null
+				)
+				if TreeMenuItem.ADD_TO_PENDING_AREA:
+					self.add_to_pending.emit(texture_list)
+				elif TreeMenuItem.ADD_TO_ANIM_AREA:
+					self.add_to_animation.emit(texture_list)
+			
 	)
 	
 
@@ -200,4 +229,12 @@ func _on_tree_item_mouse_selected(position, mouse_button_index):
 		self.selected.emit(data['path_type'], data['path'])
 
 
+func _on_tree_gui_input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
+			tree_popup_menu.popup( Rect2i(get_global_mouse_position(), Vector2i()) )
 
+
+func _on_tree_empty_clicked(position, mouse_button_index):
+	for item in get_selected_items():
+		item.deselect(0)

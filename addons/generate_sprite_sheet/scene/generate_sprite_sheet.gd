@@ -354,3 +354,14 @@ func _on_anim_added_to_pending(texture_list):
 		pending.add_data({
 			"texture": texture
 		})
+
+
+func _on_file_tree_add_to_animation(texture_list):
+	%ANIM.add_animation_items(texture_list)
+
+
+func _on_file_tree_add_to_pending(texture_list):
+	for texture in texture_list:
+		pending.add_data({
+			"texture": texture,
+		})
