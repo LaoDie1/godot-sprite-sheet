@@ -50,8 +50,7 @@ func _get_plugin_icon():
 
 ## 更新翻译 
 func update_translation():
-	var node_list : Array[Node] = []
-	_translation_node(main, node_list)
+	
 	
 	# 扫描的翻译文件的路径
 	var translation_path : String = "res://addons/generate_sprite_sheet/assets/translation/"
@@ -75,8 +74,8 @@ func update_translation():
 	
 	# 递归遍历更新
 	var propertys = ["text", "tooltip_text"]
-	var value : String
-	for node in node_list:
+	var callback = func(node: Node):
+		var value : String
 		for property in propertys:
 			if property in node:
 				value = translation.get_message(node[property])
@@ -98,10 +97,14 @@ func update_translation():
 				value = translation.get_message(p_node.get_item_text(idx))
 				if value:
 					p_node.set_item_text(idx, value)
+	
+	
+	_translation_node(main, callback)
+	
 
 
 # 获取要翻译的节点
-func _translation_node(node: Node, list: Array[Node]):
+func _translation_node(node: Node, callback: Callable):
 	for child in node.get_children():
 		if (child is Button
 			or child is Label
@@ -111,7 +114,10 @@ func _translation_node(node: Node, list: Array[Node]):
 			or child is MenuButton
 			or child is PopupMenu
 		):
-			list.append(child)
+			callback.call(child)
 	for child in node.get_children():
-		_translation_node(child, list)
+		_translation_node(child, callback)
+		child.child_entered_tree.connect( func(node):
+			_translation_node(node, callback)
+		)
 
