@@ -31,7 +31,7 @@ enum PathType {
 }
 
 
-@onready var tree : Tree = $tree
+@onready var tree : Tree = %tree
 
 
 var _last_filter : Callable
@@ -64,6 +64,7 @@ func _ready():
 	var dir = _get_config_data().get(ConfKey.SCAN_DIR_KEY, "")
 	if dir and DirAccess.dir_exists_absolute(dir):
 		update_tree(dir, GenerateSpriteSheetUtil.get_texture_filter())
+	tree.scroll_vertical_enabled = false
 
 
 

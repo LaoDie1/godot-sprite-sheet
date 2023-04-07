@@ -128,8 +128,8 @@ static func if_true(value, callback: Callable) -> IfTrue:
 
 
 ## 如果存在预览图像则执行回调
-func if_has_texture_else_show_message(callback: Callable, message: String = "没有预览图像"):
-	if_true(preview_container.has_texture(), callback).else_show_message(message)
+func if_has_texture_else_show_message(callback: Callable):
+	if_true(preview_container.has_texture(), callback).else_show_message("没有预览图像")
 
 
 
@@ -335,7 +335,7 @@ func _on_image_handle_handled(handle: GenerateSpriteSheet_PreviewHandle.Handle):
 			handle.PREVIEW:
 				handle.execute([preview_container.get_texture()], func(list: Array[Texture2D]):
 					preview_container.preview(list[0])
-				, show_message)
+				)
 			
 			handle.PENDING_SELECTED:
 				handle.execute(pending.get_selected_texture_list(), func(list: Array[Texture2D]):
@@ -344,7 +344,7 @@ func _on_image_handle_handled(handle: GenerateSpriteSheet_PreviewHandle.Handle):
 						data['node'].update_texture(list[idx])
 						idx += 1
 					
-				, show_message)
+				)
 			
 	)
 

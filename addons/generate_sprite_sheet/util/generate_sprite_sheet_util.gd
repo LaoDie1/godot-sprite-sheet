@@ -217,8 +217,9 @@ static func scan_node(parent: Node, filter: Callable = Callable()) -> Array[Node
 	scan_method.call(scan_method, parent)
 	return list
 
-## 复制一个新的 Image，不会影响前的图片
-static func copy_image(image: Image) -> Image:
+
+## 创建一个新的 Image，不会影响前的图片
+static func create_image_from(image: Image) -> Image:
 	var new_image : Image = Image.create(image.get_width(), image.get_height(), image.has_mipmaps(), DEFAULT_FORMAT)
 	new_image.copy_from(image)
 	return new_image
@@ -226,7 +227,7 @@ static func copy_image(image: Image) -> Image:
 
 ## 替换颜色
 static func replace_color(texture: Texture2D, from: Color, to: Color, threshold: float):
-	var image = copy_image(texture.get_image())
+	var image = create_image_from(texture.get_image())
 	var image_size = image.get_size()
 	var color : Color
 	for x in image_size.x:
@@ -260,7 +261,7 @@ static func outline(texture: Texture2D, outline_color: Color, threshold: float =
 				empty_pixel_set[Vector2i(x, y)] = null
 	
 	# 开始描边
-	var new_image = copy_image(texture.get_image())
+	var new_image = create_image_from(texture.get_image())
 	var coordinate : Vector2i
 	for x in range(1, image.get_size().x - 1):
 		for y in range(1, image.get_size().y - 1):
