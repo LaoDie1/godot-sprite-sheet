@@ -64,8 +64,23 @@ func _ready():
 	var dir = _get_config_data().get(ConfKey.SCAN_DIR_KEY, "")
 	if dir and DirAccess.dir_exists_absolute(dir):
 		update_tree(dir, GenerateSpriteSheetUtil.get_texture_filter())
+	
+	# 防止滚动条水平滚动
+	tree.scroll_vertical_enabled = true
+	tree.scroll_horizontal_enabled = true
 	tree.scroll_vertical_enabled = false
-
+	tree.scroll_horizontal_enabled = false
+	resized.connect(func():
+		tree.scroll_vertical_enabled = true
+		tree.scroll_horizontal_enabled = true
+		tree.scroll_vertical_enabled = false
+		tree.scroll_horizontal_enabled = false
+	)
+	var scroll_bar := %ScrollContainer.get_h_scroll_bar() as HScrollBar 
+	scroll_bar.value_changed.connect(func(value):
+		scroll_bar.value = 0
+	)
+	
 
 
 #============================================================
@@ -75,6 +90,7 @@ func _create_item(path_type: int, path: String, parent_item: TreeItem, item: Tre
 	if item == null:
 		item = parent_item.create_child()
 	item.set_text(0, path.get_file())
+#	item.set_structured_text_bidi_override(0, TextServer.STRUCTURED_TEXT_FILE)
 	# 记录数据
 	var data = {}
 	data['path_type'] = path_type
@@ -182,4 +198,6 @@ func _on_tree_item_mouse_selected(position, mouse_button_index):
 	if item:
 		var data = item.get_metadata(0)
 		self.selected.emit(data['path_type'], data['path'])
+
+
 

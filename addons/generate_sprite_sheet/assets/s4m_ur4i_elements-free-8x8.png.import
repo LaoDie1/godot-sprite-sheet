@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c4t8tuiympvkh"
-path="res://.godot/imported/s4m_ur4i_elements-gamejam-free-8x8-sprites.png-bd9cc387414d5614d6b69c3d889d2c46.ctex"
+path="res://.godot/imported/s4m_ur4i_elements-free-8x8.png-8489ca30e59b4ba5773c2534ec21901d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/generate_sprite_sheet/assets/s4m_ur4i_elements-gamejam-free-8x8-sprites.png"
-dest_files=["res://.godot/imported/s4m_ur4i_elements-gamejam-free-8x8-sprites.png-bd9cc387414d5614d6b69c3d889d2c46.ctex"]
+source_file="res://addons/generate_sprite_sheet/assets/s4m_ur4i_elements-free-8x8.png"
+dest_files=["res://.godot/imported/s4m_ur4i_elements-free-8x8.png-8489ca30e59b4ba5773c2534ec21901d.ctex"]
 
 [params]
 

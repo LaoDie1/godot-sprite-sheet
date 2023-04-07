@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://addons/generate_sprite_sheet/scene/component/pending/pending.gd" id="1_y48d3"]
 
 [node name="pending" type="PanelContainer"]
-offset_right = 325.0
-offset_bottom = 100.0
+offset_right = 520.0
+offset_bottom = 129.0
 size_flags_vertical = 3
 script = ExtResource("1_y48d3")
 
@@ -77,14 +77,14 @@ file_mode = 2
 
 [connection signal="mouse_entered" from="ScrollContainer/item_container/item" to="ScrollContainer/item_container/item" method="_on_mouse_entered" flags=18]
 [connection signal="mouse_exited" from="ScrollContainer/item_container/item" to="ScrollContainer/item_container/item" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/item_container/@item@20713" to="ScrollContainer/item_container/@item@20713" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/item_container/@item@20713" to="ScrollContainer/item_container/@item@20713" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/item_container/@item@20714" to="ScrollContainer/item_container/@item@20714" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/item_container/@item@20714" to="ScrollContainer/item_container/@item@20714" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/item_container/@item@20715" to="ScrollContainer/item_container/@item@20715" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/item_container/@item@20715" to="ScrollContainer/item_container/@item@20715" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/item_container/@item@20716" to="ScrollContainer/item_container/@item@20716" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/item_container/@item@20716" to="ScrollContainer/item_container/@item@20716" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="ScrollContainer/item_container/@item@20117" to="ScrollContainer/item_container/@item@20117" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="ScrollContainer/item_container/@item@20117" to="ScrollContainer/item_container/@item@20117" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="ScrollContainer/item_container/@item@20118" to="ScrollContainer/item_container/@item@20118" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="ScrollContainer/item_container/@item@20118" to="ScrollContainer/item_container/@item@20118" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="ScrollContainer/item_container/@item@20119" to="ScrollContainer/item_container/@item@20119" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="ScrollContainer/item_container/@item@20119" to="ScrollContainer/item_container/@item@20119" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="ScrollContainer/item_container/@item@20120" to="ScrollContainer/item_container/@item@20120" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="ScrollContainer/item_container/@item@20120" to="ScrollContainer/item_container/@item@20120" method="_on_mouse_exited" flags=18]
 [connection signal="confirmed" from="group_dialog" to="." method="_on_group_dialog_confirmed"]
 [connection signal="index_pressed" from="item_popup_menu" to="." method="_on_popup_menu_index_pressed"]
 [connection signal="index_pressed" from="panel_popup_menu" to="." method="_on_panel_popup_menu_index_pressed"]
