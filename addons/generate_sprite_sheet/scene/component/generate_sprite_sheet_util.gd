@@ -50,16 +50,23 @@ static func get_meta_data(key: StringName, default: Callable):
 ## 获取程序缓存数据
 static func get_cache_data() -> Dictionary:
 	var callback = func():
-		var data : Dictionary = {}
+		var data = {}
 		if FileAccess.file_exists(CACHE_DATA_FILE_PATH):
 			var bytes = FileAccess.get_file_as_bytes(CACHE_DATA_FILE_PATH)
-			data = bytes_to_var_with_objects(bytes)
+			if bytes != null:
+				data = bytes_to_var_with_objects(bytes)
+			else:
+				bytes = {}
+		if data == null:
+			data = {}
 		return data
+	
 	var data = get_meta_data(CACHE_KEY, callback)
 	if data.is_empty():
 		data = callback.call()
-	return data
+		Engine.set_meta(CACHE_KEY, data)
 	
+	return data
 
 
 ## 保存缓存数据，注意防止编辑器打开的节点会保存这个节点

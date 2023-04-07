@@ -45,6 +45,12 @@ signal exported
 #  内置
 #============================================================
 func _ready():
+	if not Engine.is_editor_hint():
+		# 是场景根节点时则代表正在编辑中，所以退出节点不保存数据
+		if not get_parent() is SubViewport:
+			tree_exiting.connect(func():
+				GenerateSpriteSheetUtil.save_cache_data()
+			)
 	
 	# 初始化菜单
 	menu_list.init_menu({
@@ -67,12 +73,6 @@ func _ready():
 	if file_tree._root == null:
 		var path = "res://addons/generate_sprite_sheet/assets/"
 		file_tree.update_tree(path, GenerateSpriteSheetUtil.get_texture_filter())
-	
-	
-	# 是场景根节点时
-#	if get_parent() is SubViewport:
-#		return
-#	print(GenerateSpriteSheetUtil.get_cache_data())
 
 
 #============================================================

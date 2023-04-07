@@ -48,11 +48,6 @@ func _get_plugin_icon():
 	return icon
 
 
-func _exit_tree():
-	GenerateSpriteSheetUtil.save_cache_data()
-	main.queue_free()
-
-
 ## 更新翻译 
 func update_translation():
 	var node_list : Array[Node] = []
