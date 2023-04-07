@@ -299,3 +299,9 @@ static func set_width_by_max_width(controls: Array):
 	for node in controls:
 		node.custom_minimum_size.x = max_width
 
+
+##  节点上是否存在鼠标
+##[br]
+##[br][code]node[/code]  [Control] 类型的节点
+static func has_mouse(node: Control) -> bool:
+	return Rect2(Vector2(), node.size).has_point(node.get_local_mouse_position())

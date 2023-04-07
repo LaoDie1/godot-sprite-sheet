@@ -61,6 +61,7 @@ item_0/id = 0
 
 [node name="prompt_label" type="Label" parent="."]
 unique_name_in_owner = true
+visible = false
 modulate = Color(1, 1, 1, 0.498039)
 layout_mode = 2
 text = "PENDING_IMAGE"
@@ -71,9 +72,13 @@ vertical_alignment = 1
 unique_name_in_owner = true
 title = "Open a Directory"
 size = Vector2i(500, 350)
-ok_button_text = "选择当前文件夹"
+ok_button_text = "Select Current Folder"
 file_mode = 2
 
+[connection signal="mouse_entered" from="ScrollContainer/item_container/item" to="ScrollContainer/item_container/item" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="ScrollContainer/item_container/item" to="ScrollContainer/item_container/item" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="ScrollContainer/item_container/@item@20707" to="ScrollContainer/item_container/@item@20707" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="ScrollContainer/item_container/@item@20707" to="ScrollContainer/item_container/@item@20707" method="_on_mouse_exited" flags=18]
 [connection signal="confirmed" from="group_dialog" to="." method="_on_group_dialog_confirmed"]
 [connection signal="index_pressed" from="item_popup_menu" to="." method="_on_popup_menu_index_pressed"]
 [connection signal="index_pressed" from="panel_popup_menu" to="." method="_on_panel_popup_menu_index_pressed"]

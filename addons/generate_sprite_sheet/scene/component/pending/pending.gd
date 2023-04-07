@@ -136,6 +136,9 @@ func _gui_input(event):
 #============================================================
 #  自定义
 #============================================================
+var _can_handle_selected : Array = [true]
+
+## 添加数据。这个数据必须要有 texture key 的数据，且数据类型需要是 [Texture2D] 类型
 func add_data(data: Dictionary):
 	data = data.duplicate()
 	_data_list.append(data)
@@ -156,29 +159,51 @@ func add_data(data: Dictionary):
 	
 	# 选中
 	item_node.selected.connect(func(state: bool): 
+		# 这个key 是用来筛选是否选中的节点的，所以发生改变时必须修改
 		data['selected'] = state
+		
+		# 一帧内只触发一个选中的节点信号
+		if not _can_handle_selected[0]:
+			return
+		_can_handle_selected[0] = false
+		Engine.get_main_loop().process_frame.connect(func():
+			_can_handle_selected[0] = true
+		, Object.CONNECT_ONE_SHOT)
+		
+		# 如果选中多个，则不取消选中，改为只选中这一个
+		if (not state 
+			and not (Input.is_key_pressed(KEY_SHIFT) and Input.is_key_pressed(KEY_CTRL))
+			and GenerateSpriteSheetUtil.has_mouse(item_node)
+		):
+			var selected_nodes = get_selected_node_list()
+			selected_nodes.erase(item_node)
+			if selected_nodes.size() > 0:
+				for node in selected_nodes:
+					node.set_selected(false)
+				data['selected'] = true
+				item_node.set_selected(true)
+				return
 		
 		if state:
 			self.item_selected.emit(data)
-			
-			# shift 键连选
-			if Input.is_key_pressed(KEY_SHIFT):
-				var indxs = get_selected_data_list().map(func(data): return (data['node'] as Node).get_index() )
-				var start_idx = indxs.min()
-				var end_idx = indxs.max()
-				
+		
+		# shift 键连选
+		if Input.is_key_pressed(KEY_SHIFT):
+			var indxs = get_selected_data_list().map(func(data): return (data['node'] as Node).get_index() )
+			if not indxs.is_empty():
+				var start_idx : int = indxs.min()
+				var end_idx : int = indxs.max()
 				for i in range(start_idx, end_idx+1):
 					var item = _data_list[i]["node"] as ITEM_SCRIPT
 					item.set_selected(true)
-			
-			# ctrl 键多选，如果没有则会自动取消显示其他选中的项
-			if not Input.is_key_pressed(KEY_CTRL) and not Input.is_key_pressed(KEY_SHIFT):
-				var selected_node_list = get_selected_node_list()
-				selected_node_list.erase(item_node)
-				if not selected_node_list.is_empty():
-					for selected_node in selected_node_list:
-						selected_node.set_selected(false)
-			
+		
+		# ctrl 键多选，如果没有则会自动取消显示其他选中的项
+		if not Input.is_key_pressed(KEY_CTRL) and not Input.is_key_pressed(KEY_SHIFT):
+			var selected_node_list = get_selected_node_list()
+			selected_node_list.erase(item_node)
+			if not selected_node_list.is_empty():
+				for selected_node in selected_node_list:
+					selected_node.set_selected(false)
 	)
 	# 右键点击
 	item_node.right_clicked.connect(func():
@@ -201,6 +226,7 @@ func add_data(data: Dictionary):
 		callback_data_list.append_array(selected_data_list)
 	)
 	
+	# 移除
 	item_node.removed.connect(func(): 
 		_data_list.erase(data)
 	)
