@@ -96,12 +96,12 @@ func get_selected_coordinate_list() -> Array[Vector2i]:
 ## 位置转为单元格坐标位置
 func to_coodinate(pos: Vector2) -> Vector2i:
 	var cell_size_full : Vector2i = get_cell_size_full()
-	return Vector2i(pos) / cell_size_full
+	return (Vector2i(pos) - margin) / cell_size_full
 
 ## 单元格坐标转为具体位置
 func to_position(coordinate: Vector2i) -> Vector2i:
 	var cell_size_full = get_cell_size_full()
-	return cell_size_full * coordinate
+	return cell_size_full * coordinate + margin
 
 ## 获取这个坐标的块区域
 func get_cell_rect_by_coord(coordinate: Vector2i) -> Rect2i:
