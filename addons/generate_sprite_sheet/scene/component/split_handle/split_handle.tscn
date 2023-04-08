@@ -155,7 +155,7 @@ custom_minimum_size = Vector2(278, 0)
 layout_mode = 2
 value = Vector2(4, 4)
 
-[connection signal="value_changed" from="VBoxContainer/MarginContainer/HBoxContainer2/margin" to="." method="_on_marge_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/MarginContainer/HBoxContainer2/margin" to="." method="_on_margin_value_changed"]
 [connection signal="value_changed" from="VBoxContainer/MarginContainer2/HBoxContainer2/separator" to="." method="_on_item_vector_2_value_changed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/GridContainer/split_size_btn" to="." method="_on_split_size_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/GridContainer/split_column_row_btn" to="." method="_on_split_column_row_pressed"]
