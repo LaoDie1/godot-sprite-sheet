@@ -40,8 +40,10 @@ data = {
 image = SubResource("Image_vnd1w")
 
 [node name="preview_handle" type="MarginContainer"]
-offset_right = 585.0
-offset_bottom = 362.0
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 707.0
+grow_vertical = 2
 script = ExtResource("1_2u6a4")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -280,7 +282,7 @@ layout_mode = 2
 color = Color(1, 1, 1, 1)
 
 [node name="Control3" type="Control" parent="VBoxContainer/ScrollContainer/node_container/HBoxContainer3"]
-custom_minimum_size = Vector2(16, 0)
+custom_minimum_size = Vector2(12, 0)
 layout_mode = 2
 
 [node name="Label3" type="Label" parent="VBoxContainer/ScrollContainer/node_container/HBoxContainer3"]
@@ -335,6 +337,31 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
 
+[node name="mix" type="Button" parent="VBoxContainer/ScrollContainer/node_container"]
+layout_mode = 2
+text = "MIX"
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="VBoxContainer/ScrollContainer/node_container"]
+layout_mode = 2
+
+[node name="line" type="MarginContainer" parent="VBoxContainer/ScrollContainer/node_container/HBoxContainer7"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="VBoxContainer/ScrollContainer/node_container/HBoxContainer7/line"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
+
+[node name="mix_color" type="ColorPickerButton" parent="VBoxContainer/ScrollContainer/node_container/HBoxContainer7"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+color = Color(1, 1, 1, 0.498039)
+
 [node name="Control" type="Control" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 4)
 layout_mode = 2
@@ -355,4 +382,5 @@ text = "CLEAR_TRANSPARENCY"
 [connection signal="pressed" from="VBoxContainer/ScrollContainer/node_container/HBoxContainer3/color_swap" to="." method="_on_color_swap_pressed"]
 [connection signal="value_changed" from="VBoxContainer/ScrollContainer/node_container/HBoxContainer3/color_threshold" to="." method="_on_color_threshold_value_changed"]
 [connection signal="pressed" from="VBoxContainer/ScrollContainer/node_container/outline" to="." method="_on_outline_pressed"]
+[connection signal="pressed" from="VBoxContainer/ScrollContainer/node_container/mix" to="." method="_on_mix_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/clear_transparency" to="." method="_on_clear_transparency_pressed"]

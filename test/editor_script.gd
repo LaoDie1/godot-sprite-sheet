@@ -12,8 +12,6 @@ extends EditorScript
 func _run():
 	pass
 	
-	var dir = DirAccess.open("res://")
-	print( dir.get_directories() )
-	
-	
+	var texture = preload("res://addons/generate_sprite_sheet/assets/Butcher.png") as Texture2D
+	print(texture.get_image().get_format())
 	

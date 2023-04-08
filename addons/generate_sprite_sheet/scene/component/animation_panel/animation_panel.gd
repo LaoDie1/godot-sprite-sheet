@@ -147,7 +147,7 @@ func generate_animation_library() -> AnimationLibrary:
 ## 生成精灵动画帧，用于 [AnimatedSprite2D] 中
 func generate_sprite_frames() -> SpriteFrames:
 	var sprite_frames := SpriteFrames.new()
-	sprite_frames.clear_all()
+	sprite_frames.remove_animation("default")
 	for child in anim_item_container.get_children():
 		child = child as ANIM_ITEMS_SCRIPT
 		if child is ANIM_ITEMS_SCRIPT:

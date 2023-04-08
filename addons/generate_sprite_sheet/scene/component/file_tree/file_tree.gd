@@ -58,7 +58,7 @@ func _get_config_data() -> Dictionary:
 ## 获取所有选中的 item
 func get_selected_items() -> Array[TreeItem]:
 	var all_items : Array[TreeItem] = []
-	var selected_item = tree.get_selected()
+	var selected_item = tree.get_next_selected(_root)
 	while selected_item:
 		all_items.append(selected_item)
 		selected_item = tree.get_next_selected(selected_item)
@@ -95,13 +95,15 @@ func _ready():
 		match index:
 			TreeMenuItem.ADD_TO_PENDING_AREA, TreeMenuItem.ADD_TO_ANIM_AREA:
 				var texture_list = Array(
-					get_selected_items().map(
-						func(item: TreeItem): 
-							var d = item.get_metadata(0)
-							return GenerateSpriteSheetUtil.load_image(d['path'])
-							, 
-					),
-					TYPE_OBJECT, "Texture2D", null
+					get_selected_items() 
+						.map(func(item: TreeItem): 
+								var d = item.get_metadata(0)
+								if FileAccess.file_exists(d["path"]):
+									return GenerateSpriteSheetUtil.load_image(d['path'])
+								, 
+						)
+						.filter(func(texture): return texture != null )
+					, TYPE_OBJECT, "Texture2D", null
 				)
 				if TreeMenuItem.ADD_TO_PENDING_AREA:
 					self.add_to_pending.emit(texture_list)
@@ -155,9 +157,12 @@ func update_tree(directory: String, filter: Callable = Callable()):
 	directory = directory.trim_suffix("/")
 	
 	tree.clear()
+	var width = tree.size.x
+	tree.size.x = 100
 	_root = tree.create_item()
 	_create_item(PathType.DIRECTORY, directory, null, _root)
 	_root.collapsed = false
+	tree.size.x = width
 
 
 func rescan():

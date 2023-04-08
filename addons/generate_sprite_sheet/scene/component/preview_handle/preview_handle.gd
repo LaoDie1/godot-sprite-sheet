@@ -173,3 +173,21 @@ func _on_rot_pressed():
 
 func _on_rotation_value_changed(value):
 	%rotation_label.text = str(value)
+
+
+func _on_mix_pressed():
+	_emit_handle(func(texture: Texture2D):
+		var new_image : Image = GenerateSpriteSheetUtil.create_image_from(texture.get_image())
+		var mix_image : Image = GenerateSpriteSheetUtil.create_image_from(texture.get_image())
+		var mix_color : Color = %mix_color.color
+		var color : Color
+		for x in mix_image.get_width():
+			for y in mix_image.get_height():
+				color = mix_image.get_pixel(x, y)
+				if color.a > 0:
+					mix_image.set_pixel(x, y, color.blend(mix_color))
+		
+		# 混合
+		new_image.blend_rect(mix_image, Rect2i(Vector2i(), new_image.get_size()), Vector2i())
+		return ImageTexture.create_from_image(new_image)
+	)

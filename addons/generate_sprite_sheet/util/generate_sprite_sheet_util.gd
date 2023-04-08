@@ -100,7 +100,20 @@ class Scan:
 		FILE,
 	}
 	
-	static func method(path: String, list: Array, recursive:bool, type: int):
+	var regex = RegEx.new()
+	
+	func _init():
+		regex.compile("(\\.*?)(\\d+)\\.")
+	
+	func _sort(a: String, b: String) -> bool:
+		var a_index : RegExMatch = regex.search(a)
+		if a_index:
+			var b_index : RegExMatch = regex.search(b)
+			if b_index and a_index.get_string(1) == b_index.get_string(1):
+				return int(a_index.get_string(2)) < int(b_index.get_string(2))
+		return a < b
+	
+	func _exec(path: String, list: Array, recursive:bool, type: int):
 		var directory := DirAccess.open(path)
 		if directory == null:
 			printerr("err: ", path)
@@ -111,17 +124,22 @@ class Scan:
 		if type == DIRECTORY:
 			list.append_array(dir_list)
 		else:
+			
 			# 文件排序
 			var files = Array(directory.get_files())
-			files.sort_custom(func(a, b):
-				return int(a) < int(b)
-			)
+			files.sort_custom(_sort)
 			list.append_array(files.map(func(dir): return path.path_join(dir) ))
 		
 		# 递归扫描
 		if recursive:
 			for dir in dir_list:
-				method(dir, list, recursive, type)
+				_exec(dir, list, recursive, type)
+	
+	
+	static func execute(path: String, list: Array, recursive:bool, type: int):
+		var scan = Scan.new()
+		scan._exec(path, list, recursive, type)
+		
 
 
 ##  扫描目录
@@ -131,7 +149,7 @@ class Scan:
 static func scan_directory(dir: String, recursive:= false) -> Array[String]:
 	assert(DirAccess.dir_exists_absolute(dir), "没有这个路径")
 	var list : Array[String] = []
-	Scan.method(dir, list, recursive, Scan.DIRECTORY)
+	Scan.execute(dir, list, recursive, Scan.DIRECTORY)
 	return list
 
 
@@ -142,7 +160,7 @@ static func scan_directory(dir: String, recursive:= false) -> Array[String]:
 static func scan_file(dir: String, recursive:= false) -> Array[String]:
 	assert(DirAccess.dir_exists_absolute(dir), "没有这个路径")
 	var list : Array[String] = []
-	Scan.method(dir, list, recursive, Scan.FILE)
+	Scan.execute(dir, list, recursive, Scan.FILE)
 	return list
 
 
@@ -220,8 +238,9 @@ static func create_image_from(image: Image) -> Image:
 
 ## 替换颜色
 static func replace_color(texture: Texture2D, from: Color, to: Color, threshold: float):
-	var image = create_image_from(texture.get_image())
-	var image_size = image.get_size()
+	var image = texture.get_image()
+	var new_image = Image.create(image.get_width(), image.get_height(), false, DEFAULT_FORMAT)
+	var image_size = new_image.get_size()
 	var color : Color
 	for x in image_size.x:
 		for y in image_size.y:
@@ -231,8 +250,10 @@ static func replace_color(texture: Texture2D, from: Color, to: Color, threshold:
 				and abs(color.b - from.b) <= threshold
 				and abs(color.a - from.a) <= threshold
 			):
-				image.set_pixel(x, y, to)
-	return ImageTexture.create_from_image(image)
+				new_image.set_pixel(x, y, to)
+			else:
+				new_image.set_pixel(x, y, color)
+	return ImageTexture.create_from_image(new_image)
 
 
 ## 描边
