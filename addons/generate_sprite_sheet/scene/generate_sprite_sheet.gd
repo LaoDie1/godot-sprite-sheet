@@ -30,7 +30,7 @@ signal exported
 # 操作处理容器
 @onready var handle_container = %handle_container
 
-@onready var anim_handle := %ANIM as GenerateSpriteSheet_AnimationPanel
+@onready var anim_panel := %ANIM as GenerateSpriteSheet_AnimationPanel
 
 @onready var export_panding_dialog := %export_panding_dialog as FileDialog
 @onready var scan_dir_dialog := %scan_dir_dialog as FileDialog
@@ -282,7 +282,7 @@ func _on_add_to_anim_pressed():
 		show_message("没有选中图像")
 		return
 	
-	anim_handle.add_animation_items(texture_list)
+	anim_panel.add_animation_items(texture_list)
 	preview_container.clear_select()
 	show_message("已添加为动画")
 
@@ -357,7 +357,7 @@ func _on_anim_added_to_pending(texture_list):
 
 
 func _on_file_tree_add_to_animation(texture_list):
-	%ANIM.add_animation_items(texture_list)
+	anim_panel.add_animation_items(texture_list)
 
 
 func _on_file_tree_add_to_pending(texture_list):

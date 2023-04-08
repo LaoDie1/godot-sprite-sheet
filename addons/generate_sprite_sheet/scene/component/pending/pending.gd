@@ -80,6 +80,8 @@ func get_selected_node_list() -> Array[ITEM_SCRIPT]:
 #  内置
 #============================================================
 func _ready():
+	prompt_label.visible = true
+	
 	item_popup_menu.clear()
 	var keys = ImagePopupItem.keys()
 	item_popup_menu.add_item(keys[ImagePopupItem.PREVIEW], ImagePopupItem.PREVIEW)
