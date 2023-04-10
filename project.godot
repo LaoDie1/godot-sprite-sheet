@@ -14,7 +14,7 @@ config/name="generate_sprite_sheet"
 run/main_scene="res://addons/generate_sprite_sheet/scene/generate_sprite_sheet.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 run/low_processor_mode=true
-config/icon="res://icon.svg"
+config/icon="res://icon.png"
 
 [display]
 
