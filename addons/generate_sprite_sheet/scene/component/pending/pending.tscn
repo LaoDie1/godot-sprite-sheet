@@ -72,19 +72,13 @@ vertical_alignment = 1
 unique_name_in_owner = true
 title = "Open a Directory"
 size = Vector2i(500, 350)
-ok_button_text = "Select Current Folder"
+ok_button_text = "选择当前文件夹"
 file_mode = 2
 
 [connection signal="mouse_entered" from="ScrollContainer/item_container/item" to="ScrollContainer/item_container/item" method="_on_mouse_entered" flags=18]
 [connection signal="mouse_exited" from="ScrollContainer/item_container/item" to="ScrollContainer/item_container/item" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/item_container/@item@20184" to="ScrollContainer/item_container/@item@20184" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/item_container/@item@20184" to="ScrollContainer/item_container/@item@20184" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/item_container/@item@20185" to="ScrollContainer/item_container/@item@20185" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/item_container/@item@20185" to="ScrollContainer/item_container/@item@20185" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/item_container/@item@20186" to="ScrollContainer/item_container/@item@20186" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/item_container/@item@20186" to="ScrollContainer/item_container/@item@20186" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/item_container/@item@20187" to="ScrollContainer/item_container/@item@20187" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/item_container/@item@20187" to="ScrollContainer/item_container/@item@20187" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="ScrollContainer/item_container/@item@20069" to="ScrollContainer/item_container/@item@20069" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="ScrollContainer/item_container/@item@20069" to="ScrollContainer/item_container/@item@20069" method="_on_mouse_exited" flags=18]
 [connection signal="confirmed" from="group_dialog" to="." method="_on_group_dialog_confirmed"]
 [connection signal="index_pressed" from="item_popup_menu" to="." method="_on_popup_menu_index_pressed"]
 [connection signal="index_pressed" from="panel_popup_menu" to="." method="_on_panel_popup_menu_index_pressed"]
