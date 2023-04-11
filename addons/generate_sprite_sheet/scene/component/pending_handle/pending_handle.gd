@@ -162,7 +162,7 @@ class Merge:
 			
 			# 设置位置
 			var offset_pos : Vector2i = draw_pos
-			if merge_type == MergeMode.MAX_SIZE:
+			if merge_type == MergeMode.MAX_SIZE or merge_type == MergeMode.CUT:
 				var diff_size : Vector2i = cell_size - image.get_size()
 				# 左和上为默认位置，无需 if 判断
 				if diff_size != Vector2i():
@@ -293,7 +293,7 @@ func _on_merge_mode_item_selected(index):
 			merge_cell_pos_label, merge_cell_pos, max_width_label, max_width,
 		],
 		MergeMode.CUT: [
-			merge_cell_pos_label, merge_cell_pos, max_width_label, max_width,
+			max_width_label, max_width,
 		],
 		MergeMode.MAX_SIZE: [
 			cell_size_label, cell_size, max_width_label, max_width,
