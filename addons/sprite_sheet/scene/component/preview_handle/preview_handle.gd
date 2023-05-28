@@ -53,7 +53,7 @@ class Handle:
 		_callable = callable
 	
 	## 执行处理图片
-	##[br][code]texture_list[/code] 要修改的图片
+	##[br][code]texture_list[/code] 要修改的图片列表
 	##[br][code]callback[/code] 处理完成之后调用的方法，这个方法需要有一个 Array[Texture2D] 类型的参数，接收处理后的图片
 	func execute(texture_list: Array, callback: Callable) -> void:
 		var list : Array[Texture2D] = []

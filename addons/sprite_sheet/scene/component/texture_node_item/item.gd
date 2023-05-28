@@ -140,6 +140,7 @@ func add_texture_group(group: String):
 func update_texture(texture: Texture2D):
 	_data["texture"] = texture
 	set_data(_data)
+	texture_rect.texture = texture
 
 
 func remove():

@@ -332,11 +332,12 @@ func _on_image_handle_handled(handle: SpriteSheet_PreviewHandle.Handle):
 			)
 		
 		handle.PENDING_SELECTED:
-			handle.execute(pending.texture_item_group.get_selected_texture_list()
-			, func(list: Array[Texture2D]):
+			handle.execute(pending.texture_item_group.get_selected_texture_list(), func(list: Array[Texture2D]):
 				var idx = 0
 				for data in pending.texture_item_group.get_selected_data_list():
-					data['node'].update_texture(list[idx])
+					var item = data['node'] as SpriteSheetTextureItem
+					item.update_texture(list[idx])
+					item.set_selected(false)
 					idx += 1
 				
 			)
