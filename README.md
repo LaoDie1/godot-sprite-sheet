@@ -1,20 +1,19 @@
-version: Godot 4.0 stable
+![Plugin Logo](icon.png)
 
-**GenerateSpriteSheet 插件在 res://addons/generate_sprite_sheet 目录下，已更新为插件形式**
+# Godot Sprite Sheet
 
-> 勾选 generate_sprite_sheet 插件即可使用
-
-
-首先通过：“文件 > 扫描目录” 菜单进行扫描目录中的图片，然后对扫描到的文件进行操作
-
-
----
-
-
-插件：
-
-![](https://github.com/LaoDie1/generate_sprite_sheet/blob/master/addons/generate_sprite_sheet/20230405000024.png)
+[![Godot Engine 4.0.2](https://camo.githubusercontent.com/21b353eb74da9737761b265f9fca97d75efd95da116d64c979def8d79de6084d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f476f646f74253230456e67696e652d342e302e322d626c7565)](https://godotengine.org/) [![MIT license](https://camo.githubusercontent.com/83d3746e5881c1867665223424263d8e604df233d0a11aae0813e0414d433943/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6c6963656e73652d4d49542d626c75652e737667)](https://lbesson.mit-license.org/)
 
 
 
-![](https://github.com/LaoDie1/generate_sprite_sheet/blob/master/addons/generate_sprite_sheet/20230405185239.png)
+对拽图片到“待处理区”，进行编辑处理图片，切分、拼接、导出动画等处理
+
+![](images/20230405000024.png)
+
+![](images/20230405185239.png)
+
+
+
+## Contribute
+
+Any contributions is welcome! If you find any bugs, please report in `issues`.
