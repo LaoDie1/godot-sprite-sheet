@@ -6,6 +6,9 @@
 
 
 
+Drag images to the "waiting area" for editing and processing, including image segmentation, splicing, and exporting animations
+
+
 对拽图片到“待处理区”，进行编辑处理图片，切分、拼接、导出动画等处理
 
 ![](images/20230405000024.png)
