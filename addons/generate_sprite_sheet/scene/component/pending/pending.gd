@@ -108,20 +108,28 @@ func _ready():
 
 
 func _can_drop_data(at_position, data):
+	print(data)
 	return (data is Dictionary
 		and data.has("type")
-		and data['type'] == GenerateSpriteSheetUtil.DragType.FileTree
+		and data['type'] in GenerateSpriteSheetUtil.DragType.values()
 	)
 
 
 func _drop_data(at_position, data):
-	var data_list = data['data']
-	for d in data_list:
-		if d['path_type'] == GenerateSpriteSheet_FileTree.PathType.FILE:
+	if data["type"] == GenerateSpriteSheetUtil.DragType.Files:
+		for file_path in data["files"]:
 			add_data({
-				"texture": GenerateSpriteSheetUtil.load_image(d.path),
-				"path": d.path,
+				"texture": GenerateSpriteSheetUtil.load_image(file_path),
+				"path": file_path
 			})
+	
+#	var data_list = data['data']
+#	for d in data_list:
+#		if d['path_type'] == GenerateSpriteSheet_FileTree.PathType.FILE:
+#			add_data({
+#				"texture": GenerateSpriteSheetUtil.load_image(d.path),
+#				"path": d.path,
+#			})
 
 
 func _gui_input(event):

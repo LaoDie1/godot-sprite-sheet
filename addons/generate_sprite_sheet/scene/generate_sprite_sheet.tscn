@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://b1tpykh786g0s"]
+[gd_scene load_steps=14 format=3 uid="uid://b1tpykh786g0s"]
 
 [ext_resource type="Script" path="res://addons/generate_sprite_sheet/scene/generate_sprite_sheet.gd" id="1_xquvv"]
 [ext_resource type="Script" path="res://addons/generate_sprite_sheet/scene/component/menu_list.gd" id="2_nf7es"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bqf7jx3ytc1tf" path="res://addons/generate_sprite_sheet/scene/component/split_handle/split_handle.tscn" id="5_4xu8y"]
 [ext_resource type="PackedScene" uid="uid://dichgr4h37u16" path="res://addons/generate_sprite_sheet/scene/component/animation_panel/animation_panel.tscn" id="5_lhecx"]
 [ext_resource type="PackedScene" uid="uid://ntquy1siykp0" path="res://addons/generate_sprite_sheet/scene/component/pending/pending.tscn" id="5_milus"]
+[ext_resource type="PackedScene" uid="uid://c3kc7mi126vb4" path="res://addons/generate_sprite_sheet/scene/component/pending_handle/pending_handle.tscn" id="6_7squn"]
 [ext_resource type="PackedScene" uid="uid://bh5gt15d355bq" path="res://addons/generate_sprite_sheet/scene/component/preview_handle/preview_handle.tscn" id="6_wo0gv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nyxa8"]
@@ -96,6 +97,7 @@ split_offset = 225
 
 [node name="file_tree" parent="VBoxContainer/HSplitContainer" instance=ExtResource("3_1vyu0")]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 
@@ -150,24 +152,29 @@ layout_mode = 2
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 
-[node name="clear_select" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/HBoxContainer2"]
-layout_mode = 2
-text = "CLEAR_SELECTED"
-
 [node name="select_all" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/HBoxContainer2"]
 layout_mode = 2
 text = "SELECT_ALL"
 
-[node name="Control2" type="Control" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(12, 0)
+[node name="clear_select" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/HBoxContainer2"]
 layout_mode = 2
+text = "CLEAR_SELECTED"
+
+[node name="line2" type="MarginContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/line2"]
+modulate = Color(0, 0, 0, 0.470588)
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-
-[node name="Label" type="Label" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-layout_mode = 2
-text = "SELECTED_HANDLE"
 
 [node name="add_selected_rect" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -177,9 +184,18 @@ text = "ADD_TO_PENDING_AREA"
 layout_mode = 2
 text = "ADD_TO_ANIM_AREA"
 
-[node name="space" type="Control" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
+[node name="line3" type="MarginContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 3
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 4
+
+[node name="Panel" type="Panel" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/line3"]
+modulate = Color(0, 0, 0, 0.470588)
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
 
 [node name="add_preview_texture" type="Button" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -243,6 +259,14 @@ theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
 [node name="IMAGE_HANDLE" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container" instance=ExtResource("6_wo0gv")]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="MERGE_HANDLE" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container" instance=ExtResource("6_7squn")]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 8
@@ -319,8 +343,8 @@ shortcut_keys_enabled = false
 [connection signal="selected" from="VBoxContainer/HSplitContainer/file_tree" to="." method="_on_file_tree_selected"]
 [connection signal="dir_selected" from="VBoxContainer/HSplitContainer/file_tree/scan_dir_dialog" to="." method="_on_file_dialog_dir_selected"]
 [connection signal="created_texture" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/TabContainer/PREVIEW/preview_container" to="." method="_on_preview_container_created_texture"]
-[connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/HBoxContainer2/clear_select" to="." method="_on_clear_select_pressed"]
 [connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/HBoxContainer2/select_all" to="." method="_on_select_all_pressed"]
+[connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/HBoxContainer2/clear_select" to="." method="_on_clear_select_pressed"]
 [connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/HBoxContainer/add_selected_rect" to="." method="_on_add_selected_rect_pressed"]
 [connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/HBoxContainer/add_to_anim" to="." method="_on_add_to_anim_pressed"]
 [connection signal="pressed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer/add_preview_texture" to="." method="_on_add_preview_texture_pressed"]
@@ -333,6 +357,7 @@ shortcut_keys_enabled = false
 [connection signal="played" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/ANIM" to="." method="_on_anim_played"]
 [connection signal="stopped" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/ANIM" to="." method="_on_anim_stopped"]
 [connection signal="handled" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/IMAGE_HANDLE" to="." method="_on_image_handle_handled"]
+[connection signal="merged" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/MERGE_HANDLE" to="." method="_on_merge_handle_merged"]
 [connection signal="exported_texture" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/pending" to="." method="_on_pending_exported_texture"]
 [connection signal="item_double_clicked" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/pending" to="." method="_on_pending_item_double_clicked"]
 [connection signal="previewed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/pending" to="." method="_on_pending_previewed"]

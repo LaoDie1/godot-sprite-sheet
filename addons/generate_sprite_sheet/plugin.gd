@@ -66,7 +66,14 @@ func update_translation():
 	# 获取编辑器语言的翻译文件
 	var editor_language : String = get_editor_interface() \
 		.get_editor_settings() \
-		.get('interface/editor/editor_language')
+		.get('interface/editor/editor_language') as String
+	
+	if not translation_map.has(editor_language):
+		var underline_idx = editor_language.find("_")
+		if underline_idx > -1:
+			editor_language = editor_language.substr(0, underline_idx)
+			if not translation_map.has(editor_language):
+				editor_language = "en"
 	var translation : Translation = translation_map.get(editor_language) as Translation
 	if translation == null:
 		# 如果没有则按照默认翻译

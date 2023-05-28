@@ -22,6 +22,7 @@ const DEFAULT_FORMAT = Image.FORMAT_RGBA8
 ## 拖拽数据的类型
 const DragType = {
 	FileTree = "drag_file",
+	Files = "files",
 }
 
 
@@ -38,7 +39,7 @@ static func if_invalid_make_dir(dir: String) -> void:
 
 
 ## 获取meta数据
-static func get_meta_data(key: StringName, default: Callable):
+static func singleton(key: StringName, default: Callable):
 	if Engine.has_meta(key):
 		return Engine.get_meta(key)
 	else:
@@ -49,7 +50,7 @@ static func get_meta_data(key: StringName, default: Callable):
 
 ## 获取程序缓存数据
 static func get_cache_data() -> Dictionary:
-	var data = get_meta_data(CACHE_KEY, func():
+	var data = singleton(CACHE_KEY, func():
 		if FileAccess.file_exists(CACHE_DATA_FILE_PATH):
 			var bytes = FileAccess.get_file_as_bytes(CACHE_DATA_FILE_PATH)
 			if bytes:
@@ -268,8 +269,8 @@ static func outline(texture: Texture2D, outline_color: Color, threshold: float =
 	
 	# 遍历阈值内的像素
 	var empty_pixel_set : Dictionary = {}
-	for x in range(1, image.get_size().x - 1):
-		for y in range(1, image.get_size().y - 1):
+	for x in range(0, image.get_size().x):
+		for y in range(0, image.get_size().y):
 			color = image.get_pixel(x, y)
 			if color.a <= threshold:
 				empty_pixel_set[Vector2i(x, y)] = null
@@ -277,16 +278,15 @@ static func outline(texture: Texture2D, outline_color: Color, threshold: float =
 	# 开始描边
 	var new_image = create_image_from(texture.get_image())
 	var coordinate : Vector2i
-	for x in range(1, image.get_size().x - 1):
-		for y in range(1, image.get_size().y - 1):
+	for x in range(0, image.get_size().x):
+		for y in range(0, image.get_size().y):
 			coordinate = Vector2i(x, y)
 			if not empty_pixel_set.has(coordinate):
-				color = image.get_pixel(x, y)
 				# 判断周围上下左右是否有阈值内的透明度像素
-				for dir in [Vector2i(x - 1, y), Vector2i(x + 1, y), Vector2i(x, y - 1), Vector2i(x, y + 1)]:
-					if empty_pixel_set.has(dir):
+				for dir in [Vector2i.LEFT, Vector2i.RIGHT, Vector2i.UP, Vector2i.DOWN]:
+					if empty_pixel_set.has(coordinate + dir):
 						# 设置新图像的描边
-						new_image.set_pixelv(dir, outline_color)
+						new_image.set_pixelv(coordinate + dir, outline_color)
 	
 	return ImageTexture.create_from_image(new_image)
 
