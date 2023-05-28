@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="sprite-sheet"
-run/main_scene="res://addons/generate_sprite_sheet/scene/generate_sprite_sheet.tscn"
+run/main_scene="res://addons/sprite_sheet/scene/sprite_sheet.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 run/low_processor_mode=true
 config/icon="res://icon.png"
@@ -22,9 +22,9 @@ window/size/viewport_height=800
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/script_comment_menu/plugin.cfg", "res://addons/generate_sprite_sheet/plugin.cfg")
+enabled=PackedStringArray("res://addons/script_comment_menu/plugin.cfg", "res://addons/sprite_sheet/plugin.cfg")
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://addons/generate_sprite_sheet/assets/translation/translation.en.translation", "res://addons/generate_sprite_sheet/assets/translation/translation.zh.translation")
-locale/translations_pot_files=PackedStringArray("res://addons/generate_sprite_sheet/scene/component/animation_panel/animation_panel.tscn")
+locale/translations=PackedStringArray("res://addons/sprite_sheet/assets/translation/translation.en.translation", "res://addons/sprite_sheet/assets/translation/translation.zh.translation")
+locale/translations_pot_files=PackedStringArray()

@@ -1,0 +1,84 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpfmskoark4it"]
+
+[ext_resource type="Script" path="res://addons/sprite_sheet/scene/component/pending/pending.gd" id="1_y48d3"]
+
+[node name="pending" type="PanelContainer"]
+texture_filter = 1
+offset_right = 520.0
+offset_bottom = 129.0
+size_flags_vertical = 3
+script = ExtResource("1_y48d3")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 2
+
+[node name="item_container" type="HFlowContainer" parent="ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="group_dialog" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+size = Vector2i(400, 150)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="group_dialog"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 392.0
+offset_bottom = 101.0
+
+[node name="Label" type="Label" parent="group_dialog/HBoxContainer"]
+layout_mode = 2
+text = "group name: "
+
+[node name="group_name_edit" type="LineEdit" parent="group_dialog/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+
+[node name="item_popup_menu" type="PopupMenu" parent="."]
+unique_name_in_owner = true
+item_count = 5
+item_0/text = "PREVIEW"
+item_0/id = 0
+item_1/text = "EXPORT_SELECTED_IMAGE"
+item_1/id = 1
+item_2/text = ""
+item_2/id = -1
+item_2/separator = true
+item_3/text = "REMOVE"
+item_3/id = 2
+item_4/text = ""
+item_4/id = -1
+item_4/separator = true
+
+[node name="panel_popup_menu" type="PopupMenu" parent="."]
+unique_name_in_owner = true
+item_count = 1
+item_0/text = "CREATE_EMPTY_IMAGE"
+item_0/id = 0
+
+[node name="prompt_label" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0.498039)
+layout_mode = 2
+text = "PENDING_IMAGE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="export_selected_dialog" type="FileDialog" parent="."]
+unique_name_in_owner = true
+title = "Open a Directory"
+size = Vector2i(500, 350)
+ok_button_text = "选择当前文件夹"
+file_mode = 2
+
+[connection signal="mouse_entered" from="ScrollContainer/item_container/item" to="ScrollContainer/item_container/item" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="ScrollContainer/item_container/item" to="ScrollContainer/item_container/item" method="_on_mouse_exited" flags=18]
+[connection signal="confirmed" from="group_dialog" to="." method="_on_group_dialog_confirmed"]
+[connection signal="index_pressed" from="item_popup_menu" to="." method="_on_popup_menu_index_pressed"]
+[connection signal="index_pressed" from="panel_popup_menu" to="." method="_on_panel_popup_menu_index_pressed"]
+[connection signal="dir_selected" from="export_selected_dialog" to="." method="_on_save_selected_dir_selected"]
