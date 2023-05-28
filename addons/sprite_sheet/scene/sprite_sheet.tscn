@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" path="res://addons/sprite_sheet/scene/component/animation_panel/animation_panel.tscn" id="5_lhecx"]
 [ext_resource type="PackedScene" uid="uid://bpfmskoark4it" path="res://addons/sprite_sheet/scene/component/pending/pending.tscn" id="5_milus"]
 [ext_resource type="PackedScene" path="res://addons/sprite_sheet/scene/component/pending_handle/pending_handle.tscn" id="6_7squn"]
-[ext_resource type="PackedScene" path="res://addons/sprite_sheet/scene/component/preview_handle/preview_handle.tscn" id="6_wo0gv"]
+[ext_resource type="PackedScene" uid="uid://dmt4yppqs0hbc" path="res://addons/sprite_sheet/scene/component/preview_handle/preview_handle.tscn" id="6_wo0gv"]
 [ext_resource type="PackedScene" uid="uid://ry6tyvo01fpv" path="res://addons/sprite_sheet/scene/component/files_panel/files_panel.tscn" id="10_6o2t8"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nyxa8"]
@@ -317,7 +317,6 @@ size_flags_horizontal = 3
 [node name="files_panel" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/bottom_panel/TabContainer" instance=ExtResource("10_6o2t8")]
 visible = false
 layout_mode = 2
-item_size = Vector2(32, 32)
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2"]
 layout_mode = 2

@@ -323,23 +323,23 @@ func _on_merge_handle_merged(data: SpriteSheet_PendingHandle.Merge):
 
 
 func _on_image_handle_handled(handle: SpriteSheet_PreviewHandle.Handle):
-	if_has_texture_else_show_message(func():
-		match handle.update_type:
-			handle.PREVIEW:
+	match handle.update_type:
+		handle.PREVIEW:
+			if_has_texture_else_show_message(func():
 				handle.execute([preview_container.get_texture()], func(list: Array[Texture2D]):
 					preview_container.preview(list[0])
 				)
-			
-			handle.PENDING_SELECTED:
-				handle.execute(pending.get_selected_texture_list(), func(list: Array[Texture2D]):
-					var idx = 0
-					for data in pending.get_selected_data_list():
-						data['node'].update_texture(list[idx])
-						idx += 1
-					
-				)
-			
-	)
+			)
+		
+		handle.PENDING_SELECTED:
+			handle.execute(pending.texture_item_group.get_selected_texture_list()
+			, func(list: Array[Texture2D]):
+				var idx = 0
+				for data in pending.texture_item_group.get_selected_data_list():
+					data['node'].update_texture(list[idx])
+					idx += 1
+				
+			)
 
 
 func _on_anim_added_to_pending(texture_list):
