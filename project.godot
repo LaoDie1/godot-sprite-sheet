@@ -26,5 +26,5 @@ enabled=PackedStringArray("res://addons/script_comment_menu/plugin.cfg", "res://
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://addons/generate_sprite_sheet/assets/translation/translation.en.translation", "res://addons/generate_sprite_sheet/assets/translation/translation.zh.translation", "res://addons/generate_sprite_sheet/assets/translation/translation.zh_CN.translation")
+locale/translations=PackedStringArray("res://addons/generate_sprite_sheet/assets/translation/translation.en.translation", "res://addons/generate_sprite_sheet/assets/translation/translation.zh.translation")
 locale/translations_pot_files=PackedStringArray("res://addons/generate_sprite_sheet/scene/component/animation_panel/animation_panel.tscn")

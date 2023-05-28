@@ -60,11 +60,11 @@ func _ready():
 	Engine.set_meta(MAIN_NODE_META_KEY, self)
 	prompt_info_label.modulate.a = 0
 	
-	await get_tree().create_timer(0.1).timeout
-	# 扫描加载文件列表(测试使用)
-	if file_tree._root == null:
-		var path = "res://addons/generate_sprite_sheet/assets/"
-		file_tree.update_tree(path, GenerateSpriteSheetUtil.get_texture_filter())
+#	await get_tree().create_timer(0.1).timeout
+#	# 扫描加载文件列表(测试使用)
+#	if file_tree._root == null:
+#		var path = "res://addons/generate_sprite_sheet/assets/"
+#		file_tree.update_tree(path, GenerateSpriteSheetUtil.get_texture_filter())
 
 
 func _exit_tree():

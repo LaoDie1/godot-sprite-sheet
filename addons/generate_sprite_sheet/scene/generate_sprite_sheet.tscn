@@ -159,7 +159,7 @@ custom_minimum_size = Vector2(0, 1)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_nyxa8")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HFlowContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer"]
 layout_mode = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/HBoxContainer"]
