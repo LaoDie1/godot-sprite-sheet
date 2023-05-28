@@ -18,27 +18,26 @@ const MAIN_NODE_META_KEY = &"GenerateSpriteSheetMain_main_node"
 signal exported
 
 
+var __init_node__ = GenerateSpriteSheetUtil.auto_inject(self, "")
+
 # 菜单列表
-@onready var menu_list = %menu_list
+var menu_list : HBoxContainer
 # 文件树
-@onready var file_tree := %file_tree as GenerateSpriteSheet_FileTree
+var file_tree : GenerateSpriteSheet_FileTree
 # 等待处理文件列表，拖拽进去，选中这个文件，可以从操作台中进行开始处理这个图片
 # 处理后的文件在这里面保存，然后生成会从这个列表里生成处理
-@onready var pending := %pending as GenerateSpriteSheet_Pending
+var pending : GenerateSpriteSheet_Pending
 # 预览图片
-@onready var preview_container := %preview_container as GenerateSpriteSheet_PreviewContainer
+var preview_container : GenerateSpriteSheet_PreviewContainer
 # 操作处理容器
-@onready var handle_container = %handle_container
+var handle_container : TabContainer
+var export_panding_dialog : FileDialog
+var scan_dir_dialog : FileDialog
+var export_preview_dialog : FileDialog
+var prompt_info_label : Label
+var prompt_info_anim_player : AnimationPlayer
 
 @onready var anim_panel := %ANIM as GenerateSpriteSheet_AnimationPanel
-
-@onready var export_panding_dialog := %export_panding_dialog as FileDialog
-@onready var scan_dir_dialog := %scan_dir_dialog as FileDialog
-@onready var export_preview_dialog = %export_preview_dialog
-
-@onready var prompt_info_label = %prompt_info_label
-@onready var prompt_info_anim_player = %prompt_info_anim_player 
-
 
 
 #============================================================

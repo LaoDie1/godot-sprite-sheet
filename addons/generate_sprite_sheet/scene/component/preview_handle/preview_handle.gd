@@ -23,12 +23,13 @@ enum {
 }
 
 
-@onready var from_color = %from_color
-@onready var to_color = %to_color
-@onready var color_threshold = %color_threshold
-@onready var outline_color = %outline_color
-@onready var color_threshold_label = %color_threshold_label
+var __init_node__ = GenerateSpriteSheetUtil.auto_inject(self, "")
 
+var from_color : ColorPickerButton
+var to_color : ColorPickerButton
+var color_threshold : Label
+var outline_color : ColorPickerButton
+var color_threshold_label : Label
 
 var button_group : ButtonGroup
 

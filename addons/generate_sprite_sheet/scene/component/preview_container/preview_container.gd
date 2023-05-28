@@ -143,6 +143,10 @@ func clear_select():
 	preview_split_grid.clear()
 
 
+func hide_select_grid():
+	preview_split_grid.visible = false
+
+
 ##  预览图片  
 func preview(texture: Texture2D, reset_pos: bool = false):
 	# 显示图片
@@ -187,8 +191,6 @@ func select(coordinate: Vector2i, cell_size: Vector2i = Vector2i()):
 func move_preview_texture(pos: Vector2):
 	preview_rect.position = pos
 
-
-var _last_anim : Animation
 
 ## 播放动画
 func play(animation: Animation):
@@ -240,8 +242,10 @@ func _on_preview_canvas_gui_input(event):
 		# 缩放图片
 		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			_update_preview_scale(-0.5)
+			get_tree().root.set_input_as_handled()
 		elif event.button_index == MOUSE_BUTTON_WHEEL_UP:
 			_update_preview_scale(0.5)
+			get_tree().root.set_input_as_handled()
 		
 		# 按下中间开始拖拽 
 		elif event.button_index == MOUSE_BUTTON_MIDDLE:
@@ -276,8 +280,8 @@ func _on_preview_grid_double_clicked(pos: Vector2i, coordinate: Vector2i):
 			print("[ GenerateSpriteSheet ] 没有表格大小")
 			return
 		
-		var texture : Texture2D = preview_rect.texture
 		# 创建这个区域的图片
+		var texture : Texture2D = preview_rect.texture
 		var new_texture = GenerateSpriteSheetUtil.create_texture_by_rect(texture, rect)
 		self.created_texture.emit(new_texture)
 	

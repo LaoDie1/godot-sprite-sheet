@@ -55,17 +55,19 @@ const MergePosItem : Dictionary = {
 }
 
 
-@onready var merge_mode = %merge_mode
-@onready var max_column_label = %max_column_label
-@onready var max_column = %max_column
-@onready var cell_size_label = %cell_size_label
-@onready var cell_size = %cell_size
-@onready var max_width_label = %max_width_label
-@onready var max_width = %max_width
-@onready var separator = %separator
-@onready var margin = %margin
-@onready var merge_cell_pos_label = %merge_cell_pos_label
-@onready var merge_cell_pos = %merge_cell_pos
+var __init_node__ = GenerateSpriteSheetUtil.auto_inject(self, "")
+
+var merge_mode : OptionButton
+var max_column_label : Label
+var max_column : SpinBox
+var cell_size_label : Label
+var cell_size : BoxContainer
+var max_width_label : Label
+var max_width : SpinBox
+var separator : BoxContainer
+var margin : GridContainer
+var merge_cell_pos_label : Label
+var merge_cell_pos : OptionButton
 
 
 #============================================================

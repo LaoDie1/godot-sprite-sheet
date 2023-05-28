@@ -26,11 +26,13 @@ const ANIM_ITEMS_SCENE = preload("anim_items.tscn")
 const ANIM_ITEMS_SCRIPT = preload("anim_items.gd")
 
 
-@onready var anim_item_container = %anim_item_container
-@onready var prompt_label = %prompt_label
-@onready var scroll_container = %ScrollContainer
-@onready var export_res_dialog := %export_res_dialog as FileDialog
-@onready var import_res_dialog = %import_res_dialog
+var __init_node__ = GenerateSpriteSheetUtil.auto_inject(self, "")
+
+var anim_item_container : BoxContainer
+var prompt_label : Label
+var scroll_container : ScrollContainer
+var export_res_dialog : FileDialog
+var import_res_dialog : FileDialog
 
 
 var _last_export_type : String = ""
