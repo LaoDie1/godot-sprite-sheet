@@ -27,7 +27,7 @@ var __init_node__ = SpriteSheetUtil.auto_inject(self, "")
 
 var from_color : ColorPickerButton
 var to_color : ColorPickerButton
-var color_threshold : Label
+var color_threshold : Slider
 var outline_color : ColorPickerButton
 var color_threshold_label : Label
 
