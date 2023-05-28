@@ -12,7 +12,7 @@ const SEPARATE_LENGTH = 60
 
 
 var util_script_editor := ScriptCommentMenuConstant.ScriptEditorUtil.new()
-var util_script := ScriptUtil.new()
+var util_script := ScriptCommentMenu_ScriptUtil.new()
 
 var regex = RegEx.new()
 

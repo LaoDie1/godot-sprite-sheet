@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://b1tpykh786g0s"]
+[gd_scene load_steps=13 format=3 uid="uid://b1tpykh786g0s"]
 
 [ext_resource type="Script" path="res://addons/generate_sprite_sheet/scene/generate_sprite_sheet.gd" id="1_xquvv"]
 [ext_resource type="Script" path="res://addons/generate_sprite_sheet/scene/component/menu_list.gd" id="2_nf7es"]
@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://bqf7jx3ytc1tf" path="res://addons/generate_sprite_sheet/scene/component/split_handle/split_handle.tscn" id="5_4xu8y"]
 [ext_resource type="PackedScene" uid="uid://dichgr4h37u16" path="res://addons/generate_sprite_sheet/scene/component/animation_panel/animation_panel.tscn" id="5_lhecx"]
 [ext_resource type="PackedScene" uid="uid://ntquy1siykp0" path="res://addons/generate_sprite_sheet/scene/component/pending/pending.tscn" id="5_milus"]
-[ext_resource type="PackedScene" uid="uid://c3kc7mi126vb4" path="res://addons/generate_sprite_sheet/scene/component/pending_handle/pending_handle.tscn" id="6_7squn"]
 [ext_resource type="PackedScene" uid="uid://bh5gt15d355bq" path="res://addons/generate_sprite_sheet/scene/component/preview_handle/preview_handle.tscn" id="6_wo0gv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nyxa8"]
@@ -251,14 +250,6 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="MERGE_HANDLE" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container" instance=ExtResource("6_7squn")]
-visible = false
-layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
-
 [node name="HBoxContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer"]
 layout_mode = 2
 
@@ -342,7 +333,6 @@ shortcut_keys_enabled = false
 [connection signal="played" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/ANIM" to="." method="_on_anim_played"]
 [connection signal="stopped" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/ANIM" to="." method="_on_anim_stopped"]
 [connection signal="handled" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/IMAGE_HANDLE" to="." method="_on_image_handle_handled"]
-[connection signal="merged" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/VBoxContainer/VSplitContainer/VBoxContainer/handle_container/MERGE_HANDLE" to="." method="_on_merge_handle_merged"]
 [connection signal="exported_texture" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/pending" to="." method="_on_pending_exported_texture"]
 [connection signal="item_double_clicked" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/pending" to="." method="_on_pending_item_double_clicked"]
 [connection signal="previewed" from="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/pending" to="." method="_on_pending_previewed"]

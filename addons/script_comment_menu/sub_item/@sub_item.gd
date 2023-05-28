@@ -10,7 +10,7 @@ const MenuItemBuilder := ScriptCommentMenuConstant.MenuItemBuilder
 
 
 var _editor_plugin = EditorPlugin.new()
-var _util_script : ScriptUtil
+var _util_script : ScriptCommentMenu_ScriptUtil
 var _util_script_editor : ScriptCommentMenuConstant.ScriptEditorUtil
 
 
@@ -23,7 +23,7 @@ func get_editor_interface() -> EditorInterface:
 func get_script_editor_util():
 	return _util_script_editor
 
-func get_script_util() -> ScriptUtil:
+func get_script_util() -> ScriptCommentMenu_ScriptUtil:
 	return _util_script
 
 
@@ -36,7 +36,7 @@ func get_script_util() -> ScriptUtil:
 func init_menu(menu_button: MenuButton) -> void:
 	if not menu_button.has_meta("IsInit"):
 		_util_script_editor = ScriptCommentMenuConstant.ScriptEditorUtil.new()
-		_util_script =  ScriptUtil.new()
+		_util_script =  ScriptCommentMenu_ScriptUtil.new()
 		menu_button.set_meta("IsInit", {
 			"_util_script_editor": _util_script_editor,
 			"_util_script": _util_script,

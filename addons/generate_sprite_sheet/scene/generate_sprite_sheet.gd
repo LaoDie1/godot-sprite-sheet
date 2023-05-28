@@ -196,7 +196,6 @@ func _on_select_all_pressed():
 
 
 func _on_menu_list_menu_pressed(idx, menu_path):
-	Log.info([menu_path])
 	match menu_path:
 		"/FILE/SCAN_DIR":
 			scan_dir_dialog.popup_centered()

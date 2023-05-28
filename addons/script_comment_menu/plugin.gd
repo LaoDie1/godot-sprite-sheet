@@ -19,7 +19,10 @@ var _sub_menus = [
 
 
 func _enter_tree():
-	call_deferred("_init_data")
+	# 编辑器启动不超过 5 秒时
+	if Time.get_ticks_msec() < 5000:
+		await Engine.get_main_loop().create_timer(10).timeout
+	_init_data.call_deferred()
 
 
 func _exit_tree():
@@ -34,6 +37,7 @@ func _init_data():
 	menu_button = MenuButton.new()
 	menu_button.text = "代码工具"
 	menu_button.switch_on_hover = true
+	menu_button.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
 	util_add_menu.add_script_editor_menu(menu_button)
 	
 	for sub in _sub_menus:

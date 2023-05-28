@@ -4,7 +4,7 @@
 # - datetime: 2022-07-17 17:25:00
 #============================================================
 ## 处理脚本的工具
-class_name ScriptUtil
+class_name ScriptCommentMenu_ScriptUtil
 
 
 const DATA_TYPE_TO_NAME = {
@@ -88,6 +88,9 @@ const NAME_TO_DATA_TYPE = {
 }
 
 
+static func _get_script_data_cache(script: Script) -> Dictionary:
+	return ScriptCommentMenu_DataUtil.get_meta_dict_data("ScriptCommentMenu_ScriptUtil__get_script_data_cache")
+
 ##  数据类型名称
 ##[br][code]type[/code]: 数据类型枚举值
 ##[br][code]return[/code]: 返回数据类型的字符串
@@ -106,10 +109,19 @@ static func has_type(type: int) -> bool:
 static func is_base_data_type(_class_name: StringName) -> bool:
 	return NAME_TO_DATA_TYPE.has(_class_name)
 
-static func _get_script_data_cache(script: Script) -> Dictionary:
-	return DataUtil.get_meta_dict_data("ScriptUtil__get_script_data_cache")
-
 ##  获取属性列表
+##[br]
+##[br]返回类似如下格式的数据
+##[codeblock]
+##{ 
+##    "name": "RefCounted", 
+##    "class_name": &"", 
+##    "type": 0, 
+##    "hint": 0, 
+##    "hint_string": "", 
+##    "usage": 128 
+##}
+##[/codeblock]
 static func get_property_data_list(script: Script) -> Array[Dictionary]:
 	if is_instance_valid(script):
 		return script.get_script_property_list()
@@ -119,7 +131,7 @@ static func get_property_data_list(script: Script) -> Array[Dictionary]:
 static func get_method_data_list(script: Script) -> Array[Dictionary]:
 	if is_instance_valid(script):
 		return script.get_script_method_list()
-	DataUtil.get_type_array("int")
+	ScriptCommentMenu_DataUtil.get_type_array("int")
 	return Array([], TYPE_DICTIONARY, "Dictionary", null)
 
 
@@ -127,8 +139,8 @@ static func get_method_data_list(script: Script) -> Array[Dictionary]:
 static func get_method_arguments_list(script: Script, method_name: StringName) -> Array[Dictionary]:
 	var data = get_method_data(script, method_name)
 	if data:
-		return data.get("args", DataUtil.get_type_array("Dictionary"))
-	return DataUtil.get_type_array("Dictionary")
+		return data.get("args", ScriptCommentMenu_DataUtil.get_type_array("Dictionary"))
+	return ScriptCommentMenu_DataUtil.get_type_array("Dictionary")
 
 
 ##  获取信号列表
@@ -140,7 +152,7 @@ static func get_signal_data_list(script: Script) -> Array[Dictionary]:
 ## 获取这个属性名称数据
 static func get_property_data(script: Script, property: StringName) -> Dictionary:
 	var data = _get_script_data_cache(script)
-	var p_cache_data : Dictionary = DataUtil.get_value_or_set(data, "propery_data_cache", func():
+	var p_cache_data : Dictionary = ScriptCommentMenu_DataUtil.get_value_or_set(data, "propery_data_cache", func():
 		var property_data : Dictionary = {}
 		for i in script.get_script_property_list():
 			property_data[i['name']] = i
@@ -151,7 +163,7 @@ static func get_property_data(script: Script, property: StringName) -> Dictionar
 ## 获取这个名称的方法的数据
 static func get_method_data(script: Script, method_name: StringName) -> Dictionary:
 	var data = _get_script_data_cache(script)
-	var m_cache_data : Dictionary = DataUtil.get_value_or_set(data, "method_data_cache", func():
+	var m_cache_data : Dictionary = ScriptCommentMenu_DataUtil.get_value_or_set(data, "method_data_cache", func():
 		var method_data : Dictionary = {}
 		for i in script.get_script_method_list():
 			method_data[i['name']]=i
@@ -162,7 +174,7 @@ static func get_method_data(script: Script, method_name: StringName) -> Dictiona
 ## 获取这个名称的信号的数据
 static func get_signal_data(script: Script, signal_name: StringName):
 	var data = _get_script_data_cache(script)
-	var s_cache_data : Dictionary = DataUtil.get_value_or_set(data, "script_data_cache", func():
+	var s_cache_data : Dictionary = ScriptCommentMenu_DataUtil.get_value_or_set(data, "script_data_cache", func():
 		var signal_data : Dictionary = {}
 		for i in script.get_script_signal_list():
 			signal_data[i['name']]=i
@@ -310,8 +322,8 @@ static func get_object_property_data(object: Object, proprety_name: StringName) 
 static func get_built_in_class (_class: StringName):
 	if not ClassDB.class_exists(_class):
 		return null
-	var _class_db = DataUtil.get_meta_dict_data("ScriptUtil_get_built_in_class")
-	return DataUtil.get_value_or_set(_class_db, _class, func():
+	var _class_db = ScriptCommentMenu_DataUtil.get_meta_dict_data("ScriptCommentMenu_ScriptUtil_get_built_in_class")
+	return ScriptCommentMenu_DataUtil.get_value_or_set(_class_db, _class, func():
 		var script = GDScript.new()
 		script.source_code = "var type = " + _class
 		if script.reload() == OK:
@@ -324,12 +336,12 @@ static func get_built_in_class (_class: StringName):
 	)
 
 
-## 获取脚本类
+## 根据类名返回类对象
 static func get_script_class(_class: StringName):
 	if ClassDB.class_exists(_class):
 		return null
-	var _class_db = DataUtil.get_meta_dict_data("ScriptUtil_get_script_class")
-	return DataUtil.get_value_or_set(_class_db, _class, func():
+	var _class_db = ScriptCommentMenu_DataUtil.get_meta_dict_data("ScriptCommentMenu_ScriptUtil_get_script_class")
+	return ScriptCommentMenu_DataUtil.get_value_or_set(_class_db, _class, func():
 		var script = GDScript.new()
 		script.source_code = "var type = " + _class
 		if script.reload() == OK:
@@ -344,10 +356,46 @@ static func get_script_class(_class: StringName):
 
 ## 创建脚本
 static func create_script(source_code: String) -> GDScript:
-	var data = DataUtil.get_meta_dict_data("ScriptUtil_create_script")
-	return DataUtil.get_value_or_set(data, source_code.sha256_text(), func():
-		var script = GDScript.new()
+	var data = ScriptCommentMenu_DataUtil.get_meta_dict_data("ScriptCommentMenu_ScriptUtil_create_script")
+	return ScriptCommentMenu_DataUtil.get_value_or_set(data, source_code.sha256_text(), func():
+		var script := GDScript.new()
 		script.source_code = source_code
 		script.reload()
 		return script
 	)
+
+
+## 获取这个类的场景。这个场景的位置和名称需要和脚本一致，只有后缀名不一样。这个类不能是内部类
+static func get_script_scene(script: GDScript) -> PackedScene:
+	var data = ScriptCommentMenu_DataUtil.get_meta_dict_data("ScriptCommentMenu_ScriptUtil_get_script_scene")
+	if data.has(script):
+		return data[script]
+	else:
+		var path := script.resource_path
+		if path == "":
+			return null
+		
+		var ext := path.get_extension()
+		var file = path.substr(0, len(path) - len(ext))
+		
+		var scene: PackedScene
+		if FileAccess.file_exists(file + "tscn"):
+			scene = ResourceLoader.load(file + "tscn", "PackedScene") as PackedScene
+		elif FileAccess.file_exists(file + "scn"):
+			scene = ResourceLoader.load(file + "scn", "PackedScene") as PackedScene
+		else:
+			printerr("这个类目录下没有相同名称的场景文件！")
+			return null
+		data[script] = scene
+		return scene
+
+
+##  获取对象的类。如果是自定义类返回 [GDScript] 类；如果是内置类，则返回 [GDScriptNativeClass] 类
+static func get_object_class(object: Object):
+	if object:
+		if object is Script:
+			return object
+		if object.get_script() != null:
+			return object.get_script()
+		return get_built_in_class (object.get_class())
+	return &""
