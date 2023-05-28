@@ -317,6 +317,7 @@ size_flags_horizontal = 3
 [node name="files_panel" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/bottom_panel/TabContainer" instance=ExtResource("10_6o2t8")]
 visible = false
 layout_mode = 2
+item_size = Vector2(32, 32)
 
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2"]
 layout_mode = 2

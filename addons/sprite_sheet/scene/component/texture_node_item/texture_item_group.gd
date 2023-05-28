@@ -44,6 +44,12 @@ func get_selected_node_list() -> Array[SpriteSheetTextureItem]:
 	list.append_array(get_selected_data_list().map(func(data): return data['node']))
 	return list
 
+## 获取节点列表
+func get_item_node_list() -> Array[SpriteSheetTextureItem]:
+	if _data_list.is_empty():
+		return Array([], TYPE_OBJECT, "MarginContainer", SpriteSheetTextureItem)
+	return Array(_data_list.map(func(data): return data['node']), TYPE_OBJECT, "MarginContainer", SpriteSheetTextureItem)
+
 
 func add_item(item_node: SpriteSheetTextureItem) -> void:
 	# 选中

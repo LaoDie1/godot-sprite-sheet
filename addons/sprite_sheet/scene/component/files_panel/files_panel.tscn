@@ -8,53 +8,76 @@ custom_minimum_size = Vector2(100, 50)
 offset_right = 288.0
 offset_bottom = 142.0
 script = ExtResource("1_b738p")
+item_size = null
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 
-[node name="texture_container" type="HFlowContainer" parent="ScrollContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="texture_container" type="HFlowContainer" parent="VBoxContainer/ScrollContainer"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/item" to="ScrollContainer/texture_container/item" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/item" to="ScrollContainer/texture_container/item" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@18515" to="ScrollContainer/texture_container/@item@18515" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@18515" to="ScrollContainer/texture_container/@item@18515" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@18516" to="ScrollContainer/texture_container/@item@18516" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@18516" to="ScrollContainer/texture_container/@item@18516" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@18517" to="ScrollContainer/texture_container/@item@18517" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@18517" to="ScrollContainer/texture_container/@item@18517" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@18518" to="ScrollContainer/texture_container/@item@18518" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@18518" to="ScrollContainer/texture_container/@item@18518" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@18519" to="ScrollContainer/texture_container/@item@18519" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@18519" to="ScrollContainer/texture_container/@item@18519" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@18520" to="ScrollContainer/texture_container/@item@18520" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@18520" to="ScrollContainer/texture_container/@item@18520" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@18521" to="ScrollContainer/texture_container/@item@18521" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@18521" to="ScrollContainer/texture_container/@item@18521" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@18522" to="ScrollContainer/texture_container/@item@18522" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@18522" to="ScrollContainer/texture_container/@item@18522" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@23450" to="ScrollContainer/texture_container/@item@23450" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@23450" to="ScrollContainer/texture_container/@item@23450" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@23451" to="ScrollContainer/texture_container/@item@23451" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@23451" to="ScrollContainer/texture_container/@item@23451" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@23452" to="ScrollContainer/texture_container/@item@23452" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@23452" to="ScrollContainer/texture_container/@item@23452" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@23453" to="ScrollContainer/texture_container/@item@23453" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@23453" to="ScrollContainer/texture_container/@item@23453" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@23454" to="ScrollContainer/texture_container/@item@23454" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@23454" to="ScrollContainer/texture_container/@item@23454" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@23455" to="ScrollContainer/texture_container/@item@23455" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@23455" to="ScrollContainer/texture_container/@item@23455" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@23456" to="ScrollContainer/texture_container/@item@23456" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@23456" to="ScrollContainer/texture_container/@item@23456" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@23457" to="ScrollContainer/texture_container/@item@23457" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@23457" to="ScrollContainer/texture_container/@item@23457" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@23458" to="ScrollContainer/texture_container/@item@23458" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@23458" to="ScrollContainer/texture_container/@item@23458" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@23459" to="ScrollContainer/texture_container/@item@23459" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@23459" to="ScrollContainer/texture_container/@item@23459" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@23460" to="ScrollContainer/texture_container/@item@23460" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@23460" to="ScrollContainer/texture_container/@item@23460" method="_on_mouse_exited" flags=18]
-[connection signal="mouse_entered" from="ScrollContainer/texture_container/@item@23461" to="ScrollContainer/texture_container/@item@23461" method="_on_mouse_entered" flags=18]
-[connection signal="mouse_exited" from="ScrollContainer/texture_container/@item@23461" to="ScrollContainer/texture_container/@item@23461" method="_on_mouse_exited" flags=18]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "size: "
+
+[node name="item_size_spin_box" type="SpinBox" parent="VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 1.0
+value = 32.0
+allow_greater = true
+alignment = 1
+select_all_on_focus = true
+
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/item" to="VBoxContainer/ScrollContainer/texture_container/item" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/item" to="VBoxContainer/ScrollContainer/texture_container/item" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@18515" to="VBoxContainer/ScrollContainer/texture_container/@item@18515" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@18515" to="VBoxContainer/ScrollContainer/texture_container/@item@18515" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@18516" to="VBoxContainer/ScrollContainer/texture_container/@item@18516" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@18516" to="VBoxContainer/ScrollContainer/texture_container/@item@18516" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@18517" to="VBoxContainer/ScrollContainer/texture_container/@item@18517" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@18517" to="VBoxContainer/ScrollContainer/texture_container/@item@18517" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@18518" to="VBoxContainer/ScrollContainer/texture_container/@item@18518" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@18518" to="VBoxContainer/ScrollContainer/texture_container/@item@18518" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@18519" to="VBoxContainer/ScrollContainer/texture_container/@item@18519" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@18519" to="VBoxContainer/ScrollContainer/texture_container/@item@18519" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@18520" to="VBoxContainer/ScrollContainer/texture_container/@item@18520" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@18520" to="VBoxContainer/ScrollContainer/texture_container/@item@18520" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@18521" to="VBoxContainer/ScrollContainer/texture_container/@item@18521" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@18521" to="VBoxContainer/ScrollContainer/texture_container/@item@18521" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@18522" to="VBoxContainer/ScrollContainer/texture_container/@item@18522" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@18522" to="VBoxContainer/ScrollContainer/texture_container/@item@18522" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@23616" to="VBoxContainer/ScrollContainer/texture_container/@item@23616" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@23616" to="VBoxContainer/ScrollContainer/texture_container/@item@23616" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@23617" to="VBoxContainer/ScrollContainer/texture_container/@item@23617" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@23617" to="VBoxContainer/ScrollContainer/texture_container/@item@23617" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@23618" to="VBoxContainer/ScrollContainer/texture_container/@item@23618" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@23618" to="VBoxContainer/ScrollContainer/texture_container/@item@23618" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@23619" to="VBoxContainer/ScrollContainer/texture_container/@item@23619" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@23619" to="VBoxContainer/ScrollContainer/texture_container/@item@23619" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@23620" to="VBoxContainer/ScrollContainer/texture_container/@item@23620" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@23620" to="VBoxContainer/ScrollContainer/texture_container/@item@23620" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@23621" to="VBoxContainer/ScrollContainer/texture_container/@item@23621" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@23621" to="VBoxContainer/ScrollContainer/texture_container/@item@23621" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@23622" to="VBoxContainer/ScrollContainer/texture_container/@item@23622" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@23622" to="VBoxContainer/ScrollContainer/texture_container/@item@23622" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@23623" to="VBoxContainer/ScrollContainer/texture_container/@item@23623" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@23623" to="VBoxContainer/ScrollContainer/texture_container/@item@23623" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@23624" to="VBoxContainer/ScrollContainer/texture_container/@item@23624" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@23624" to="VBoxContainer/ScrollContainer/texture_container/@item@23624" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@23625" to="VBoxContainer/ScrollContainer/texture_container/@item@23625" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@23625" to="VBoxContainer/ScrollContainer/texture_container/@item@23625" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@23626" to="VBoxContainer/ScrollContainer/texture_container/@item@23626" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@23626" to="VBoxContainer/ScrollContainer/texture_container/@item@23626" method="_on_mouse_exited" flags=18]
+[connection signal="mouse_entered" from="VBoxContainer/ScrollContainer/texture_container/@item@23627" to="VBoxContainer/ScrollContainer/texture_container/@item@23627" method="_on_mouse_entered" flags=18]
+[connection signal="mouse_exited" from="VBoxContainer/ScrollContainer/texture_container/@item@23627" to="VBoxContainer/ScrollContainer/texture_container/@item@23627" method="_on_mouse_exited" flags=18]
+[connection signal="value_changed" from="VBoxContainer/HBoxContainer/item_size_spin_box" to="." method="_on_spin_box_value_changed"]

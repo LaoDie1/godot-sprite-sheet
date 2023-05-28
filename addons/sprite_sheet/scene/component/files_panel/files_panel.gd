@@ -15,11 +15,25 @@ signal double_clicked(data: Dictionary)
 const ITEM_SCENE = preload("../texture_node_item/item.tscn")
 const ITEM_SCRIPT = preload("../texture_node_item/item.gd")
 
+@export var item_size : Vector2 = Vector2(32, 32):
+	set(v):
+		item_size = v
+		
+		if item_size_spin_box == null:
+			await ready
+		if item_size_spin_box.value != item_size.x:
+			item_size_spin_box.value = item_size.x
+		for node in texture_item_group.get_item_node_list():
+			node.custom_minimum_size = item_size
+		
+
+
+var __init_node__ = SpriteSheetUtil.auto_inject(self)
+
+var texture_container : HFlowContainer
+var item_size_spin_box : SpinBox
 
 var texture_item_group := SpriteSheetTextureItemGroup.new()
-
-
-@onready var texture_container = $ScrollContainer/texture_container
 
 
 func _ready():
@@ -50,7 +64,7 @@ func add_texture_file(path: String):
 		"path": path,
 	}
 	texture_rect.set_data(data)
-	texture_rect.custom_minimum_size = Vector2(32, 32)
+	texture_rect.custom_minimum_size = item_size
 	texture_rect.dragged.connect(func(data_list: Array[Dictionary]):
 		data_list.append(data)
 	)
@@ -59,3 +73,7 @@ func add_texture_file(path: String):
 	)
 	texture_item_group.add_item(texture_rect)
 
+
+func _on_spin_box_value_changed(value):
+	if value != item_size.x:
+		item_size = Vector2(value, value)
