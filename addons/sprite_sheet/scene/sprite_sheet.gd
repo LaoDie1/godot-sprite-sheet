@@ -312,7 +312,7 @@ func _on_anim_stopped():
 
 
 func _on_merge_handle_merged(data: SpriteSheet_PendingHandle.Merge):
-	var texture_list : Array[Texture2D] = pending.get_selected_texture_list()
+	var texture_list : Array[Texture2D] = pending.texture_item_group.get_selected_texture_list()
 	if_true(texture_list.size() > 0, func():
 		# 预览
 		var merge_texture = data.execute(texture_list)
