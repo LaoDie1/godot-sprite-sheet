@@ -122,6 +122,7 @@ func add_item(item_node: SpriteSheetTextureItem) -> void:
 		var selected_data_list = _data_list.filter(func(d): return d['selected'])
 		if selected_data_list.is_empty():
 			selected_data_list.append(data)
+		callback_data_list.clear()
 		callback_data_list.append_array(selected_data_list)
 	)
 	
