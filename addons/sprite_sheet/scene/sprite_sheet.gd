@@ -27,6 +27,7 @@ var file_tree : SpriteSheet_FileTree
 # 等待处理文件列表，拖拽进去，选中这个文件，可以从操作台中进行开始处理这个图片
 # 处理后的文件在这里面保存，然后生成会从这个列表里生成处理
 var pending : SpriteSheet_Pending
+var files_panel : Control
 # 预览图片
 var preview_container : SpriteSheet_PreviewContainer
 # 操作处理容器
@@ -312,7 +313,12 @@ func _on_anim_stopped():
 
 
 func _on_merge_handle_merged(data: SpriteSheet_PendingHandle.Merge):
-	var texture_list : Array[Texture2D] = pending.texture_item_group.get_selected_texture_list()
+	var texture_list : Array[Texture2D] 
+	if pending.visible:
+		texture_list = pending.texture_item_group.get_selected_texture_list()
+	elif files_panel.visible:
+		texture_list = files_panel.texture_item_group.get_selected_texture_list()
+	
 	if_true(texture_list.size() > 0, func():
 		# 预览
 		var merge_texture = data.execute(texture_list)

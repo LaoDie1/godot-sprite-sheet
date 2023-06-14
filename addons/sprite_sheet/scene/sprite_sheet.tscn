@@ -315,6 +315,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="files_panel" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/VBoxContainer/HBoxContainer/bottom_panel/TabContainer" instance=ExtResource("10_6o2t8")]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
