@@ -32,6 +32,10 @@ func _enter_tree():
 	await Engine.get_main_loop().process_frame
 	update_translation()
 
+func _exit_tree():
+	if main:
+#		SpriteSheetUtil.save_cache_data()
+		main.queue_free()
 
 func _has_main_screen():
 	return true
@@ -51,8 +55,6 @@ func _get_plugin_icon():
 
 ## 更新翻译 
 func update_translation():
-	
-	
 	# 扫描的翻译文件的路径
 	var translation_path : String = str(get_script().resource_path) \
 		.get_base_dir() \

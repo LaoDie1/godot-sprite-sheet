@@ -68,6 +68,7 @@ static func save_cache_data():
 	if_invalid_make_dir(CACHE_DATA_FILE_PATH.get_base_dir())
 	
 	var cache_data =_clear_dict_object(get_cache_data().duplicate(true)) 
+	
 	if not cache_data.is_empty():
 		var bytes = var_to_bytes_with_objects(cache_data)
 		var file = FileAccess.open(CACHE_DATA_FILE_PATH, FileAccess.WRITE)
@@ -84,8 +85,8 @@ static func _clear_dict_object(data):
 	if data is Dictionary:
 		for key in data:
 			if data[key] is Node:
-				data[key] = null
-			elif data[key] is Dictionary or data[key] is Array:
+				data.erase(key)
+			else:
 				_clear_dict_object(data[key])
 	
 	elif data is Array:

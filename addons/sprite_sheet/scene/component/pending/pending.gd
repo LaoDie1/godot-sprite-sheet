@@ -120,6 +120,10 @@ func _gui_input(event):
 				panel_popup_menu.popup(Rect2i(get_global_mouse_position(), Vector2i()))
 		
 
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		pass
+
 
 #============================================================
 #  自定义
@@ -200,6 +204,7 @@ func _on_save_selected_dir_selected(dir: String):
 		file_path = dir.path_join("image_%03d.png" % idx)	# 保存为 png 图像
 		while FileAccess.file_exists(file_path):
 			idx += 1
+			file_path = dir.path_join("image_%03d.png" % idx)
 		texture.get_image().save_png(file_path)
 		idx += 1
 	

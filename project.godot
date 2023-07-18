@@ -27,4 +27,3 @@ enabled=PackedStringArray("res://addons/script_comment_menu/plugin.cfg", "res://
 [internationalization]
 
 locale/translations=PackedStringArray("res://addons/sprite_sheet/assets/translation/translation.en.translation", "res://addons/sprite_sheet/assets/translation/translation.zh.translation")
-locale/translations_pot_files=PackedStringArray()

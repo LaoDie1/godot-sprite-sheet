@@ -282,7 +282,8 @@ func create_menu(menu_path: StringName, parent_menu: PopupMenu):
 # 创建这个路径的菜单
 func _create_popup_menu(path: StringName) -> PopupMenu:
 	var menu_popup = PopupMenu.new()
-	menu_popup.name = path.get_file()
+	if not path.get_file().is_empty():
+		menu_popup.name = path.get_file()
 	_set_popup_menu(path, menu_popup)
 	return menu_popup
 

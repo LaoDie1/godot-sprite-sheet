@@ -353,7 +353,7 @@ layout_mode = 2
 
 [node name="git_new_version" type="RichTextLabel" parent="VBoxContainer/HSplitContainer/MarginContainer/VBoxContainer2/PanelContainer/HBoxContainer"]
 modulate = Color(0.603922, 0.756863, 0.890196, 1)
-custom_minimum_size = Vector2(120, 0)
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
 bbcode_enabled = true
 text = "[url=https://github.com/LaoDie1/generate_sprite_sheet] Latest Version [/url]"

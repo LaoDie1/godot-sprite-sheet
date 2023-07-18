@@ -107,9 +107,11 @@ func _ready():
 # 更新预览缩放 
 func _update_preview_scale(add_v: float = 0.0):
 	if _enabled_preview_scale:
+#		var last_diff_mouse_pos : Vector2 = preview_rect.global_position - get_global_mouse_position()
+		
+		# 更新图像缩放
 		_preview_scale += add_v
 		_preview_scale = clamp(_preview_scale, -5, 10)
-		# 更新图像缩放
 		var v = pow(2, _preview_scale)
 		preview_rect.scale = Vector2(v, v) 
 		preview_scale_label.text = str(int(v * 100)) + "%"
@@ -120,10 +122,22 @@ func _update_preview_scale(add_v: float = 0.0):
 		preview_split_grid.select_width = ceil(2.0 / v)
 		border_rect.border_width = 2.0 / v
 		
+#		# 鼠标位置开始偏移的位置
+#		var rect = preview_rect.get_global_rect()
+#		rect.size *= v
+#		if rect.has_point(get_global_mouse_position()):
+#			var next_mouse_pos = last_diff_mouse_pos * add_v
+#			var diff_v = (next_mouse_pos - last_diff_mouse_pos) / v
+#			if diff_v.x is float:
+#				preview_rect.global_position -= diff_v
+#			print(diff_v)
+		
 		# 等待一点时间，防止过快的缩放
 		_enabled_preview_scale = false
 		await get_tree().create_timer(0.05).timeout
+		
 		_enabled_preview_scale = true
+		
 
 
 ## 清除显示的图像
@@ -239,7 +253,7 @@ func update_grid_margin(value: Vector2i):
 #============================================================
 func _on_preview_canvas_gui_input(event):
 	if event is InputEventMouseButton:
-		# 缩放图片
+		# 滚轮缩放图片
 		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			_update_preview_scale(-0.5)
 			get_tree().root.set_input_as_handled()
