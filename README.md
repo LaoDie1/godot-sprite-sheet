@@ -2,7 +2,10 @@
 
 # Godot Sprite Sheet
 
-[![Godot Engine 4.0.2](https://camo.githubusercontent.com/21b353eb74da9737761b265f9fca97d75efd95da116d64c979def8d79de6084d/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f476f646f74253230456e67696e652d342e302e322d626c7565)](https://godotengine.org/) [![MIT license](https://camo.githubusercontent.com/83d3746e5881c1867665223424263d8e604df233d0a11aae0813e0414d433943/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6c6963656e73652d4d49542d626c75652e737667)](https://lbesson.mit-license.org/)
+
+[![Godot Engine 4.0.2](https://img.shields.io/badge/Godot%20Engine-4.0.2-blue)](https://godotengine.org/)
+[![MIT license](https://img.shields.io/badge/license-MIT-blue.svg)](https://lbesson.mit-license.org/)
+
 
 
 
